@@ -2,6 +2,35 @@ body{
 	margin: 0;
     padding:0;
 }
+ul.navbar {
+	list-style-type: none;
+	margin: 0;
+	padding: auto;
+	overflow: hidden;
+	background-color: #98bf21;
+	
+}
+
+
+ul.navbar li{
+	float: left;
+}
+
+ul.navbar a:link,ul.navbar a:visited {
+	display: block;
+	width: 150px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #98bf21;
+	text-align: center;
+	padding: 4px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+ul.navbar a:hover,ul.navbar a.active {
+	background-color: #7A991A;
+}
 
 .all {
 	position: relative;
@@ -10,11 +39,18 @@ body{
 	padding: 10px;
 }
 
-/*
+table{
+	border: 1px solid black;
+	cursor: pointer;
+}
+
 td{
 	background-color:gray;
-	border:'1px solid black';
-}*/
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
 
 .titulo{
 	display:inline-block;
