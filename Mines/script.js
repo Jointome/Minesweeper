@@ -56,13 +56,13 @@ function positionBomb(board, rows, cols, nbombs){
 			y = Math.floor((Math.random() * cols));
 		}
 		board[x][y]=1;
-		myTable.rows[x].cells[y].style.backgroundColor = 'red';}
+		myTable.rows[y].cells[x].style.backgroundColor = 'red';}
 	return board;
 }
 
 function verify(x,y,board,cell){
 	var count = 0;
-	if(board[x][y]===1){alert("GAME OVER MOTHERFUcKER");}
+	if(board[x][y] === 1){alert("GAME OVER MOTHERFUcKER");}
 	else{
 		if(x === 0){
 			if(y === 0){
@@ -80,6 +80,18 @@ function verify(x,y,board,cell){
 					count++;
 				if(board[0][7] === 1)
 					count++;
+			}
+			else{
+				for(var i = -1; i < 2; i++)
+					if(board[0+1][y+i]){
+						count++;
+					}
+				if(board[x][y-1]){
+					count++;
+				}
+				if(board[x][y+1]){
+					count++;
+				}
 			}
 		}
 		else if(x === 8){
@@ -100,10 +112,64 @@ function verify(x,y,board,cell){
 					count++;
 
 			}
+			else{
+				for(var i = -1; i < 2; i++)
+					if(board[8-1][y+i]){
+						count++;
+					}
+				if(board[x][y-1]){
+					count++;
+				}
+				if(board[x][y+1]){
+					count++;
+				}
+			}
+		}
+		else if(y === 8){
+			for(var i = -1; i < 2; i++)
+				if(board[x+i][y-1]){
+					count++;
+				}
+			if(board[x-1][y]){
+				count++;
+			}
+			if(board[x+1][y]){
+				count++;
+			}
+		}
+		else if(y === 0){
+			for(var i = -1; i < 2; i++)
+				if(board[x+i][y+1]){
+					count++;
+				}
+			if(board[x-1][y]){
+				count++;
+			}
+			if(board[x+1][y]){
+				count++;
+			}
+		}
+		else{
+			for(var i = -1; i < 2; i+=2){
+				for(var j = -1; j < 2 ; j++){
+					if(board[x+i][y+j]){
+						count++;
+					}
+			}}
+			if(board[x][y-1]){
+				count++;
+			}
+			if(board[x][y+1]){
+				count++;
+			}
+			
 		}
 		
 		cell.style.backgroundColor = "#EBEBEB";
 		cell.innerHTML = count;
+		cell.height = 30.8833;
+		cell.width = 30.8833;
+		cell.style.textAlign = "center";
 	}
 	
 }
@@ -151,7 +217,7 @@ window.onload = function() {
 		        cell.rowIndex = i;
 		        cell.positionIndex = j;
 		        cell.onclick = function () {
-		           verify(this.rowIndex,this.positionIndex,board,this);
+		           verify(this.positionIndex,this.rowIndex,board,this);
 		        };
 		    }
 		}
