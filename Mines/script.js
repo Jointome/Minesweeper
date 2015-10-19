@@ -17,8 +17,8 @@ var place = document.getElementById("game"),
 	table = document.createElement("table");
 table.id="ide";
 if(difficulty === 0){
-table.style.width  = '300px';
-table.style.height  = '300px';
+table.style.width  = '292px';
+table.style.height  = '292px';
 }
 else if (difficulty == 1 ){
 	table.style.width  = '400px';
@@ -164,12 +164,18 @@ function verify(x,y,board,cell){
 			}
 			
 		}
-		
 		cell.style.backgroundColor = "#EBEBEB";
+		if(count !== 0){
 		cell.innerHTML = count;
-		cell.height = 30.8833;
-		cell.width = 30.8833;
+		cell.height = 30;
+		cell.width = 30;
 		cell.style.textAlign = "center";
+		}
+		else{
+			myTable = document.getElementById("ide");
+			verify(x+1,y,board,myTable.rows[y].cells[x+1]);
+			
+		}
 	}
 	
 }
@@ -218,6 +224,9 @@ window.onload = function() {
 		        cell.positionIndex = j;
 		        cell.onclick = function () {
 		           verify(this.positionIndex,this.rowIndex,board,this);
+		        };
+		        cell.oncontextmenu = function(){this.style.backgroundImage = "url('2000px-Minesweeper_flag.svg.png')";
+				this.style.backgroundSize = '30px 30px';return false;
 		        };
 		    }
 		}
