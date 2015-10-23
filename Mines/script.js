@@ -12,6 +12,7 @@ function createTable(difficulty, rows, cols) {
 	var cell;
 	var place = document.getElementById("game"), table = document
 			.createElement("table");
+	place.textContent = '';
 	table.id = "ide";
 	if (difficulty === 0) {
 		table.style.width = '292px';
@@ -38,7 +39,7 @@ function createTable(difficulty, rows, cols) {
 }
 
 function positionBomb(board, cols, rows, nbombs) {
-	var myTable = document.getElementById("ide");
+	var table = document.getElementById("ide");
 	var i;
 	var x;
 	var y;
@@ -50,114 +51,36 @@ function positionBomb(board, cols, rows, nbombs) {
 			y = Math.floor((Math.random() * rows));
 		}
 		board[x][y] = 9;
-		myTable.rows[y].cells[x].style.backgroundColor = 'red';
+		table.rows[y].cells[x].style.backgroundColor = 'red';
 	}
 	return board;
 }
 
 function verify(x, y, board, nrow, ncol) {
 	var count = 0;
-	if (x === 0) {
-		if (y === 0) {
-			if (board[1][1] === 9)
-				count++;
-			if (board[0][1] === 9)
-				count++;
-			if (board[1][0] === 9)
-				count++;
-		} else if (y === nrow) {
-			if (board[1][nrow] === 9)
-				count++;
-			if (board[1][nrow - 1] === 9)
-				count++;
-			if (board[0][nrow - 1] === 9)
-				count++;
-		} else {
-			for ( var i = -1; i < 2; i++)
-				if (board[1][y + i] === 9) {
-					count++;
-				}
-			if (board[x][y - 1] === 9) {
-				count++;
-			}
-			if (board[x][y + 1] === 9) {
+	for ( var i = -1; i < 2; i++) {
+		for ( var j = -1; j < 2; j++) {
+			if (((x + i >= 0) && (x + i <= ncol))
+					&& ((y + j >= 0) && (y + j <= nrow))
+					&& board[x + i][y + j] === 9) {
 				count++;
 			}
 		}
-	} else if (x === ncol) {
-		if (y === 0) {
-			if (board[ncol - 1][0] === 9)
-				count++;
-			if (board[ncol - 1][1] === 9)
-				count++;
-			if (board[ncol][1] === 9)
-				count++;
-		} else if (y === nrow) {
-			if (board[ncol][nrow - 1] === 9)
-				count++;
-			if (board[ncol - 1][nrow - 1] === 9)
-				count++;
-			if (board[ncol - 1][nrow] === 9)
-				count++;
-
-		} else {
-			for ( var i = -1; i < 2; i++)
-				if (board[ncol - 1][y + i] === 9) {
-					count++;
-				}
-			if (board[x][y - 1] === 9) {
-				count++;
-			}
-			if (board[x][y + 1] === 9) {
-				count++;
-			}
-		}
-	} else if (y === nrow) {
-		for ( var i = -1; i < 2; i++)
-			if (board[x + i][y - 1] === 9) {
-				count++;
-			}
-		if (board[x - 1][y] === 9) {
-			count++;
-		}
-		if (board[x + 1][y] === 9) {
-			count++;
-		}
-	} else if (y === 0) {
-		for ( var i = -1; i < 2; i++)
-			if (board[x + i][y + 1] === 9) {
-				count++;
-			}
-		if (board[x - 1][y] === 9) {
-			count++;
-		}
-		if (board[x + 1][y] === 9) {
-			count++;
-		}
-	} else {
-		for ( var i = -1; i < 2; i += 2) {
-			for ( var j = -1; j < 2; j++) {
-				if (board[x + i][y + j] === 9) {
-					count++;
-				}
-			}
-		}
-		if (board[x][y - 1] === 9) {
-			count++;
-		}
-		if (board[x][y + 1] === 9) {
-			count++;
-		}
-
 	}
 	board[x][y] = count;
 	return board[x][y];
 }
-function setColor(x,y,difficulty){
+function setColor(x, y, difficulty) {
 	var table = document.getElementById("ide");
 	var cell = table.rows[y].cells[x];
-	if(board[x][y] > 0)
+	if (board[x][y] > 0)
 		cell.innerHTML = board[x][y];
+	else if(board[x][y] < 0 && board[x][y] > -7){
+		board[x][y] -= (2 * board[x][y]);console.log(board[x][y]);
+		cell.innerHTML = board[x][y];
+	table.rows[y].cells[x].style.backgroundImage = 'none';
+	}
+	else{table.rows[y].cells[x].style.backgroundImage = 'none';}
 	if (difficulty === 0) {
 		cell.style.width = 30;
 		cell.style.height = 30;
@@ -174,59 +97,20 @@ function setColor(x,y,difficulty){
 
 function expand(x, y, board, nrow, ncol, difficulty) {
 	var table = document.getElementById("ide");
-	if(board[x][y] === 0){
-		board[x][y] = -1;
-		if (x === 0) {
-			if (y === 0) {
-					expand(1, 1, board, nrow, ncol, difficulty);
-					expand(0, 1, board, nrow, ncol, difficulty);
-					expand(1, 0, board, nrow, ncol, difficulty);
-			} else if (y === nrow) {
-					expand(1, nrow, board, nrow, ncol);
-					expand(1, nrow - 1, board, nrow, ncol, difficulty);
-					expand(0, nrow - 1, board, nrow, ncol, difficulty);
-			} else {
-				for ( var i = -1; i < 2; i++)
-						expand(1, y + i, board, nrow, ncol, difficulty);
-					expand(x, y - 1, board, nrow, ncol, difficulty);
-					expand(x, y + 1, board, nrow, ncol, difficulty);
-			}
-		} else if (x === ncol) {
-			if (y === 0) {
-					expand(ncol - 1, 0, board, nrow, ncol, difficulty);
-					expand(ncol - 1, 1, board, nrow, ncol, difficulty);
-					expand(ncol, 1, board, nrow, ncol, difficulty);
-			} else if (y === nrow) {
-					expand(ncol, nrow - 1, board, nrow, ncol, difficulty);
-					expand(ncol - 1, nrow - 1, board, nrow, ncol, difficulty);
-					expand(ncol - 1, nrow, board, nrow, ncol, difficulty);
 
-			} else {
-				for ( var i = -1; i < 2; i++)
-						expand(ncol - 1, y + i, board, nrow, ncol, difficulty);
-					expand(x, y - 1, board, nrow, ncol, difficulty);
-					expand(x, y + 1, board, nrow, ncol, difficulty);
-			}
-		} else if (y === nrow) {
-			for ( var i = -1; i < 2; i++)
-					expand(x + i, y - 1, board, nrow, ncol, difficulty);
-				expand(x - 1, y, board, nrow, ncol, difficulty);
-				expand(x + 1, y, board, nrow, ncol, difficulty);
-		} else if (y === 0) {
-			for ( var i = -1; i < 2; i++)
-					expand(x + i, y + 1, board, nrow, ncol, difficulty);
-				expand(x - 1, y, board, nrow, ncol, difficulty);
-				expand(x + 1, y, board, nrow, ncol, difficulty);
-		} else {
-			for ( var i = -1; i < 2; i += 2) 
-				for ( var j = -1; j < 2; j++) 
-						expand(x + i, y + j, board, nrow, ncol, difficulty);
-				expand(x, y - 1, board, nrow, ncol, difficulty);
-				expand(x, y + 1, board, nrow, ncol, difficulty);
-
-		}
+	if (board[x][y] === 0) {
+		board[x][y] = -7;
+		for ( var i = -1; i < 2; i++)
+			for ( var j = -1; j < 2; j++)
+				if (((x + i >= 0) && (x + i <= ncol))
+						&& ((y + j >= 0) && (y + j <= nrow))
+						&& !((i === x) && (j === y)))
+					expand(x + i, y + j, board, nrow, ncol, difficulty);
 	}
-	setColor(x,y,difficulty);
+	setColor(x, y, difficulty);
+	if (board[x][y] !== 0) {
+		board[x][y] = -7;
+	}
 }
 
 function start(difficulty) {
@@ -265,40 +149,79 @@ function start(difficulty) {
 	}
 
 	var table = document.getElementById("ide");
-	var rows = table.getElementsByTagName("tr");
-	for ( var i = 0; i < rows.length; i++) {
-		// Get the cells in the given row
-		var cells = rows[i].getElementsByTagName("td");
-		for ( var j = 0; j < cells.length; j++) {
-			// Cell Object
-			var cell = cells[j];
-			cell.rowIndex = i;
-			cell.positionIndex = j;
-			cell.onclick = function() {
-				var x = this.positionIndex;
-				var y = this.rowIndex;
-				if (board[x][y] === 9) {
-					confirm("GAME OVER");
-				} else {
-					if (board[x][y] > 0) {
-						setColor(x,y,difficulty);
-					}else if(board[x][y] === 0){
-						expand(x, y, board, nrow - 1, ncol - 1,difficulty);
+	table.onclick = function(event) {
+		var x = event.target.cellIndex;
+		var y = event.target.parentNode.rowIndex;
+		if (board[x][y] === 9) {
+			table.rows[y].cells[x].style.backgroundImage = "url('Bomb.jpeg')";
+			if (difficulty === 0) {
+				table.rows[y].cells[x].style.backgroundSize = '30px 30px';
+			} else if (difficulty === 1) {
+				table.rows[y].cells[x].style.backgroundSize = '25px 25px';
+			} else if (difficulty === 2) {
+				table.rows[y].cells[x].style.backgroundSize = '20px 20px';
+			}
+			for(i = 0; i < ncol; i++){
+				for(j = 0; j < nrow ; j++){
+					if(board[i][j] === 9 && ((i !== x) || (j !== y))){
+						table.rows[j].cells[i].style.backgroundImage = "url('BombBl.jpg')";
+						if (difficulty === 0) {
+							table.rows[j].cells[i].style.backgroundSize = '30px 30px';
+						} else if (difficulty === 1) {
+							table.rows[j].cells[i].style.backgroundSize = '25px 25px';
+						} else if (difficulty === 2) {
+							table.rows[j].cells[i].style.backgroundSize = '20px 20px';
+						}
 					}
-					
+					board[i][j]=8;
 				}
-			};
-			cell.oncontextmenu = function() {
-				this.style.backgroundImage = "url('2000px-Minesweeper_flag.svg.png')";
-				if (difficulty === 0) {
-					this.style.backgroundSize = '30px 30px';
-				} else if (difficulty === 1) {
-					this.style.backgroundSize = '25px 25px';
-				} else if (difficulty === 2) {
-					this.style.backgroundSize = '20px 20px';
-				}
-				return false;
-			};
+			}
 		}
-	}
+		else if(board[x][y]===8){
+			var conf = confirm("GAME OVER");
+			if (conf == true) {
+				start(difficulty);
+		}
+		} else {
+			if (board[x][y] > 0) {
+				setColor(x, y, difficulty);
+			} else if (board[x][y] === 0) {
+				expand(x, y, board, nrow - 1, ncol - 1, difficulty);
+			}
+		}
+	};
+	table.oncontextmenu = function(event) {
+		x = event.target.cellIndex;
+		y = event.target.parentNode.rowIndex;
+		if (board[x][y] > -1) {
+			board[x][y] -= (2 * board[x][y]);
+			table.rows[y].cells[x].style.backgroundImage = "url('2000px-Minesweeper_flag.svg.png')";
+			if (difficulty === 0) {
+				table.rows[y].cells[x].style.backgroundSize = '30px 30px';
+			} else if (difficulty === 1) {
+				table.rows[y].cells[x].style.backgroundSize = '25px 25px';
+			} else if (difficulty === 2) {
+				table.rows[y].cells[x].style.backgroundSize = '20px 20px';
+			}
+		}
+		else if(board[x][y] < 0 && board[x][y] !== -7){
+			board[x][y] -= (2 * board[x][y]);
+			table.rows[y].cells[x].style.backgroundImage = 'none';
+			table.rows[y].cells[x].style.backgroundColor = 'gray';
+			if (difficulty === 0) {
+				table.rows[y].cells[x].style.backgroundSize = '30px 30px';
+			} else if (difficulty === 1) {
+				table.rows[y].cells[x].style.backgroundSize = '25px 25px';
+			} else if (difficulty === 2) {
+				table.rows[y].cells[x].style.backgroundSize = '20px 20px';
+			}
+		}
+		else if(board[x][y] === 8){
+			var conf = confirm("GAME OVER");
+			if (conf == true) {
+				start(difficulty);
+		}
+		}
+		return false;
+	};
 }
