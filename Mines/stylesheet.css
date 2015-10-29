@@ -1,133 +1,68 @@
-body{
-	margin: 0;
-    padding:0;
-}
+*{font-family: Verdana,Tahoma,Arial,sans-serif;}
 
+body{margin: 0;padding:0;}
 
-.all {
-	position: relative;
+table{border: 1px solid black;cursor: pointer;}
+
+td{background-color:gray;margin: 0;padding: 0;border: 0;}
+
+.all{position: relative;margin: 20 auto;width: 1050px;padding: 10px;}
+
+h1{color:#0099FF;}
+
+#start_pageimg{border-radius: 25px;display:inline-block; margin-right: 20;padding: 0;border: 0; vertical-align:top;}
+
+p.welcome{display: inline-block;width:300}
+
+.menu_start{color: inherit;font-weight: bold;cursor: pointer; width: 200px; height: 40px; margin: 20px;color:#0099FF;}
+
+#gamepage{display:none;}
+
+#difftd{background-color:green;text-align: center;}
+
+.titulo{display:inline-block;text-align: center;margin:0;padding:0;width:500;
+    height:100px;position:center;}
+
+.usr{display: block;text-align: center;float:right;margin: 0;
+	padding:0;width:500px;height:100px;position:center;}
+
+.menutop{display:block;width:1000px;margin: 0;padding:0;height:100px;position:center;}
+
+.gamepanel{display:block;margin: 0;padding:0;width: 100%;height:100%;}
+
+.menuleft{background-color:red;display: inline-block;height:100%;width: 19.8%;margin: 0;
+	padding:0;text-align: center;background: #fff;border: 1px solid #c6c7cc;border-radius: 3%;
+	vertical-align:middle;}
+
+.gamep{display:block;height:100%;float: right;width:80%;}
+
+.grande{list-style-type:none;display:block;margin: 0;padding:0;}
+
+#progresso{display:inline-block;background-color:green;margin: 0;padding:0;width:500px;height:10%;}
+
+.game{//background-color:blue;display: inline-block;margin: 0;padding:0;width:80%;height:90%;}
+
+.quadrohonra{background-color:orange;text-align:center;display: inline-block;margin: 0;padding:0;float:right;
+    width:20%;height:100%;}
+
+.menu_btn{color: inherit;font-weight: bold;cursor: pointer;}
+
+footer {
+	background: #fff;
+	border-top: 2px solid #e0e0e0;
+	clear: both;
+	color: gray;
 	margin: 0 auto;
-	width: 1050px;
-	padding: 10px;
+	padding: 10px 0;
+	text-align: center;
+	width: 1000px;
+	line-height: 1.5em;
+	font-size: 0.9em;
 }
 
-table{
-	border: 1px solid black;
-	cursor: pointer;
-}
-
-td{
-	background-color:gray;
+footer p {
 	margin: 0;
 	padding: 0;
-	border: 0;
-}
-
-
-.titulo{
-	display:inline-block;
-	//background-color:gray;
 	text-align: center;
-	margin:0;
-    padding:0;
-    width:500;
-    height:100px;
-    position:center;
-}
-
-.usr{
-	display: block;
-	//background-color:lightgray;
-	text-align: center;
-	float:right;
-	margin: 0;
-	padding:0;
-	width:500px;
-	height:100px;
-	position:center;
-}
-
-.menutop{
-	display:block;
-	width:1000px;
-	margin: 0;
-	padding:0;
-	height:100px;
-	position:center;
-}
-
-.gamepanel{
-	display:block;
-	margin: 0;
-    padding:0;
-    width: 100%;
-    height:100%;
-}
-
-.menuleft{
-	background-color:red;
-	display: inline-block;
-	height:100%;
-	width: 19.8%;
-	margin: 0;
-	padding:0;
-	text-align: center;
-	background: #fff;
-	border: 1px solid #c6c7cc;
-	border-radius: 3%;
-	vertical-align:middle;
-}
-
-.gamep{
-	display:block;
-	height:100%;
-	float: right;
-	width:80%;
-}
-
-.grande{
-	list-style-type:none;
-	display:block;
-	margin: 0;
-	padding:0;
-}
-
-.progresso{
-	background-color:green;
-	display: inline-block;
-	margin: 0;
-    padding:0;
-    width:80%;
-    height:10%;
-}
-
-.game{
-	//background-color:blue;
-	display: inline-block;
-	margin: 0;
-    padding:0;
-    width:80%;
-    height:90%;
-}
-
-.quadrohonra{
-	background-color:orange;
-	text-align:center;
-	display: inline-block;
-	margin: 0;
-    padding:0;
-    float:right;
-    width:20%;
-    height:100%;
-}
-
-.menu_btn{
-	margin: 2%;
-	padding: 3% 6%;
-	font-weight: bold;
-	background: linear-gradient(#f5f5f5, #ccc);
-	color: inherit;
-	border: 1px solid #ccc;
-	font-weight: bold;
-	cursor: pointer;
+	font-size: 1em;
 }

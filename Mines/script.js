@@ -4,7 +4,12 @@ var board;
 var nbandeiras;
 var rows;
 var cols;
+easy = {nrow:9,ncol:9,nbombs:10};
+medium = {nrow:16,ncol:16,nbombs:40};
+hard = {nrow:16,ncol:30,nbombs:99};
+diff = [easy,medium,hard];
 
+//função que cria a tabela
 function createTable(difficulty, rows, cols) {
 	var i;
 	var row;
@@ -91,13 +96,14 @@ function setColor(x, y, difficulty) {
 		cell.style.width = 20;
 		cell.style.height = 20;
 	}
-	cell.style.backgroundColor = "#EBEBEB";
-	cell.style.textAlign = "center";
+	//cell.style.backgroundColor = "#EBEBEB";
+	//cell.style.textAlign = "center";
+	cell.id = "difftd";
 }
 
 function expand(x, y, board, nrow, ncol, difficulty) {
 	var table = document.getElementById("ide");
-
+	
 	if (board[x][y] === 0) {
 		board[x][y] = -7;
 		for ( var i = -1; i < 2; i++)
@@ -113,23 +119,21 @@ function expand(x, y, board, nrow, ncol, difficulty) {
 	}
 }
 
+function fromStartMenu(difficulty){
+	document.getElementById("start_page").style.display = "none";
+	document.getElementById("gamepage").style.display = "block";
+	start(difficulty);
+}
+
 function start(difficulty) {
+	
+	
 	var i;
 	var j;
 	var nbombs;
-	if (difficulty === 0) {
-		nrow = 9;
-		ncol = 9;
-		nbombs = 10;
-	} else if (difficulty === 1) {
-		nrow = 16;
-		ncol = 16;
-		nbombs = 40;
-	} else {
-		nrow = 16;
-		ncol = 30;
-		nbombs = 99;
-	}
+		nrow = diff[difficulty].nrow;
+		ncol = diff[difficulty].ncol;;
+		nbombs = diff[difficulty].nbombs;
 	createTable(difficulty, nrow, ncol);
 
 	board = [ ncol ];

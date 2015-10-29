@@ -7,8 +7,28 @@
 <script src="script.js"></script>
 </head>
 <body>
-	<div class ="all">
-	<div class="menutop">
+	
+
+	
+	<!--Inicial page MENU-->
+	<div class="all" id="start_page">
+		<h1>Welcome to Minsweeper</h1>
+		<img id="start_pageimg" src="start_pageimg.jpg"  alt="commic">
+		<p class="welcome">Hi there!<br>Ready to have some FUN?<br>Press the difficulty you want to play or press "Honor" to see the "Honor Board"<br>Get in and good luck.<br>We hope you enjoy it.</p>
+		<br>
+		<br>
+		<p><button type="button" onclick = "fromStartMenu(0)" class = "menu_start">Newbee</button>
+			<button type="button" onclick = "fromStartMenu(1)" class = "menu_start">Medium</button>
+			<button type="button" onclick = "fromStartMenu(2)" class= "menu_start">Impossibro</button>
+			<button type="button" onclick = "display('#honor')" class ="menu_start">Honor Board</button>
+		</p>
+
+	</div>
+
+
+	<!-- GAME page -->
+	<div class ="all" id="gamepage">
+		<div class="menutop">
 		<div class="titulo">
 			<h1>Jogo Minesweeper</h1>
 		</div>
@@ -37,7 +57,7 @@
 			<button type="button" onclick = "display('#login')" class ="menu_btn">Terminar Sessão</button>
 		</div>
 		<div class="gamep">
-		<div class="progresso">
+		<div id="progresso">
 			<h3>Progresso</h3>
 		</div>
 		<div class="quadrohonra">
@@ -47,6 +67,11 @@
 		</div>
 		</div>
 	</div>
-	</div>	
+	</div>
+	
+	<!-- roda pé da página	 -->
+	 <footer class="all">
+ 		 <p>Created by: Rodrigo Costa & Tiago Castanheira</p>
+	</footer> 	
 </body>
 </html>
