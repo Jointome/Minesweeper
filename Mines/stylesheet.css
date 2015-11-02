@@ -43,20 +43,28 @@ table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer;
 #table1{width: 420px; height: 420px;}
 #table2{width: 770px; height: 420px;}
  
-td{border: 3px ridge lightgray; margin: 0; padding: 0; border-radius: 5px;}
-#td2,#td4{width: 24px; height: 30px;}
-#td1{background-color: red; background-size: 30px 30px;}
-#td2{background-color: green; text-align: center;background-size: 30px 30px;}
-#td3{background-image: url("2000px-Minesweeper_flag.svg.png"); background-size: 30px 30px;}
-#td4{background-image: none;font-weight: bold; background-color: lightgray; background-size: 30px 30px;text-align: center;}
+td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
+#td2,#td3,#td4,#td5,#td6{width: 24px; height: 30px;}
+#td1{background-color: red;}
+#td2{background-image: url("2000px-Minesweeper_flag.svg.png");background-size: 24px 24px;}
+#td3{background-image: none;font-weight: bold; background-color: none;text-align: center;}
+#td4{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+#td5{background-image: url("Bomb.jpeg");background-size: 24px 24px;}
+#td6{background-image: url("BombBl.jpg");background-size: 24px 24px;}
 
-#td5,#td6{width: 25px; height: 25px;}
-#td5{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 25px 25px;}
-#td6{background-image: none;font-weight: bold;background-color: lightgray; background-size: 25px 25px;}
+#td7,#td8,#td9,#td10,#td11{width: 19px; height: 25px;}
+#td7{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
+#td8{background-image: none;font-weight: bold;background-color: none; background-size: 25px 25px;}
+#td9{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+#td10{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
+#td11{background-image: url("BombBl.jpg");background-size: 19px 19px;}
 
-#td7,#td8{width: 20px; height: 20px;}
-#td7{background-image:url(""2000px-Minesweeper_flag.svg.png""); background-size: 20px 20px;}
-#td8{background-image: none;font-weight: bold;background-color: lightgray; background-size: 20px 20px;}
+#td12,#td13,#td14,#td15,#td16{width: 19px; height: 25px;}
+#td12{background-image:url(""2000px-Minesweeper_flag.svg.png""); background-size: 19px 19px;}
+#td13{background-image: none;font-weight: bold;background-color: none; background-size: 20px 20px;}
+#td14{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+#td15{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
+#td16{background-image: url("BombBl.jpg");background-size: 19px 19px;}
 
 
 #game2{display: block; align: middle;}
