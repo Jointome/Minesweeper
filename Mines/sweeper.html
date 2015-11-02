@@ -7,71 +7,80 @@
 <script src="script.js"></script>
 </head>
 <body>
-	
-
-	
-	<!--Inicial page MENU-->
-	<div class="all" id="start_page">
-		<h1>Welcome to Minsweeper</h1>
-		<img id="start_pageimg" src="start_pageimg.jpg"  alt="commic">
-		<p class="welcome">Hi there!<br>Ready to have some FUN?<br>Press the difficulty you want to play or press "Honor" to see the "Honor Board"<br>Get in and good luck.<br>We hope you enjoy it.</p>
-		<br>
-		<br>
-		<p><button type="button" onclick = "fromStartMenu(0)" class = "menu_start">Newbee</button>
-			<button type="button" onclick = "fromStartMenu(1)" class = "menu_start">Medium</button>
-			<button type="button" onclick = "fromStartMenu(2)" class= "menu_start">Impossibro</button>
-			<button type="button" onclick = "display('#honor')" class ="menu_start">Honor Board</button>
+	<div id="menutop">
+		<div id = "titulo">
+				<h3 onclick="goHome()">Minesweeper</h3>
+			</div>
+			<div id = "usr">
+					<label for="un">Username: </label> <input type="text" name="username"
+					id="un" />
+					<br>
+					<label for="pw">Password: </label> <input type="password"
+					name="password" id="pw" />
+			</div>
+		</div>
+	<!--Home page MENU-->
+	<div class="all" id="home_page">
+		<h1>Welcome to Minesweeper</h1>
+		<img id="home_pageimg" src="home_pageimg.jpg" alt="commic">
+		<p class="welcome">
+			Hi there!<br>Ready to have some FUN?<br>Press the
+			difficulty you want to play or press "Honor" to see the "Honor Board"<br>Get
+			in and good luck.<br>We hope you enjoy it.
+		</p>
+		<br> <br>
+		<p>
+			<button type="button" onclick="fromHomeMenu(0)" class="menu_home">Newbee</button>
+			<button type="button" onclick="fromHomeMenu(1)" class="menu_home">Medium</button>
+			<button type="button" onclick="fromHomeMenu(2)" class="menu_home">Impossibro</button>
+			<button type="button" onclick="display('#honor')" class="menu_home">Honor
+				Board</button>
 		</p>
 
 	</div>
 
 
 	<!-- GAME page -->
-	<div class ="all" id="gamepage">
-		<div class="menutop">
-		<div class="titulo">
-			<h1>Jogo Minesweeper</h1>
+	<div class="all" id="gamepage">
+		<div class="all" id="gamepanel">
+			<div id="menuleft">
+				<h3>Menu</h3>
+				<h4>Dificuldades</h4>
+				<button type="button" onclick="start(0)" class="menu_btn">Newbee</button>
+				<br>
+				<button type="button" onclick="start(1)" class="menu_btn">Medium</button>
+				<br>
+				<button type="button" onclick="start(2)" class="menu_btn">Impossibro</button>
+				<br>
+				<h4>Opções</h4>
+				<button type="button" onclick="display('#honor')" class="menu_btn">Quadro
+					de Honra</button>
+				<br>
+				<button type="button" onclick="display('#help')" class="menu_btn">Ajuda</button>
+				<br>
+				<button type="button" onclick="display('#login')" class="menu_btn">Terminar
+					Sessão</button>
+			</div>
+			<div id="gamewprogress">
+			<div id="progress">
+				<h3>Progress</h3>
+			</div>
+			<div id="game">
+			</div>
+			</div>	
+			<div id=allhonorboard>
+				<br>
+				<hr>
+				<div id="honorboard">
+					<h3>Honor Board</h3>
+				</div>
+			</div>
 		</div>
+	</div>
 
-		<div class="usr">
-			<label for="un">Username: </label> <input type="text" name="username"
-				id="un" /><br> <label for="pw">Password: </label> <input
-				type="password" name="password" id="pw" />
-		</div>
-	</div>
-	<div class="gamepanel">
-		<div class="menuleft">
-			<h3>Menu</h3>
-			<h4>Dificuldades</h4>
-			<button type="button" onclick = "start(0)" class = "menu_btn">Newbee</button>
-			<br>
-			<button type="button" onclick = "start(1)" class = "menu_btn">Medium</button>
-			<br>
-			<button type="button" onclick = "start(2)" class= "menu_btn">Impossibro</button>
-			<br>
-			<h4>Opções</h4>
-			<button type="button" onclick = "display('#honor')" class ="menu_btn">Quadro de Honra</button>
-			<br>
-			<button type="button" onclick = "display('#help')" class ="menu_btn">Ajuda</button>
-			<br>
-			<button type="button" onclick = "display('#login')" class ="menu_btn">Terminar Sessão</button>
-		</div>
-		<div class="gamep">
-		<div id="progresso">
-			<h3>Progresso</h3>
-		</div>
-		<div class="quadrohonra">
-			<h3>QUADRO DE HONRA!</h3>
-		</div>
-		<div id = "game">
-		</div>
-		</div>
-	</div>
-	</div>
-	
 	<!-- roda pé da página	 -->
-	 <footer class="all">
- 		 <p>Created by: Rodrigo Costa & Tiago Castanheira</p>
-	</footer> 	
+	<footer class="all">
+	<p>Created by: Rodrigo Costa & Tiago Castanheira</p>
+	</footer>
 </body>
 </html>
