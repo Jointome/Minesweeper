@@ -48,7 +48,7 @@ tdhard = {
 	flag : "td12",
 	inte : "td13",
 	read : "td14",
-	redbomb : "15",
+	redbomb : "td15",
 	blackbomb : "td16"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
@@ -106,11 +106,12 @@ function verify(x, y, board, nrow, ncol) {
 	return board[x][y];
 }
 
-function setColor(x, y, difficulty) {
+function setColor(x, y,nrow,ncol, difficulty) {
 	var table = document.getElementById(tableid[difficulty]);
 	var cell = table.rows[y].cells[x];
 	if (board[x][y] > 0) {
-		cell.appendChild(document.createTextNode(board[x][y]));
+		if (cell.childNodes.length === 0)
+			cell.appendChild(document.createTextNode(board[x][y]));
 	} else if (board[x][y] < -18 || board[x][y] === -35) {
 		if (board[x][y] === -31) {
 			board[x][y] = 0;
@@ -123,10 +124,10 @@ function setColor(x, y, difficulty) {
 		if (board[x][y] !== 0)
 			cell.appendChild(document.createTextNode(board[x][y]));
 		cell.id = tdimg[difficulty].inte;
-		expand(x, y, board, nrow - 1, ncol - 1, difficulty);
+		expand(x, y, board, nrow, ncol, difficulty);
 	}
-	board[x][y]=-12;
-	cell.id = tdimg[difficulty].read;
+		board[x][y]=-12;
+		cell.id = tdimg[difficulty].read;
 }
 
 // Function that opens all cells around if it has no bombs around
@@ -140,8 +141,8 @@ function expand(x, y, board, nrow, ncol, difficulty) {
 						&& !((i === x) && (j === y)))
 					expand(x + i, y + j, board, nrow, ncol, difficulty);
 	}
-	setColor(x, y, difficulty);
-	if (board[x][y] !== 0) {
+	if(!(board[x][y] <= -1 && board[x][y] >= -9) && board[x][y] !== -11){
+	setColor(x,y,nrow,ncol, difficulty);
 		board[x][y] = -12;
 	}
 }
@@ -250,17 +251,17 @@ function start(difficulty) {
 					board[i][j] = -10;
 				}
 			}
-		} else if (board[x][y] === -10) {
-			var conf = confirm("GAME OVER");
-			if (conf == true) {
-				start(difficulty);
-			}
-		} else {
-			if (board[x][y] !== 0 && board[x][y] !== -29) {
-				setColor(x, y, difficulty);
-			} else if (board[x][y] === 0) {
-				expand(x, y, board, nrow - 1, ncol - 1, difficulty);
-			}
+        } else if (board[x][y] === -10) {
+            var conf = confirm("GAME OVER");
+            if (conf == true) {
+                    start(difficulty);
+            }
+    } else if(!( board[x][y] <= -1 && board[x][y] >= -9) && board[x][y] !== -11 ){
+            if (board[x][y] !== 0 && board[x][y] !== -29  ) {
+                    setColor(x, y,nrow-1,ncol-1, difficulty);
+            } else if (board[x][y] === 0) {
+                    expand(x, y, board, nrow - 1, ncol - 1, difficulty);
+            }
 		}
 		}
 	};
@@ -270,6 +271,7 @@ function start(difficulty) {
 		x = event.target.cellIndex;
 		y = event.target.parentNode.rowIndex;
 		var cell = table.rows[y].cells[x];
+		firstclick = 1;
 		if (board[x][y] > -1) {
 			if (board[x][y] === 0)
 				board[x][y] = -11;
