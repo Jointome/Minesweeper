@@ -29,7 +29,6 @@ diff = [ easy, medium, hard ];
 
 tableid = [ "table0", "table1", "table2" ];
 
-tableid = [ "table0", "table1", "table2" ];
 tdeasy = {
 	flag : "td2",
 	inte : "td3",
@@ -197,35 +196,21 @@ function start(difficulty) {
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
 		var cell = table.rows[y].cells[x];
-		var countx = -1;
-		var county = -1;
 		if(firstclick === 0 && (board[x][y] === 9 || board[x][y] === -29)){
 			cell.id = tdimg[difficulty].inte;
-			do{
-				if(y + county < 0){
-					y = 1;
-					county=-1;}
-				if(x + countx < 0){
-					x = 1;
-					countx=-1;}
-				else if( x + countx >= ncol - 1){
-					x = 1;
-					countx=-1;
-					if(y+county!==8)
-					 county++;
-					else{
-					x = 1;
-					countx=-1;
-					y = 1;
-					county=-1;}
-				}
-				else
+			var countx = 0;
+			var county = 0;			
+			while(board[countx][county] === 9){
+				if(countx < ncol-1)
 					countx++;
+				else{
+					countx=0;
+					county++;
 				}
-			while(board[x + countx][y + county] === 9 || board[x + countx][y + county] === -31)
-			table.rows[y + county].cells[x + countx].id = "td1";
+			}
+			table.rows[county].cells[countx].id = "td1";
 			board[x][y] = 1;
-			board[x+countx][y+county] = 9;
+			board[countx][county] = 9;
 			firstclick = 1;
 			for (i = 0; i < ncol; i++) {
 				for (j = 0; j < nrow; j++) {
@@ -233,6 +218,10 @@ function start(difficulty) {
 						board[i][j] = verify(i, j, board, nrow - 1, ncol - 1);
 				}
 			}
+			if(board[x][y]!==0)
+				setColor(x, y,nrow-1,ncol-1, difficulty);
+			else
+				expand(x, y, board, nrow - 1, ncol - 1, difficulty);
 		}
 		else{
 		if (board[x][y] === 9 || board[x][y] === -29) {
@@ -268,10 +257,10 @@ function start(difficulty) {
 
 	// Received a right click
 	table.oncontextmenu = function(event) {
-		x = event.target.cellIndex;
-		y = event.target.parentNode.rowIndex;
-		var cell = table.rows[y].cells[x];
-		firstclick = 1;
+			x = event.target.cellIndex;
+			y = event.target.parentNode.rowIndex;
+			var cell = table.rows[y].cells[x];
+			firstclick = 1;
 		if (board[x][y] > -1) {
 			if (board[x][y] === 0)
 				board[x][y] = -11;

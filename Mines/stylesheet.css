@@ -61,7 +61,7 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 
 #td12,#td13,#td14,#td15,#td16{width: 19px; height: 25px;}
 #td12{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
-#td13{background-image: none;font-weight: bold;background-color: none; background-size: 20px 20px;}
+#td13{background-image: none;font-weight: bold;background-color: none;text-align: center; background-size: 20px 20px;}
 #td14{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
 #td15{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
 #td16{background-image: url("BombBl.jpg");background-size: 19px 19px;}
