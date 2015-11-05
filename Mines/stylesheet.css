@@ -51,6 +51,7 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 #td4{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
 #td5{background-image: url("Bomb.jpeg");background-size: 24px 24px;}
 #td6{background-image: url("BombBl.jpg");background-size: 24px 24px;}
+#td17{background-color: gray;}
 
 #td7,#td8,#td9,#td10,#td11{width: 19px; height: 25px;}
 #td7{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}

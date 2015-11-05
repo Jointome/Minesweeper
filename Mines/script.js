@@ -103,7 +103,7 @@ function verifyAround(x, y, board, nrow, ncol) {
 	return count;
 }
 
-// Function that verifys how many bombs each cell as around it
+// Function that verifies how many bombs each cell as around it
 function verify(x, y, board, nrow, ncol) {
 	var count = 0;
 	for ( var i = -1; i < 2; i++) {
@@ -298,24 +298,22 @@ function start(difficulty) {
 		x = event.target.cellIndex;
 		y = event.target.parentNode.rowIndex;
 		var cell = table.rows[y].cells[x];
-		table.onmousedown = function (e){
+		table.onmousedown = function(e) {
 			if (e.button === 0 && e.which === 1 && board[x][y] === -12) {
-				table.onmouseover = function(e){
-			x = e.target.cellIndex;
-			y = e.target.parentNode.rowIndex;
-			for ( var i = -1; i < 2; i++) {
-				for ( var j = -1; j < 2; j++) {
-					if (((x + i >= 0) && (x + i <= ncol))
-							&& ((y + j >= 0) && (y + j <= nrow))
-							&& board[x + i][y + j] >-1) {
-						table.rows[y+j].cells[x+i]=----------------------------------------------------------
+				x = e.target.cellIndex;
+				y = e.target.parentNode.rowIndex;
+				for (var i = -1; i < 2; i++) {
+					for (var j = -1; j < 2; j++) {
+						if (((x + i >= 0) && (x + i <= ncol-1))
+								&& ((y + j >= 0) && (y + j <= nrow-1))
+								&& board[x + i][y + j] > -1) {//Falta para popnto de interrogação
+							table.rows[y + j].cells[x + i].id = "td17";
+						}
 					}
 				}
 			}
-			};
-				}
-		} ;
-		table.onmouseup = function (e) {
+		};
+		table.onmouseup = function(e) {
 			if (e.button === 0 && e.which === 1 && board[x][y] === -12) {
 				x = e.target.cellIndex;
 				y = e.target.parentNode.rowIndex;
