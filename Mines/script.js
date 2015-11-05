@@ -181,7 +181,7 @@ function ifhasBomb(x,y,board,ncol,nrow,difficulty){
 	cell.id = tdimg[difficulty].redbomb;
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
-			if ((board[i][j] === 9 || board[i][j] === -29)&&i!==x && j !==y) {
+		    if ((board[i][j] === 9 || board[i][j] === -29)&&!(i===x && j===y)) {
 				if (table.rows[j].cells[i].childNodes.length > 0)
 					table.rows[j].cells[i]
 							.removeChild(table.rows[j].cells[i].childNodes[0]);
@@ -287,12 +287,42 @@ function start(difficulty) {
 		}
 		}
 	};
-
-	// Received a right click
-	table.oncontextmenu = function(event) {console.log("22222");
+table.oncontextmenu.onclick = function(event) {console.log("333333");
+			x = event.target.cellIndex;
+			y = event.target.parentNode.rowIndex;
+			var nbombs = verifyAround(x, y, board, nrow -1, ncol -1);
+			if(nbombs === auxboard[x][y]){
+				for ( var i = -1; i < 2; i++) {
+					for ( var j = -1; j < 2; j++) {
+						if (((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
+								&& board[x + i][y + j] !== 9 && board[x + i][y + j] > -1) {
+							expand(x+i, y+j, board, nrow - 1, ncol - 1, difficulty);
+						}
+						else if(((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
+								&& (board[x + i][y + j] === 9 || board[x + i][y + j] === -29)){console.log(auxboard[x][y]);
+								ifhasBomb(x+i,y+j,board,ncol,nrow,difficulty);
+								exploded=true;
+								}
+					}
+				}
+				 
+			}
+		return false;
+		};
+    // Received a right click
+    
+    table.oncontextmenu = function(event){
 		x = event.target.cellIndex;
 		y = event.target.parentNode.rowIndex;
-		var cell = table.rows[y].cells[x];
+	var cell = table.rows[y].cells[x];
+	function fixWhich(e) {
+	    if (!e.which && e.button) {
+		if (e.button & 1) e.which = 1      // Left
+		else if (e.button & 4) e.which = 2 // Middle
+		else if (e.button & 2) e.which = 3 // Right
+	    }
+	}
+
 		firstclick = true;
 		if (board[x][y] !== -12 && !exploded) {
 			if (board[x][y] > -1) {
@@ -325,35 +355,15 @@ function start(difficulty) {
 
 			} 
 		}
-		else if(board[x][y] === -12){
-		table.onclick = function(event){console.log("333333");
-			x = event.target.cellIndex;
-			y = event.target.parentNode.rowIndex;
-			var nbombs = verifyAround(x, y, board, nrow -1, ncol -1);
-			if(nbombs === auxboard[x][y]){
-				for ( var i = -1; i < 2; i++) {
-					for ( var j = -1; j < 2; j++) {
-						if (((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
-								&& board[x + i][y + j] !== 9 && board[x + i][y + j] > -1) {
-							expand(x+i, y+j, board, nrow - 1, ncol - 1, difficulty);
-						}
-						else if(((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
-								&& (board[x + i][y + j] === 9 || board[x + i][y + j] === -29)){console.log(auxboard[x][y]);
-								ifhasBomb(x+i,y+j,board,ncol,nrow,difficulty);
-								exploded=true;
-								}
-					}
-				}
-				 
-			}
-		};
-		}
-		else if(exploded){
+
+		else if(exploded) {
 			var conf = confirm("GAME OVER");
 			if (conf == true) {
 				start(difficulty);
 			}
-		}	
+		}
+	    
 		return false;
-	};
+	      };
+		
 }
