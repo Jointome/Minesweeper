@@ -89,11 +89,12 @@ function positionBomb(board, cols, rows, nbombs, difficulty) {
 	}
 	return board;
 }
-function verifyAround(x, y, board, nrow, ncol){
+function verifyAround(x, y, board, nrow, ncol) {
 	var count = 0;
 	for ( var i = -1; i < 2; i++) {
 		for ( var j = -1; j < 2; j++) {
-			if (((x + i >= 0) && (x + i <= ncol)) && ((y + j >= 0) && (y + j <= nrow))
+			if (((x + i >= 0) && (x + i <= ncol))
+					&& ((y + j >= 0) && (y + j <= nrow))
 					&& board[x + i][y + j] < 0 && board[x + i][y + j] > -10) {
 				count++;
 			}
@@ -118,7 +119,7 @@ function verify(x, y, board, nrow, ncol) {
 	return board[x][y];
 }
 
-function setColor(x, y,nrow,ncol, difficulty) {
+function setColor(x, y, nrow, ncol, difficulty) {
 	var table = document.getElementById(tableid[difficulty]);
 	var cell = table.rows[y].cells[x];
 	if (board[x][y] > 0) {
@@ -138,8 +139,8 @@ function setColor(x, y,nrow,ncol, difficulty) {
 		cell.id = tdimg[difficulty].inte;
 		expand(x, y, board, nrow, ncol, difficulty);
 	}
-		board[x][y]=-12;
-		cell.id = tdimg[difficulty].read;
+	board[x][y] = -12;
+	cell.id = tdimg[difficulty].read;
 }
 
 // Function that opens all cells around if it has no bombs around
@@ -153,8 +154,8 @@ function expand(x, y, board, nrow, ncol, difficulty) {
 						&& !((i === x) && (j === y)))
 					expand(x + i, y + j, board, nrow, ncol, difficulty);
 	}
-	if(!(board[x][y] <= -1 && board[x][y] >= -9) && board[x][y] !== -11){
-	setColor(x,y,nrow,ncol, difficulty);
+	if (!(board[x][y] <= -1 && board[x][y] >= -9) && board[x][y] !== -11) {
+		setColor(x, y, nrow, ncol, difficulty);
 		board[x][y] = -12;
 	}
 }
@@ -171,7 +172,7 @@ function goHome() {
 	document.getElementById("gamepage").style.display = "none";
 }
 
-function ifhasBomb(x,y,board,ncol,nrow,difficulty){
+function ifhasBomb(x, y, board, ncol, nrow, difficulty) {
 	var table = document.getElementById(tableid[difficulty]);
 	var i;
 	var j;
@@ -181,7 +182,8 @@ function ifhasBomb(x,y,board,ncol,nrow,difficulty){
 	cell.id = tdimg[difficulty].redbomb;
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
-		    if ((board[i][j] === 9 || board[i][j] === -29)&&!(i===x && j===y)) {
+			if ((board[i][j] === 9 || board[i][j] === -29)
+					&& !(i === x && j === y)) {
 				if (table.rows[j].cells[i].childNodes.length > 0)
 					table.rows[j].cells[i]
 							.removeChild(table.rows[j].cells[i].childNodes[0]);
@@ -218,12 +220,13 @@ function start(difficulty) {
 			auxboard[i][j] = 0;
 		}
 	}
-	board = positionBomb(board, ncol , nrow, nbombs, difficulty);
+	board = positionBomb(board, ncol, nrow, nbombs, difficulty);
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
 			if (board[i][j] !== 9)
-				auxboard[i][j] = board[i][j] = verify(i, j, board, nrow - 1, ncol - 1);
-			
+				auxboard[i][j] = board[i][j] = verify(i, j, board, nrow - 1,
+						ncol - 1);
+
 		}
 
 	}
@@ -235,20 +238,20 @@ function start(difficulty) {
 	progress.appendChild(document.createTextNode(bombrcl));
 
 	// Received a left click
-	table.onclick = function(event) {console.log("1111");
+	table.onclick = function(event) {
+		console.log("1");
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
 		var cell = table.rows[y].cells[x];
-		console.log(exploded);
-		if(firstclick === false && (board[x][y] === 9 || board[x][y] === -29)){
+		if (firstclick === false && (board[x][y] === 9 || board[x][y] === -29)) {
 			cell.id = tdimg[difficulty].inte;
 			var countx = 0;
-			var county = 0;			
-			while(board[countx][county] === 9){
-				if(countx < ncol-1)
+			var county = 0;
+			while (board[countx][county] === 9) {
+				if (countx < ncol - 1)
 					countx++;
-				else{
-					countx=0;
+				else {
+					countx = 0;
 					county++;
 				}
 			}
@@ -259,70 +262,87 @@ function start(difficulty) {
 			for (i = 0; i < ncol; i++) {
 				for (j = 0; j < nrow; j++) {
 					if (board[i][j] !== 9)
-						auxboard[i][j] = board[i][j] = verify(i, j, board, nrow - 1, ncol - 1);
-					
+						auxboard[i][j] = board[i][j] = verify(i, j, board,
+								nrow - 1, ncol - 1);
+
 				}
 			}
-			if(board[x][y]!==0)
-				setColor(x, y,nrow-1,ncol-1, difficulty);
+			if (board[x][y] !== 0)
+				setColor(x, y, nrow - 1, ncol - 1, difficulty);
 			else
 				expand(x, y, board, nrow - 1, ncol - 1, difficulty);
-		}
-		else{
+		} else {
 			firstclick = true;
-		if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
-			ifhasBomb(x,y,board,ncol,nrow,difficulty);
-			exploded = true;
-        } else if (exploded) {
-            var conf = confirm("GAME OVER");
-            if (conf == true) {
-                    start(difficulty);
-            }
-    } else if(!( board[x][y] <= -1 && board[x][y] >= -9) && board[x][y] !== -11 ){
-            if (board[x][y] !== 0 && board[x][y] !== -29  ) {
-                    setColor(x, y,nrow-1,ncol-1, difficulty);
-            } else if (board[x][y] === 0) {
-                    expand(x, y, board, nrow - 1, ncol - 1, difficulty);
-            }
-		}
+			if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
+				ifhasBomb(x, y, board, ncol, nrow, difficulty);
+				exploded = true;
+			} else if (exploded) {
+				var conf = confirm("GAME OVER");
+				if (conf == true) {
+					start(difficulty);
+				}
+			} else if (!(board[x][y] <= -1 && board[x][y] >= -9)
+					&& board[x][y] !== -11) {
+				if (board[x][y] !== 0 && board[x][y] !== -29) {
+					setColor(x, y, nrow - 1, ncol - 1, difficulty);
+				} else if (board[x][y] === 0) {
+					expand(x, y, board, nrow - 1, ncol - 1, difficulty);
+				}
+			}
 		}
 	};
-table.oncontextmenu.onclick = function(event) {console.log("333333");
-			x = event.target.cellIndex;
-			y = event.target.parentNode.rowIndex;
-			var nbombs = verifyAround(x, y, board, nrow -1, ncol -1);
-			if(nbombs === auxboard[x][y]){
-				for ( var i = -1; i < 2; i++) {
-					for ( var j = -1; j < 2; j++) {
-						if (((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
-								&& board[x + i][y + j] !== 9 && board[x + i][y + j] > -1) {
-							expand(x+i, y+j, board, nrow - 1, ncol - 1, difficulty);
-						}
-						else if(((x + i >= 0) && (x + i <= ncol-1)) && ((y + j >= 0) && (y + j <= nrow-1))
-								&& (board[x + i][y + j] === 9 || board[x + i][y + j] === -29)){console.log(auxboard[x][y]);
-								ifhasBomb(x+i,y+j,board,ncol,nrow,difficulty);
-								exploded=true;
-								}
-					}
-				}
-				 
-			}
-		return false;
-		};
-    // Received a right click
-    
-    table.oncontextmenu = function(event){
+	// Received a right click
+
+	table.oncontextmenu = function(event) {
+		console.log("2");
 		x = event.target.cellIndex;
 		y = event.target.parentNode.rowIndex;
-	var cell = table.rows[y].cells[x];
-	function fixWhich(e) {
-	    if (!e.which && e.button) {
-		if (e.button & 1) e.which = 1      // Left
-		else if (e.button & 4) e.which = 2 // Middle
-		else if (e.button & 2) e.which = 3 // Right
-	    }
-	}
+		var cell = table.rows[y].cells[x];
+		table.onmousedown = function (e){
+			if (e.button === 0 && e.which === 1 && board[x][y] === -12) {
+				table.onmouseover = function(e){
+			x = e.target.cellIndex;
+			y = e.target.parentNode.rowIndex;
+			for ( var i = -1; i < 2; i++) {
+				for ( var j = -1; j < 2; j++) {
+					if (((x + i >= 0) && (x + i <= ncol))
+							&& ((y + j >= 0) && (y + j <= nrow))
+							&& board[x + i][y + j] >-1) {
+						table.rows[y+j].cells[x+i]=----------------------------------------------------------
+					}
+				}
+			}
+			};
+				}
+		} ;
+		table.onmouseup = function (e) {
+			if (e.button === 0 && e.which === 1 && board[x][y] === -12) {
+				x = e.target.cellIndex;
+				y = e.target.parentNode.rowIndex;
+				var nbombs = verifyAround(x, y, board, nrow - 1, ncol - 1);
+				if (nbombs === auxboard[x][y]) {
+					for ( var i = -1; i < 2; i++) {
+						for ( var j = -1; j < 2; j++) {
+							if (((x + i >= 0) && (x + i <= ncol - 1))
+									&& ((y + j >= 0) && (y + j <= nrow - 1))
+									&& board[x + i][y + j] !== 9
+									&& board[x + i][y + j] > -1) {
+								expand(x + i, y + j, board, nrow - 1, ncol - 1,
+										difficulty);
+							} else if (((x + i >= 0) && (x + i <= ncol - 1))
+									&& ((y + j >= 0) && (y + j <= nrow - 1))
+									&& (board[x + i][y + j] === 9 || board[x
+											+ i][y + j] === -29)) {
+								ifhasBomb(x + i, y + j, board, ncol, nrow,
+										difficulty);
+								exploded = true;
+							}
+						}
+					}
 
+				}
+			}
+		};
 		firstclick = true;
 		if (board[x][y] !== -12 && !exploded) {
 			if (board[x][y] > -1) {
@@ -353,17 +373,16 @@ table.oncontextmenu.onclick = function(event) {console.log("333333");
 					cell.removeChild(cell.childNodes[0]);
 				cell.id = tdimg[difficulty].inte;
 
-			} 
+			}
 		}
 
-		else if(exploded) {
+		else if (exploded) {
 			var conf = confirm("GAME OVER");
 			if (conf == true) {
 				start(difficulty);
 			}
 		}
-	    
+
 		return false;
-	      };
-		
+	};
 }
