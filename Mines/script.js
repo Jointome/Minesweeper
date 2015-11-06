@@ -9,6 +9,7 @@ var mflags;
 var rows;
 var cols;
 var exploded;
+var rightclick;
 easy = {
 	nrow : 9,
 	ncol : 9,
@@ -219,18 +220,20 @@ function add() {
 		progressh3appendChild(document.createTextNode(hours));
 	}
 }*/
-var t;
 // Function to start the game
 function start(difficulty) {
 	var progress = document.getElementById("progress");
 	var i;
 	var j;
+	var cell;
 	seconds = 0;
 	minutes = 0;
 	hours = 0;
+	rightclick = false;
 	//t = clearTimeout(t);
 	var nbombs = diff[difficulty].nbombs;
 	var firstclick = false;
+	
 	nrow = diff[difficulty].nrow;
 	ncol = diff[difficulty].ncol;
 	var bombrcl = nbombs;
@@ -266,10 +269,10 @@ function start(difficulty) {
 	table.onclick = function(event) {
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
-		var cell = table.rows[y].cells[x];
-		if (firstclick === false && (board[x][y] === 9 || board[x][y] === -29)) {
+		cell = table.rows[y].cells[x];
+		if (firstclick === false && rightclick === false &&(board[x][y] === 9 || board[x][y] === -29)) {
 			firstclick = true;
-			t = setInterval(add, 1000);
+			//t = setInterval(add, 1000);
 			cell.className = tdimg[difficulty].inte;
 			var countx = 0;
 			var county = 0;
@@ -296,7 +299,7 @@ function start(difficulty) {
 				setColor(x, y, nrow, ncol, difficulty);
 			else
 				expand(x, y, nrow, ncol, difficulty);
-		} else {
+		} else if(rightclick === false){
 			if (firstclick === false) {
 			//	t = setInterval(add, 1000);
 				firstclick = true;
@@ -320,15 +323,17 @@ function start(difficulty) {
 	};
 	// Received a right click
 
-	table.oncontextmenu = function(event) {console.log(firstclick);
+	table.oncontextmenu = function(event) {
 		if(firstclick === true) {
+			rightclick = true;
 			x = event.target.cellIndex;
 			y = event.target.parentNode.rowIndex;
-			var cell = table.rows[y].cells[x];
+			cell = table.rows[y].cells[x];
 			table.onmousedown = function(e) {
-				if (e.button === 0 && e.which === 1 && board[x][y] === -2) {
-					x = e.target.cellIndex;
-					y = e.target.parentNode.rowIndex;
+				x = e.target.cellIndex;
+				y = e.target.parentNode.rowIndex;
+				if (e.button === 0 && e.which === 1 && board[x][y] === -2 && rightclick === true) {
+
 					for ( var i = -1; i < 2; i++) {
 						for ( var j = -1; j < 2; j++) {
 							if (notoutoftable(i, j, x, y, ncol, nrow)
@@ -377,6 +382,7 @@ function start(difficulty) {
 
 							}
 						}
+						else{rightclick = false;}
 					};
 
 				}
@@ -403,7 +409,7 @@ function start(difficulty) {
 					if (cell.childNodes.length > 0)
 						cell.removeChild(cell.childNodes[0]);
 					cell.className = tdimg[difficulty].inte;
-				}
+				}rightclick = false;
 			}
 
 			else if (exploded) {
