@@ -198,7 +198,7 @@ var seconds;
 var minutes;
 var hours;
 
-
+/*
 function add() {
 	seconds++;
 	if (progressh3.childNodes.length > 4)
@@ -218,7 +218,7 @@ function add() {
 			progressh3removeChild(progress.childNodes[0]);
 		progressh3appendChild(document.createTextNode(hours));
 	}
-}
+}*/
 var t;
 // Function to start the game
 function start(difficulty) {
@@ -228,7 +228,7 @@ function start(difficulty) {
 	seconds = 0;
 	minutes = 0;
 	hours = 0;
-	t = clearTimeout(t);
+	//t = clearTimeout(t);
 	var nbombs = diff[difficulty].nbombs;
 	var firstclick = false;
 	nrow = diff[difficulty].nrow;
@@ -263,10 +263,6 @@ function start(difficulty) {
 	}
 
 	var table = document.getElementById(tableid[difficulty]);
-/*	if (progress.childNodes.length > 3)
-		progress.removeChild(progress.childNodes[3]);
-	progress.appendChild(document.createTextNode(bombrcl));*/	
-	// Received a left click
 	table.onclick = function(event) {
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
@@ -302,7 +298,7 @@ function start(difficulty) {
 				expand(x, y, nrow, ncol, difficulty);
 		} else {
 			if (firstclick === false) {
-				t = setInterval(add, 1000);
+			//	t = setInterval(add, 1000);
 				firstclick = true;
 			}
 			if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
@@ -324,7 +320,7 @@ function start(difficulty) {
 	};
 	// Received a right click
 
-	table.oncontextmenu = function(event) {
+	table.oncontextmenu = function(event) {console.log(firstclick);
 		if(firstclick === true) {
 			x = event.target.cellIndex;
 			y = event.target.parentNode.rowIndex;
@@ -390,13 +386,13 @@ function start(difficulty) {
 					board[x][y] -= (2 * board[x][y]);
 					board[x][y] -= 10;
 					bombrcl--;
-					progress.removeChild(progress.childNodes[3]);
+					progress.removeChild(progress.childNodes[2]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.className = tdimg[difficulty].flag;
 				} else if (board[x][y] < -9 && board[x][y] > -20) {
 					board[x][y] -= 10;
 					bombrcl++;
-					progress.removeChild(progress.childNodes[3]);
+					progress.removeChild(progress.childNodes[2]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.appendChild(document.createTextNode("?"));
 					cell.className = tdimg[difficulty].inte;
