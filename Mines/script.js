@@ -10,6 +10,8 @@ var rows;
 var cols;
 var exploded;
 var rightclick;
+var discovered;
+
 easy = {
 	nrow : 9,
 	ncol : 9,
@@ -149,17 +151,17 @@ function notoutoftable(i, j, x, y, ncol, nrow) {
 
 // Function that opens all cells around if it has no bombs around
 function expand(x, y, nrow, ncol, difficulty) {
+	discovered++;
 	if (board[x][y] === 0) {
 		board[x][y] = -2;
 		for ( var i = -1; i < 2; i++)
 			for ( var j = -1; j < 2; j++)
-				if (notoutoftable(i, j, x, y, ncol, nrow)) {
+				if (notoutoftable(i, j, x, y, ncol, nrow) && board[x+i][y+j] !== -2) {
 					expand(x + i, y + j, nrow, ncol, difficulty);
 				}
 	}
 	if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 		setColor(x, y, nrow, ncol, difficulty);
-		board[x][y] = -2;
 	}
 }
 
@@ -230,12 +232,13 @@ function start(difficulty) {
 	minutes = 0;
 	hours = 0;
 	rightclick = false;
+	discovered = 0;
 	//t = clearTimeout(t);
 	var nbombs = diff[difficulty].nbombs;
 	var firstclick = false;
-	
 	nrow = diff[difficulty].nrow;
 	ncol = diff[difficulty].ncol;
+	var todiscover = (nrow*ncol-nbombs);
 	var bombrcl = nbombs;
 	var auxboard;
 	exploded = false;
@@ -295,11 +298,12 @@ function start(difficulty) {
 
 				}
 			}
-			if (board[x][y] !== 0)
+			if (board[x][y] !== 0){ 
 				setColor(x, y, nrow, ncol, difficulty);
-			else
-				expand(x, y, nrow, ncol, difficulty);
-		} else if(rightclick === false){
+				discovered++;}
+			else{
+				expand(x, y, nrow, ncol, difficulty);}
+		} else if(rightclick === false && board[x][y] !== -2){
 			if (firstclick === false) {
 			//	t = setInterval(add, 1000);
 				firstclick = true;
@@ -308,21 +312,25 @@ function start(difficulty) {
 				ifhasBomb(x, y, ncol, nrow, difficulty);
 				exploded = true;
 			} else if (exploded) {
-				var conf = confirm("GAME OVER");
-				if (conf == true) {
-					start(difficulty);
-				}
+				 alert("GAME OVER");
+				 start(difficulty);
 			} else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 				if (board[x][y] !== 0 && board[x][y] !== -29) {
 					setColor(x, y, nrow, ncol, difficulty);
+					discovered++;
 				} else if (board[x][y] === 0) {
 					expand(x, y, nrow, ncol, difficulty);
+					
 				}
 			}
 		}
+		if(todiscover === discovered){
+			alert("CONGRATS! YOU WINNNNN");
+				start(difficulty);
+		}
 	};
+	
 	// Received a right click
-
 	table.oncontextmenu = function(event) {
 		if(firstclick === true) {
 			rightclick = true;
@@ -333,7 +341,6 @@ function start(difficulty) {
 				x = e.target.cellIndex;
 				y = e.target.parentNode.rowIndex;
 				if (e.button === 0 && e.which === 1 && board[x][y] === -2 && rightclick === true) {
-
 					for ( var i = -1; i < 2; i++) {
 						for ( var j = -1; j < 2; j++) {
 							if (notoutoftable(i, j, x, y, ncol, nrow)
@@ -361,12 +368,10 @@ function start(difficulty) {
 								for ( var i = -1; i < 2; i++) {
 									for ( var j = -1; j < 2; j++) {
 										if (notoutoftable(i, j, x, y, ncol,
-												nrow)
-												&& board[x + i][y + j] !== 9
-												&& board[x + i][y + j] !== -29
-												&& board[x + i][y + j] > -1
-												|| (board[x + i][y + j] < -19 && board[x
-														+ i][y + j] > -29)) {
+												nrow) 
+												&& board[x + i][y + j] !== 9 && board[x + i][y + j] !== -29
+												&& (board[x + i][y + j] > -1 || (board[x + i][y + j] < -19 
+														&& board[x + i][y + j] > -29))) {
 											expand(x + i, y + j, nrow, ncol,
 													difficulty);
 										} else if (notoutoftable(i, j, x, y,
@@ -413,12 +418,14 @@ function start(difficulty) {
 			}
 
 			else if (exploded) {
-				var conf = confirm("GAME OVER");
-				if (conf == true) {
+				confirm("GAME OVER");
 					start(difficulty);
-				}
 			}
+		}if(todiscover === discovered){
+			alert("CONGRATS! YOU WINNNNN");
+			start(difficulty);
 		}
 		return false;
 	};
+
 }
