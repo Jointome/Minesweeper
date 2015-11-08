@@ -200,6 +200,10 @@ function ifhasBomb(x, y, ncol, nrow, difficulty) {
 var seconds;
 var minutes;
 var hours;
+clockMoving  = false;                
+clockActive  = false;                
+clockCurrent = -1;                    
+
 
 /*
 function add() {
@@ -267,9 +271,10 @@ function start(difficulty) {
 		}
 
 	}
-
 	var table = document.getElementById(tableid[difficulty]);
+	clockStart();
 	table.onclick = function(event) {
+
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
 		cell = table.rows[y].cells[x];
@@ -313,6 +318,7 @@ function start(difficulty) {
 				exploded = true;
 			} else if (exploded) {
 				 alert("GAME OVER");
+				 clockClear();
 				 start(difficulty);
 			} else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 				if (board[x][y] !== 0 && board[x][y] !== -29) {
@@ -326,6 +332,7 @@ function start(difficulty) {
 		}
 		if(todiscover === discovered){
 			alert("CONGRATS! YOU WINNNNN");
+			clockClear();
 				start(difficulty);
 		}
 	};
@@ -419,13 +426,57 @@ function start(difficulty) {
 
 			else if (exploded) {
 				confirm("GAME OVER");
+					clockClear();
 					start(difficulty);
 			}
 		}if(todiscover === discovered){
 			alert("CONGRATS! YOU WINNNNN");
+			clockClear();
 			start(difficulty);
 		}
 		return false;
 	};
 
 }
+
+function updateClock() {
+	//a maneira como estou a passar aqui isto esta mal
+	tempClock = clockCurrent;
+     if (tempClock == -1) { tempClock = 0; }
+     digit = tempClock % 10;
+     digitm = Math.floor(tempClock / 10 % 10);
+	 digith = Math.floor(tempClock / 100 % 10);
+	 document.getElementById("progressh3").innerHTML =  "00:"+"0"+digith+":"+digitm+""+digit;
+	}
+
+	function ticClock() {
+      if (clockMoving) {
+         ++ clockCurrent; }
+      if ((clockMoving)) // Max out display at 999
+         updateClock(); 
+      clockActive = clockMoving;
+      if (clockActive)  {          
+         id = setTimeout("ticClock()",1000) } 
+	}
+
+
+	
+  function clockStop() {
+   clockMoving = false; }
+
+
+  function clockClear() {
+   if ((!clockMoving) && (clockCurrent != 0)) {
+      clockCurrent = 0;
+      updateClock(); }
+   clockCurrent = -1;
+   clockMoving = false; 
+   clearTimeout(id);
+  }
+
+
+	function clockStart() {
+   clockWasActive = clockActive;
+   clockMoving = true;
+   ticClock();
+	}	
