@@ -38,7 +38,7 @@ h1{color:#0099FF;}
 
 
 /*Table*/
-table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;}
+table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;margin: auto;}
 #table0{width: 290px; height: 290px;}
 #table1{width: 420px; height: 420px;}
 #table2{width: 770px; height: 420px;}
@@ -75,17 +75,23 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 
 
 /*Progress*/
-#progress2{display: block; margin-left: 379px; padding: 0; border: 0; align: middle; height: 50px; width: 292px}
-#progress{display: block; padding: 0; border: 0; height: 50px; width: 292px;background-color:yellow;}
+#progress{display: block; padding: 0; border: 0;margin: auto;margin-bottom:30px; height: 50px; width: 1050px;background-color:lightgray;border-radius: 25px;}
+#progressh3{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 2px black, 3px 3px 5px #000052; color:white;font-size: 1.9em;}
+#countFlag{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 2px black, 2px 2px 5px #000052;color:white;font-size: 1.9em}
+
+/*menu game*/
+#menubott{padding: 0; border: 0;margin: auto;}
+.menu_game{display: inline-block;color: inherit;font-weight: bold;cursor: pointer; width: 200px; height: 40px; margin: 20px;}
+#hidden{display:none;}
+#nofu{margin-left:165px;}
 
 
 /*honorboard*/
 #allhonorboard{display:none;}
-#honorboard2{display: block; background-color: #FFC20B; text-align: center; margin: 0; padding: 0; float: right;
+#honorboard2{display: block; background-color: #000099; text-align: center; margin: 0; padding: 0; float: right;
     width: 1050px; height: 200px;}
-#honorboard{display: none; background-color: #FFC20B; text-align: center; margin: 0; padding: 0; float: right;
+#honorboard{display: none; background-color: #000099; text-align: center; margin: 0; padding: 0; float: right;
     width: 1050px; height: 200px;}
-
 
 /*footer*/
 footer {background: #fff; border-top: 2px solid #e0e0e0; clear: both; color: gray; margin: 0 auto; padding: 10px 0; text-align: center;

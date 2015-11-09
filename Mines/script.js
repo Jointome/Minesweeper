@@ -11,7 +11,14 @@ var cols;
 var exploded;
 var rightclick;
 var discovered;
+var seconds;
+var minutes;
+var hours;
+clockMoving  = false;                
+clockActive  = false;                
+clockCurrent = -1;  
 
+//Defines which board and number of bombs
 easy = {
 	nrow : 9,
 	ncol : 9,
@@ -31,6 +38,8 @@ diff = [ easy, medium, hard ];
 
 tableid = [ "table0", "table1", "table2" ];
 
+//-------------------------------------------------
+//Uses distinct css classes cells and sizes 
 tdeasy = {
 	flag : "td2",
 	inte : "td3",
@@ -57,6 +66,7 @@ tdhard = {
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
+//-----------------------------------------------------------------
 // Function to create a Table
 function createTable(difficulty, rows, cols) {
 	var i;
@@ -93,6 +103,9 @@ function positionBomb(cols, rows, nbombs, difficulty) {
 	}
 	return board;
 }
+
+//----------------------------------------------------------------------------
+//Function that verifies how many flags are around a certain cell
 function verifyAround(x, y, nrow, ncol) {
 	var count = 0;
 	for ( var i = -1; i < 2; i++) {
@@ -106,7 +119,8 @@ function verifyAround(x, y, nrow, ncol) {
 	return count;
 }
 
-// Function that verifies how many bombs each cell as around it
+//-----------------------------------------------------------------------------------------------
+// Function that verifies how many bombs each cell as around it to place it in the board
 function verify(x, y, nrow, ncol) {
 	var count = 0;
 	for ( var i = -1; i < 2; i++) {
@@ -121,26 +135,35 @@ function verify(x, y, nrow, ncol) {
 	return board[x][y];
 }
 
+//---------------------------------------------------------------------------------------------
+//set a css class for a cell in a specific situation
 function setColor(x, y, nrow, ncol, difficulty) {
 	var table = document.getElementById(tableid[difficulty]);
 	var cell = table.rows[y].cells[x];
+	//if is a cell without flag interrogation point or has been discovered
 	if (board[x][y] > 0) {
 		if (cell.childNodes.length === 0)
 			cell.appendChild(document.createTextNode(board[x][y]));
-	} else if (board[x][y] < -19) {
+	}//if it has an interrogation point sets it like the one before
+	else if (board[x][y] < -19) {
 		board[x][y] += 20;
 		board[x][y] -= (2 * board[x][y]);
-		if (cell.childNodes.length > 0)
 			cell.removeChild(cell.childNodes[0]);
+		//if is not a zero put a number on the cell
 		if (board[x][y] !== 0)
 			cell.appendChild(document.createTextNode(board[x][y]));
-		cell.className = tdimg[difficulty].inte;
-		expand(x, y, nrow, ncol, difficulty);
+		//if is a zero expands
+		else{
+			expand(x, y, nrow, ncol, difficulty);
+		}
 	}
+	//Set it to -2 to say it has been discovered and set's is class name
 	board[x][y] = -2;
 	cell.className = tdimg[difficulty].read;
 }
 
+//----------------------------------------------------------------------------------------------
+//Verifies if it's inside the table
 function notoutoftable(i, j, x, y, ncol, nrow) {
 	if (((x + i >= 0) && (x + i <= ncol - 1))
 			&& ((y + j >= 0) && (y + j <= nrow - 1))) {
@@ -151,8 +174,9 @@ function notoutoftable(i, j, x, y, ncol, nrow) {
 
 // Function that opens all cells around if it has no bombs around
 function expand(x, y, nrow, ncol, difficulty) {
+	if(board[x][y] > -20 )
 	discovered++;
-	if (board[x][y] === 0) {
+	if (board[x][y] === 0 ) {
 		board[x][y] = -2;
 		for ( var i = -1; i < 2; i++)
 			for ( var j = -1; j < 2; j++)
@@ -172,19 +196,24 @@ function fromHomeMenu(difficulty) {
 	start(difficulty);
 }
 
+//dispays home and hides the game page
 function goHome() {
 	document.getElementById("home_page").style.display = "block";
 	document.getElementById("gamepage").style.display = "none";
 }
 
+//It shows the bombs when a person lose
 function ifhasBomb(x, y, ncol, nrow, difficulty) {
 	var table = document.getElementById(tableid[difficulty]);
 	var i;
 	var j;
+	clockStop();
 	var cell = table.rows[y].cells[x];
+	//If is the bomb the user has lost
 	if (cell.childNodes.length > 0)
 		cell.removeChild(cell.childNodes[0]);
 	cell.className = tdimg[difficulty].redbomb;
+	//the other bombs
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
 			if ((board[i][j] === 9 || board[i][j] === -29)
@@ -196,58 +225,33 @@ function ifhasBomb(x, y, ncol, nrow, difficulty) {
 			}
 		}
 	}
-}
-var seconds;
-var minutes;
-var hours;
-clockMoving  = false;                
-clockActive  = false;                
-clockCurrent = -1;                    
+}              
 
-
-/*
-function add() {
-	seconds++;
-	if (progressh3.childNodes.length > 4)
-		progressh3.removeChild(progress.childNodes[4]);
-	progressh3.appendChild(document.createTextNode(seconds));
-	if (seconds >= 60) {
-		seconds = 0;
-		minutes++;
-		if (progressh3childNodes.length > 2)
-			progressh3removeChild(progress.childNodes[2]);
-		progressh3appendChild(document.createTextNode(minutes));
-	}
-	if (minutes >= 60) {
-		minutes = 0;
-		hours++;
-		if (progressh3childNodes.length > 0)
-			progressh3removeChild(progress.childNodes[0]);
-		progressh3appendChild(document.createTextNode(hours));
-	}
-}*/
 // Function to start the game
 function start(difficulty) {
-	var progress = document.getElementById("progress");
+	hours = 0;
+	seconds = 0;
+	minutes = 0;
+	discovered = 0;	
+	exploded = false;
+	rightclick = false;
+	nrow = diff[difficulty].nrow;
+	ncol = diff[difficulty].ncol;
+	
 	var i;
 	var j;
 	var cell;
-	seconds = 0;
-	minutes = 0;
-	hours = 0;
-	rightclick = false;
-	discovered = 0;
-	//t = clearTimeout(t);
-	var nbombs = diff[difficulty].nbombs;
-	var firstclick = false;
-	nrow = diff[difficulty].nrow;
-	ncol = diff[difficulty].ncol;
-	var todiscover = (nrow*ncol-nbombs);
-	var bombrcl = nbombs;
 	var auxboard;
-	exploded = false;
+	var firstclick = false;
+	var nbombs = diff[difficulty].nbombs;
+	var bombrcl = nbombs;
+	var todiscover = (nrow*ncol-nbombs);
+	var progress = document.getElementById("countFlag");
+	
+	//Creates a table
 	createTable(difficulty, nrow, ncol);
 
+	//creates a multidimensional array that it is used for everything
 	board = [ ncol ];
 	for (i = 0; i < ncol; i++) {
 		board[i] = [ nrow ];
@@ -262,26 +266,34 @@ function start(difficulty) {
 			auxboard[i][j] = 0;
 		}
 	}
+	
+	//Places the bombs on the array
 	board = positionBomb(ncol, nrow, nbombs, difficulty);
+	
+	//sets the number of bombs around each cell on it position
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
 			if (board[i][j] !== 9)
 				auxboard[i][j] = board[i][j] = verify(i, j, nrow, ncol);
 
 		}
-
 	}
+	
 	var table = document.getElementById(tableid[difficulty]);
-	clockStart();
+	
+	//If it has a click
 	table.onclick = function(event) {
-
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
 		cell = table.rows[y].cells[x];
+		
+		//If it is the firstclick and is on a bomb
 		if (firstclick === false && rightclick === false &&(board[x][y] === 9 || board[x][y] === -29)) {
 			firstclick = true;
-			//t = setInterval(add, 1000);
+			clockStart();
 			cell.className = tdimg[difficulty].inte;
+			
+			//put's the bomb on the left corner if it hasn't a bomb
 			var countx = 0;
 			var county = 0;
 			while (board[countx][county] === 9) {
@@ -292,10 +304,12 @@ function start(difficulty) {
 					county++;
 				}
 			}
+			//Opens the cell that the user has clicked
 			table.rows[county].cells[countx].className = "td1";
 			board[x][y] = 1;
 			board[countx][county] = 9;
 			
+			//Sets the number of bombs again on each cell
 			for (i = 0; i < ncol; i++) {
 				for (j = 0; j < nrow; j++) {
 					if (board[i][j] !== 9)
@@ -303,33 +317,44 @@ function start(difficulty) {
 
 				}
 			}
-			if (board[x][y] !== 0){ 
+			
+			//if it is diferent then a zero only shows the cell if not it expends all the cells around and shows it
+			if (board[x][y] !== 0 && board[x][y] !== -20){ 
 				setColor(x, y, nrow, ncol, difficulty);
 				discovered++;}
 			else{
 				expand(x, y, nrow, ncol, difficulty);}
-		} else if(rightclick === false && board[x][y] !== -2){
+		}
+		//if is a click and hasn't the right button on the mous down
+		else if(rightclick === false && board[x][y] !== -2){
+			//If is the firstclick sets the clock
 			if (firstclick === false) {
-			//	t = setInterval(add, 1000);
+				clockStart();
 				firstclick = true;
 			}
+			//If is on a bomb and it hasn't already exploded and explodes
 			if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
 				ifhasBomb(x, y, ncol, nrow, difficulty);
 				exploded = true;
-			} else if (exploded) {
+			}
+			//if already has exploded starts the game again
+			else if (exploded) {
 				 alert("GAME OVER");
 				 clockClear();
 				 start(difficulty);
-			} else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
-				if (board[x][y] !== 0 && board[x][y] !== -29) {
+			} 
+			//if it hasn't a flag shows it
+			else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
+				if (board[x][y] !== 0 && board[x][y] !== -20) {
 					setColor(x, y, nrow, ncol, difficulty);
 					discovered++;
-				} else if (board[x][y] === 0) {
+				} else if (board[x][y] === 0 || board[x][y] === -20) {
 					expand(x, y, nrow, ncol, difficulty);
 					
 				}
 			}
-		}
+		}console.log(todiscover + " " + discovered);
+		//if the cells have been all discovered
 		if(todiscover === discovered){
 			alert("CONGRATS! YOU WINNNNN");
 			clockClear();
@@ -348,6 +373,7 @@ function start(difficulty) {
 				x = e.target.cellIndex;
 				y = e.target.parentNode.rowIndex;
 				if (e.button === 0 && e.which === 1 && board[x][y] === -2 && rightclick === true) {
+					//received a right followed by a left click sets all around it gray
 					for ( var i = -1; i < 2; i++) {
 						for ( var j = -1; j < 2; j++) {
 							if (notoutoftable(i, j, x, y, ncol, nrow)
@@ -360,6 +386,7 @@ function start(difficulty) {
 					table.onmouseup = function(e) {
 						if (e.button === 0 && e.which === 1
 								&& board[x][y] === -2) {
+							//if left button is set up it puts all aroud lightgray again
 							var nbombs;
 							for ( var i = -1; i < 2; i++) {
 								for ( var j = -1; j < 2; j++) {
@@ -370,18 +397,27 @@ function start(difficulty) {
 									}
 								}
 							}
+							//then verifies if it has the number of flags equal to the number of bombs around
 							nbombs = verifyAround(x, y, nrow, ncol);
 							if (nbombs === auxboard[x][y]) {
 								for ( var i = -1; i < 2; i++) {
 									for ( var j = -1; j < 2; j++) {
+										//if it is a cell without a bomb and a flag
 										if (notoutoftable(i, j, x, y, ncol,
 												nrow) 
 												&& board[x + i][y + j] !== 9 && board[x + i][y + j] !== -29
 												&& (board[x + i][y + j] > -1 || (board[x + i][y + j] < -19 
 														&& board[x + i][y + j] > -29))) {
-											expand(x + i, y + j, nrow, ncol,
-													difficulty);
-										} else if (notoutoftable(i, j, x, y,
+											if(board[x + i][y + j] === 0){
+												expand(x + i, y + j, nrow, ncol,difficulty);
+											}
+											else {
+												setColor(x+i, y+j, nrow, ncol, difficulty);
+												discovered++;
+											}
+										}
+										//if it has bomb explodes
+										else if (notoutoftable(i, j, x, y,
 												ncol, nrow)
 												&& (board[x + i][y + j] === 9 || board[x
 														+ i][y + j] === -29)) {
@@ -394,42 +430,52 @@ function start(difficulty) {
 
 							}
 						}
+						//if the right button has been released set it to false
 						else{rightclick = false;}
 					};
 
 				}
 			};
+			//If isn't in a discovered cell
 			if (board[x][y] !== -2 && !exploded) {
+				//if is a cell not manipuleted insert a flag
 				if (board[x][y] > -1) {
 					board[x][y] -= (2 * board[x][y]);
 					board[x][y] -= 10;
 					bombrcl--;
-					progress.removeChild(progress.childNodes[2]);
+					if(progress.childNodes.length > 0)
+						progress.removeChild(progress.childNodes[0]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.className = tdimg[difficulty].flag;
-				} else if (board[x][y] < -9 && board[x][y] > -20) {
+				}
+				//if it has a flag turns to an interrogation point
+				else if (board[x][y] < -9 && board[x][y] > -20) {
 					board[x][y] -= 10;
 					bombrcl++;
-					progress.removeChild(progress.childNodes[2]);
+					if(progress.childNodes.length > 0)
+						progress.removeChild(progress.childNodes[0]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.appendChild(document.createTextNode("?"));
 					cell.className = tdimg[difficulty].inte;
-				} else if (board[x][y] < -19) {
+				}
+				//if it has an interrogation point sets it to not manipulated
+				else if (board[x][y] < -19) {
 					board[x][y] += 20;
 					board[x][y] -= (2 * board[x][y]);
-
 					if (cell.childNodes.length > 0)
 						cell.removeChild(cell.childNodes[0]);
 					cell.className = tdimg[difficulty].inte;
 				}rightclick = false;
 			}
-
+			//if it has exploded
 			else if (exploded) {
 				confirm("GAME OVER");
-					clockClear();
+				clockClear();
 					start(difficulty);
 			}
-		}if(todiscover === discovered){
+		}
+		//if the user has discovered all bombs
+		if(todiscover === discovered){
 			alert("CONGRATS! YOU WINNNNN");
 			clockClear();
 			start(difficulty);
@@ -439,14 +485,36 @@ function start(difficulty) {
 
 }
 
+//updates the clock
 function updateClock() {
-	//a maneira como estou a passar aqui isto esta mal
 	tempClock = clockCurrent;
+	var digit = 0;
+	var digitm = 0;
+	var digith = 0;
+   
      if (tempClock == -1) { tempClock = 0; }
-     digit = tempClock % 10;
-     digitm = Math.floor(tempClock / 10 % 10);
-	 digith = Math.floor(tempClock / 100 % 10);
-	 document.getElementById("progressh3").innerHTML =  "00:"+"0"+digith+":"+digitm+""+digit;
+     while(tempClock >= 60){
+    	 tempClock-=60;
+    	 digitm++;
+    	 if(digitm===60){
+    		 digitm = 0;
+    		 digith++;
+    		 }
+     }
+     digit = tempClock;
+     var sec = digit;
+     var min = digitm;
+     var hou = digith;
+     if(digit < 10){
+    	 sec = "0" + digit;
+     }
+     if(digitm < 10){
+    	 min = "0" + digitm;
+     }
+     if(digith < 10){
+    	 hou = "0" + digith;
+     }
+	 document.getElementById("progressh3").innerHTML = hou + ":" + min + ":" + sec;
 	}
 
 	function ticClock() {
@@ -456,14 +524,13 @@ function updateClock() {
          updateClock(); 
       clockActive = clockMoving;
       if (clockActive)  {          
-         id = setTimeout("ticClock()",1000) } 
+         id = setTimeout("ticClock()",1000); } 
 	}
 
 
-	
+
   function clockStop() {
    clockMoving = false; }
-
 
   function clockClear() {
    if ((!clockMoving) && (clockCurrent != 0)) {
@@ -474,9 +541,10 @@ function updateClock() {
    clearTimeout(id);
   }
 
-
 	function clockStart() {
    clockWasActive = clockActive;
    clockMoving = true;
    ticClock();
 	}	
+	
+	
