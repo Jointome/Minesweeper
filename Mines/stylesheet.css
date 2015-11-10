@@ -1,5 +1,7 @@
 *{font-family: Verdana,Tahoma,Arial,sans-serif;}
 .all{position: relative;margin: 20 auto;width: 1050px;padding: 10px;margin-top:60px}
+.hidden{display: none;}
+.inlineblock{display: inline-block;}
 
 
 /*Top bar*/
@@ -7,12 +9,14 @@
 	background-color:#80B3FF;box-shadow:2px 2px 20px 5px lightblue inset;}
 
 #titulo{display: inline-block;text-align: left;margin-right:-4px;border:0px;padding: 0px;vertical-align:middle;margin-left:10px;
-	width:50%;height:60px;}
+	width:45%;height:60px;}
+#titleh3{color:white;cursor: pointer;}	
+#titleh3:hover{color:gray;}
 
-#usr{display:inline-block;text-align: right;margin:0px ;border:0px;vertical-align:middle;
-	padding: 0px; width:45%; height:60px;}
-	
-h3{color:white;cursor: pointer;}
+#usr{text-align: right;margin:0px ;border:0px;vertical-align:middle;
+	padding: 0px; width:52%; height:60px;}
+#usernameh3{text-align: right;margin:0px ;border:0px;vertical-align:middle;
+	padding: 0px; width:45%; height:60px;color:#333300;}
 
 
 /*Home page*/
@@ -21,6 +25,8 @@ h3{color:white;cursor: pointer;}
 p.welcome{display: inline-block;width:300px}
 
 .menu_home{color: inherit;font-weight: bold;cursor: pointer; width: 200px; height: 40px; margin: 20px;}
+.menu_home:hover{color:gray;}
+#leftbuttontop{margin-left:65px;}
 
 h1{color:#0099FF;}
 
@@ -30,64 +36,67 @@ h1{color:#0099FF;}
 
 #gamepanel{display:block;}
 
-#menuleft{display: none; height: 600px; width: 200px; margin: 0;
-	padding:0; text-align: center; background: #fff; border: 1px solid #c6c7cc; border-radius: 3%;}
 .menu_btn{color: inherit;font-weight: bold;cursor: pointer;}
 	
 #gamewprogress{display:block;}
 
 
 /*Table*/
-table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;}
+table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;margin: auto;box-shadow:3px 3px 20px black, 5px 5px 5px #000052; }
 #table0{width: 290px; height: 290px;}
 #table1{width: 420px; height: 420px;}
 #table2{width: 770px; height: 420px;}
  
 td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
-#td2,#td3,#td4,#td5,#td6{width: 24px; height: 30px;}
-#td1{background-color: red;}
-#td2{background-image: url("2000px-Minesweeper_flag.svg.png");background-size: 24px 24px;}
-#td3{background-image: none;font-weight: bold; background-color: none;text-align: center;}
-#td4{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
-#td5{background-image: url("Bomb.jpeg");background-size: 24px 24px;}
-#td6{background-image: url("BombBl.jpg");background-size: 24px 24px;}
-#td17{background-color: gray;}
+.td2,.td3,.td4,.td5,.td6,.td17{width: 24px; height: 30px;}
+.td1{background-color: red;}
+.td2{background-image: url("2000px-Minesweeper_flag.svg.png");background-size: 24px 24px;}
+.td3{background-image: none;font-weight: bold; background-color: none;text-align: center;}
+.td4{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+.td5{background-image: url("Bomb.jpeg");background-size: 24px 24px;}
+.td6{background-image: url("BombBl.jpg");background-size: 24px 24px;}
+.td17{background-color: gray;text-align: center}
 
-#td7,#td8,#td9,#td10,#td11{width: 19px; height: 25px;}
-#td7{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
-#td8{background-image: none;font-weight: bold;background-color: none; background-size: 25px 25px;}
-#td9{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
-#td10{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
-#td11{background-image: url("BombBl.jpg");background-size: 19px 19px;}
+.td7,.td8,.td9,.td10,.td11,.td18{width: 19px; height: 25px;}
+.td7{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
+.td8{background-image: none;font-weight: bold;background-color: none; background-size: 25px 25px;}
+.td9{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+.td10{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
+.td11{background-image: url("BombBl.jpg");background-size: 19px 19px;}
+.td18{background-color: gray;text-align: center}
 
-#td12,#td13,#td14,#td15,#td16{width: 19px; height: 25px;}
-#td12{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
-#td13{background-image: none;font-weight: bold;background-color: none;text-align: center; background-size: 20px 20px;}
-#td14{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
-#td15{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
-#td16{background-image: url("BombBl.jpg");background-size: 19px 19px;}
+.td12,.td13,.td14,.td15,.td16,.td19{width: 19px; height: 25px;}
+.td12{background-image:url("2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
+.td13{background-image: none;font-weight: bold;background-color: none;text-align: center; background-size: 20px 20px;}
+.td14{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
+.td15{background-image: url("Bomb.jpeg");background-size: 19px 19px;}
+.td16{background-image: url("BombBl.jpg");background-size: 19px 19px;}
+.td19{background-color: gray;text-align: center}
 
-
-#game2{display: block; align: middle;}
 #game{display: block;align: middle;}
 
-
 /*Progress*/
-#progress2{display: block; margin-left: 379px; padding: 0; border: 0; align: middle; height: 50px; width: 292px}
-#progress{display: block; padding: 0; border: 0; height: 50px; width: 292px;}
+#progress{display: block; padding: 0; border: 0;margin: auto;margin-bottom:30px; height: 50px; width: 1050px;background-color:lightgray;box-shadow:2px 2px 20px lightblue;border-radius: 25px;}
+#progressh3{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 20px black, 3px 3px 5px #000052; color:white;font-size: 1.9em;}
+#countFlag{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 20px black, 2px 2px 5px #000052;color:white;font-size: 1.9em}
+
+/*menu game*/
+#menubott{padding: 0; border: 0;margin: auto;}
+.menu_game{display: inline-block; color: inherit;font-weight: bold; cursor: pointer; width: 200px; height: 40px; margin: 20px;}
+.menu_game:hover{color:gray;}
+#hidden{display:none;}
+#nofu{margin-left:185px;}
 
 
 /*honorboard*/
-#allhonorboard{display:none;}
-#honorboard2{display: block; background-color: #FFC20B; text-align: center; margin: 0; padding: 0; float: right;
-    width: 1050px; height: 200px;}
-#honorboard{display: none; background-color: #FFC20B; text-align: center; margin: 0; padding: 0; float: right;
-    width: 1050px; height: 200px;}
-
+.displayblock{display:block;}
+#allhonorboard{position: relative;margin: 20 auto;width: 1050px;padding: 10px;}
+#honorboard{ text-align: center; margin: 0; padding: 0; float: right;
+    width: 1050px;}
 
 /*footer*/
-footer {background: #fff; border-top: 2px solid #e0e0e0; clear: both; color: gray; margin: 0 auto; padding: 10px 0; text-align: center;
-	width: 1000px;line-height: 1.5em; font-size: 0.9em;
+#footer {background: #fff; border-top: 2px solid #e0e0e0; clear: both; color: gray; margin: 0 auto; padding: 10px 0; text-align: center;
+	width: 1050px;line-height: 1.5em; font-size: 0.9em;
 }
 
-footer p {margin: 0; padding: 0; text-align: center; font-size: 1em;}
+#footer p {margin: 0; padding: 0; text-align: center; font-size: 1em;}
