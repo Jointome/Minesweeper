@@ -5,15 +5,18 @@
 //when all board is set to -10 is game over it was set to show where the bombs were
 
 var board;
-var mflags;
 var rows;
 var cols;
+var name;
+var hours;
+var mflags;
+var seconds;
+var minutes;
 var exploded;
 var rightclick;
 var discovered;
-var seconds;
-var minutes;
-var hours;
+var honorarray = [10];
+var honortime = [10];
 clockMoving  = false;                
 clockActive  = false;                
 clockCurrent = -1;  
@@ -65,6 +68,14 @@ tdhard = {
 	bothbuttons : "td19"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
+
+//validation form
+function validateForm(name) {
+    document.getElementById("usr").className="hidden";console.log(document.getElementById("usr").className);
+	name = myForm.fname.value;
+    document.getElementById("username").className="inlineblock";
+    document.getElementById("usernameh3").appendChild(document.createTextNode(name));
+}
 
 //-----------------------------------------------------------------
 // Function to create a Table
@@ -186,6 +197,34 @@ function expand(x, y, nrow, ncol, difficulty) {
 	}
 	if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 		setColor(x, y, nrow, ncol, difficulty);
+	}
+}
+function showHonor(){
+	document.getElementById("allhonorboard").style.display = "block";
+	document.getElementById("honorboard").style.display = "block";
+	document.getElementById("menubott").style.display = "none";
+	honorarray[0] = "Rodrigo Costa " + "---" + " 20s";
+	honortime[0]=20;
+	honorarray[1] = "Tiago Castanheira looooser "+ "---" + " 130s";
+	honortime[1]=130;
+	var para = document.createElement("p");
+	var node = document.createTextNode(honorarray[0]);
+	para.appendChild(node);
+	var element = document.getElementById("honorboard");
+	element.appendChild(para);
+	node = document.createTextNode(honorarray[1]);
+	para = document.createElement("p");
+	para.appendChild(node);
+	element.appendChild(para);
+	c=150;
+	for(var i = 2; i <10;i++){
+		honorarray[i] = "Tiago Castanheira looooser "+ "---" + c + "s";
+		honortime[i]=c;
+		c+=20;
+		para = document.createElement("p");
+		node = document.createTextNode(honorarray[i]);
+		para.appendChild(node);
+		element.appendChild(para);
 	}
 }
 
@@ -356,7 +395,26 @@ function start(difficulty) {
 		}console.log(todiscover + " " + discovered);
 		//if the cells have been all discovered
 		if(todiscover === discovered){
+			clockStop();
 			alert("CONGRATS! YOU WINNNNN");
+			var element = document.getElementById("honorboard");
+			i=0;
+			while(clockCurrent<honortime[i]){
+				i++;
+			}
+			for(j=10;j>i;j--){
+				honorarray[j] = honorarray[j-1];
+				honortime[j] = honortime[j-1];
+			}
+			honorarray[j] =	myForm.fname.value + " --- " + clockCurrent + "s";
+			if(element.childNodes.length-1>9)
+				element.removeChild(element.childNodes[element.childNodes.length-1]);
+			var para = document.createElement("p");
+			var node = document.createTextNode(honorarray[2]);
+			para.appendChild(node);
+			var myNodelist = document.getElementsByTagName("p");
+			console.log(myNodelist[6].nodeValue);
+			element.insertBefore(para,element.childNodes[6]);
 			clockClear();
 				start(difficulty);
 		}
