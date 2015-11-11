@@ -15,11 +15,15 @@ var minutes;
 var exploded;
 var rightclick;
 var discovered;
+//
+var fooBar;
 var honorarray = [10];
 var honortime = [10];
 clockMoving  = false;                
 clockActive  = false;                
 clockCurrent = -1;
+// HONOR SHOW AND HIDE
+showHonordb = false;
 
 
 
@@ -80,6 +84,7 @@ tdhard = {
 	bothbuttons : "td19"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
+
 
 //validation form
 function validateForm(name) {
@@ -214,16 +219,27 @@ function expand(x, y, nrow, ncol, difficulty) {
 function showHonor(){
 	document.getElementById("allhonorboard").style.display = "block";
 	document.getElementById("honorboard").style.display = "block";
-	document.getElementById("menubott").style.display = "none";
+	document.getElementById("menubott").style.display = "block";
 	var scores = document.getElementById("scores");
+	if(scores.childNodes.length > 0)
+		while( scores.hasChildNodes() ){
+    		scores.removeChild(scores.lastChild);
+	}
 	jogadores_scores.sort(compareFunction);
     for(var i = 0; i < jogadores_scores.length; i++){
-	honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
-	var para = document.createElement("p");
-	var node = document.createTextNode(honorarray[i]);
-	para.appendChild(node);
-	scores.appendChild(para);
+		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[i]);
+		para.appendChild(node);
+		scores.appendChild(para);
 	}
+
+	if(showHonordb){
+		document.getElementById("allhonorboard").style.display = "none";
+		document.getElementById("honorboard").style.display = "none";
+		document.getElementById("menubott").style.display = "block";
+		showHonordb = false;
+	}else showHonordb = true;
 }
 function changeHonor(){
     var scores = document.getElementById("scores");
@@ -248,7 +264,8 @@ function changeHonor(){
 function fromHomeMenu(difficulty) {
 	document.getElementById("home_page").style.display = "none";
 	document.getElementById("gamepage").style.display = "block";
-	start(difficulty);
+	fooBar = difficulty;
+	start(fooBar);
 }
 
 //dispays home and hides the game page
@@ -284,6 +301,7 @@ function ifhasBomb(x, y, ncol, nrow, difficulty) {
 
 // Function to start the game
 function start(difficulty) {
+
 	hours = 0;
 	seconds = 0;
 	minutes = 0;
@@ -302,14 +320,14 @@ function start(difficulty) {
 	var bombrcl = nbombs;
 	var todiscover = (nrow*ncol-nbombs);
     var progress = document.getElementById("countFlag");
-
+/* 
     for(i=0;i<2;i++){
     var playa = new Jogador(myForm.fname.value, clockCurrent);
     jogadores_scores.push(playa);
     //nem sei se isto funciona
     jogadores_scores.sort(compareFunction);
 	changeHonor();}
-	
+*/
 	//Creates a table
 	createTable(difficulty, nrow, ncol);
 
@@ -337,7 +355,7 @@ function start(difficulty) {
 	}
 	
 	var table = document.getElementById(tableid[difficulty]);
-	
+	clockClear();
 	//If it has a click
 	table.onclick = function(event) {
 		var x = event.target.cellIndex;
@@ -602,7 +620,9 @@ function updateClock() {
       updateClock(); }
    clockCurrent = -1;
    clockMoving = false; 
-   clearTimeout(id);
+   updateClock();
+   if(clockActive)
+   	clearTimeout(id);
   }
 
 	function clockStart() {
