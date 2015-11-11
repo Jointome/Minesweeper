@@ -15,7 +15,7 @@ var minutes;
 var exploded;
 var rightclick;
 var discovered;
-//
+//dificuldade escolhida fica aqui metida, assim podes chamar o que queres com esta dificuldade
 var fooBar;
 var honorarray = [10];
 var honortime = [10];
@@ -242,30 +242,28 @@ function showHonor(){
 		showHonordb = false;
 	}else showHonordb = true;
 }
-/*
-function changeHonor(){
-    var scores = document.getElementById("scores");
-  if(scores.childNodes.length>1){
-    var child = scores.getElementsByTagName('p');
-	scores.removeChild(child);
-	}
-    console.log(scores.childNodes.length);
-    jogadores_scores.sort(compareFunction);
-    for(var i = 0; i < jogadores_scores.length; i++){
 
-    //TU AQUI NAO ESTAS A APAGAR ALGO QUE NAO DEVIAS DE APAGAR? A POSICAO 0 TEM LA UM GAJO!
-    
-	honorarray[0] = "Player:" + jogadores_scores[0].nick.toString() + "---" + jogadores_scores[0].points.toString() +"s";
-	var para = document.createElement("p");
-       var node = document.createTextNode(honorarray[0]);
-       var child = scores.childNodes[0];
-	para.appendChild(node);
-       scores.appendChild(para);
-       scores.replaceChild(para,child);
-       
-    }
-}
-*/
+function changeHonor(){
+   	document.getElementById("allhonorboard").style.display = "block";
+	document.getElementById("honorboard").style.display = "block";
+	document.getElementById("menubott").style.display = "block";
+	var scores = document.getElementById("scores");
+	//Eh so dos Acores e na sê apagá filhes!
+	if(scores.childNodes.length > 0)
+		while( scores.hasChildNodes() ){
+    		scores.removeChild(scores.lastChild);
+	}
+	jogadores_scores.sort(compareFunction);
+    for(var i = 0; i < jogadores_scores.length; i++){
+		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[i]);
+		para.appendChild(node);
+		scores.appendChild(para);
+	}
+	showHonordb = true;
+   }
+
 
 // Function to hide start menu and display the game page
 function fromHomeMenu(difficulty) {
@@ -445,7 +443,7 @@ function start(difficulty) {
 			jogadores_scores.push(playa);
 			//nem sei se isto funciona
 			jogadores_scores.sort(compareFunction);
-			showHonor();
+			changeHonor();
 			clockClear();
 			//start(difficulty);
 		}
