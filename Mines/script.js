@@ -83,7 +83,7 @@ tdimg = [ tdeasy, tdmedium, tdhard ];
 
 //validation form
 function validateForm(name) {
-    document.getElementById("usr").className="hidden";console.log(document.getElementById("usr").className);
+    document.getElementById("usr").className="hidden";
 	name = myForm.fname.value;
     document.getElementById("username").className="inlineblock";
     document.getElementById("usernameh3").appendChild(document.createTextNode(name));
@@ -215,17 +215,33 @@ function showHonor(){
 	document.getElementById("allhonorboard").style.display = "block";
 	document.getElementById("honorboard").style.display = "block";
 	document.getElementById("menubott").style.display = "none";
-	var element = document.getElementById("honorboard");
-	element.innerHTML = '';
+	var scores = document.getElementById("scores");
 	jogadores_scores.sort(compareFunction);
-for(var i = 0; i < jogadores_scores.length; i++){
+    for(var i = 0; i < jogadores_scores.length; i++){
 	honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
 	var para = document.createElement("p");
 	var node = document.createTextNode(honorarray[i]);
 	para.appendChild(node);
-	var element = document.getElementById("honorboard");
-	element.appendChild(para);
+	scores.appendChild(para);
 	}
+}
+function changeHonor(){
+    var scores = document.getElementById("scores");
+//   if(scores.childNodes.length>1){
+ /*   var child = scores.getElementsByTagName('p');
+	scores.removeChild(child);
+	}
+    console.log(scores.childNodes.length);
+    jogadores_scores.sort(compareFunction);
+    for(var i = 0; i < jogadores_scores.length; i++){*/
+	honorarray[0] = "Player:" + jogadores_scores[0].nick.toString() + "---" + jogadores_scores[0].points.toString() +"s";
+	var para = document.createElement("p");
+       var node = document.createTextNode(honorarray[0]);
+       var child = scores.childNodes[0];
+	para.appendChild(node);
+       scores.appendChild(para);
+       scores.replaceChild(para,child);
+   // }
 }
 
 // Function to hide start menu and display the game page
@@ -285,7 +301,14 @@ function start(difficulty) {
 	var nbombs = diff[difficulty].nbombs;
 	var bombrcl = nbombs;
 	var todiscover = (nrow*ncol-nbombs);
-	var progress = document.getElementById("countFlag");
+    var progress = document.getElementById("countFlag");
+
+    for(i=0;i<2;i++){
+    var playa = new Jogador(myForm.fname.value, clockCurrent);
+    jogadores_scores.push(playa);
+    //nem sei se isto funciona
+    jogadores_scores.sort(compareFunction);
+	changeHonor();}
 	
 	//Creates a table
 	createTable(difficulty, nrow, ncol);
@@ -397,7 +420,7 @@ function start(difficulty) {
 			jogadores_scores.push(playa);
 			//nem sei se isto funciona
 			jogadores_scores.sort(compareFunction);
-			showHonor();
+			changeHonor();
 			clockClear();
 			start(difficulty);
 		}
