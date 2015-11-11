@@ -20,7 +20,9 @@ var honortime = [10];
 clockMoving  = false;                
 clockActive  = false;                
 clockCurrent = -1;
-;
+
+
+
 
 //Defines which board and number of bombs
 easy = {
@@ -42,6 +44,15 @@ diff = [ easy, medium, hard ];
 
 tableid = [ "table0", "table1", "table2" ];
 
+
+//cenas
+
+function Jogador(nick, points){
+	this.nick = nick;
+	this.points = points;
+}
+
+var jogadores_scores = new Array();
 //-------------------------------------------------
 //Uses distinct css classes cells and sizes 
 tdeasy = {
@@ -204,28 +215,16 @@ function showHonor(){
 	document.getElementById("allhonorboard").style.display = "block";
 	document.getElementById("honorboard").style.display = "block";
 	document.getElementById("menubott").style.display = "none";
-	honorarray[0] = "Rodrigo Costa " + "---" + " 20s";
-	honortime[0]=20;
-	honorarray[1] = "Tiago Castanheira looooser "+ "---" + " 130s";
-	honortime[1]=130;
+	var element = document.getElementById("honorboard");
+	element.innerHTML = '';
+	jogadores_scores.sort(compareFunction);
+for(var i = 0; i < jogadores_scores.length; i++){
+	honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
 	var para = document.createElement("p");
-	var node = document.createTextNode(honorarray[0]);
+	var node = document.createTextNode(honorarray[i]);
 	para.appendChild(node);
 	var element = document.getElementById("honorboard");
 	element.appendChild(para);
-	node = document.createTextNode(honorarray[1]);
-	para = document.createElement("p");
-	para.appendChild(node);
-	element.appendChild(para);
-	c=150;
-	for(var i = 2; i <10;i++){
-		honorarray[i] = "Tiago Castanheira looooser "+ "---" + c + "s";
-		honortime[i]=c;
-		c+=20;
-		para = document.createElement("p");
-		node = document.createTextNode(honorarray[i]);
-		para.appendChild(node);
-		element.appendChild(para);
 	}
 }
 
@@ -393,20 +392,12 @@ function start(difficulty) {
 		if(todiscover === discovered){
 			clockStop();
 			alert("CONGRATS! YOU WINNNNN");
-			var element = document.getElementById("honorboard");
-			i=0;
-			while(clockCurrent<honortime[i]){
-				i++;
-			}
-			for(j=10;j>i;j--){
-				honorarray[j] = honorarray[j-1];
-				honortime[j] = honortime[j-1];
-			}
-			honorarray[j] =	myForm.fname.value + " --- " + clockCurrent + "s";
-			var para = document.createElement("p");
-			var node = document.createTextNode(honorarray[j]);
-			para.appendChild(node);
-			element.appendChild(para);
+			//TRETA
+			var playa = new Jogador(myForm.fname.value, clockCurrent);
+			jogadores_scores.push(playa);
+			//nem sei se isto funciona
+			jogadores_scores.sort(compareFunction);
+			showHonor();
 			clockClear();
 			start(difficulty);
 		}
@@ -570,7 +561,7 @@ function updateClock() {
 	function ticClock() {
       if (clockMoving) {
          ++ clockCurrent; }
-      if ((clockMoving)) // Max out display at 999
+      if ((clockMoving)) // Max out display at 999?
          updateClock(); 
       clockActive = clockMoving;
       if (clockActive)  {          
@@ -597,4 +588,8 @@ function updateClock() {
    ticClock();
 	}	
 	
-	
+
+function compareFunction(a,b){
+	if(a.points < b.points) return -1;
+	else return 1;
+}
