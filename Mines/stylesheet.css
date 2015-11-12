@@ -1,22 +1,23 @@
 *{font-family: Verdana,Tahoma,Arial,sans-serif;}
-.all{position: relative;margin: 20 auto;width: 1050px;padding: 10px;margin-top:60px}
+.all{position: relative;margin:auto;width: 1050px;padding: 10px;margin-top:60px}
 .hidden{display: none;}
 .inlineblock{display: inline-block;}
+.block{display:block;}
 
 
 /*Top bar*/
-#menutop{display: block;margin: 0px;padding: 0px;position:fixed;top:0;left:0;z-index: 1;width:100%;height:55px;
+#menutop{display: block;margin: 0px;padding: 0px;position:fixed;top:0;left:0;z-index: 1;width:100%;height:60px;
 	background-color:#80B3FF;box-shadow:2px 2px 20px 5px lightblue inset;}
 
-#titulo{display: inline-block;text-align: left;margin-right:-4px;border:0px;padding: 0px;vertical-align:middle;margin-left:10px;
+#title{display:inline-block;text-align: left;border:0px;padding: 0px;margin:0px;vertical-align:middle;margin-left:10px;
 	width:45%;height:60px;}
 #titleh3{color:white;cursor: pointer;}	
 #titleh3:hover{color:gray;}
 
-#usr{text-align: right;margin:0px ;border:0px;vertical-align:middle;
-	padding: 0px; width:52%; height:60px;}
-#usernameh3{text-align: right;margin:0px ;border:0px;vertical-align:middle;
-	padding: 0px; width:45%; height:60px;color:#333300;}
+#usr{text-align: right;margin: 0px ;border:0px;vertical-align:middle;
+	padding: 0px; width:50%; height:60px;}
+#usernameh3{display:inline-block;text-align: center;margin: 0px ;border:0px;vertical-align:middle;
+	padding: 0px; width: 100px; height: 60px;color: #333300;}
 
 
 /*Home page*/
@@ -32,8 +33,6 @@ h1{color:#0099FF;}
 
 
 /*Game Page*/
-#gamepage{display:none}
-
 #gamepanel{display:block;}
 
 .menu_btn{color: inherit;font-weight: bold;cursor: pointer;}
@@ -42,7 +41,7 @@ h1{color:#0099FF;}
 
 
 /*Table*/
-table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;margin: auto;box-shadow:3px 3px 20px black, 5px 5px 5px #000052; }
+table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer; border-spacing: 0;margin: auto;box-shadow:3px 3px 20px black, 5px 5px 5px #000052;}
 #table0{width: 290px; height: 290px;}
 #table1{width: 420px; height: 420px;}
 #table2{width: 770px; height: 420px;}
@@ -76,9 +75,10 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 #game{display: block;align: middle;}
 
 /*Progress*/
-#progress{display: block; padding: 0; border: 0;margin: auto;margin-bottom:30px; height: 50px; width: 1050px;background-color:lightgray;box-shadow:2px 2px 20px lightblue;border-radius: 25px;}
-#progressh3{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 20px black, 3px 3px 5px #000052; color:white;font-size: 1.9em;}
-#countFlag{display: inline-block; padding: 0; border: 0;margin-top:7px;width:45%;text-align:center;text-shadow:1px 1px 20px black, 2px 2px 5px #000052;color:white;font-size: 1.9em}
+#progress{display: block; padding: 0; border: 0;margin: auto;margin-bottom:30px; height: 50px; width: 1050px;background-color:white;box-shadow:3px 3px 20px black, 5px 5px 5px #000052;border-radius: 25px;}
+#againbutt{color: inherit; cursor: pointer;margin-bottom:10px;vertical-align:middle;}
+#progressh3{display: inline-block; padding: 0; border: 0;margin-top:7px;width:44.5%;text-align:center;color:#80B3FF;font-size: 1.9em;}
+#countFlag{display: inline-block; padding: 0; border: 0;margin-top:7px;width:42%;text-align:center;color:#80B3FF;font-size: 1.9em}
 
 /*menu game*/
 #menubott{padding: 0; border: 0;margin: auto;}
@@ -91,7 +91,8 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 /*honorboard*/
 .displayblock{display:block;}
 #allhonorboard{position: relative;margin: 20 auto;width: 1050px;padding: 10px;}
-#honorboard{ text-align: center; margin: 0; padding: 0; float: right;
+#honorh2{color:#80B3FF;}
+#honorboard{text-align: center; margin: 0; padding: 0; float: right;
     width: 1050px;}
 
 /*footer*/

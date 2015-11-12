@@ -7,7 +7,7 @@
 var board;
 var rows;
 var cols;
-var name = "Player1";
+var name;
 var hours;
 var mflags;
 var seconds;
@@ -17,8 +17,8 @@ var rightclick;
 var discovered;
 //dificuldade escolhida fica aqui metida, assim podes chamar o que queres com esta dificuldade
 var fooBar;
-var honorarray = [];
-var jogadores_scores = [];
+var honorarray = [10];
+var honortime = [10];
 clockMoving  = false;                
 clockActive  = false;                
 clockCurrent = -1;
@@ -48,6 +48,15 @@ diff = [ easy, medium, hard ];
 
 tableid = [ "table0", "table1", "table2" ];
 
+
+//cenas
+
+function Jogador(nick, points){
+	this.nick = nick;
+	this.points = points;
+}
+
+var jogadores_scores = new Array();
 //-------------------------------------------------
 //Uses distinct css classes cells and sizes 
 tdeasy = {
@@ -78,20 +87,11 @@ tdimg = [ tdeasy, tdmedium, tdhard ];
 
 
 //validation form
-function validateForm() {
-    document.getElementById('usr').classList.add('hidden');
-    document.getElementById('usr').classList.remove('inlineblock');
-    name = myForm.fname.value;
-    document.getElementById('username').classList.add('inlineblock');
-    document.getElementById('username').classList.remove('hidden');
-   /* var para = document.createElement("p");
-    para.appendChild));*/
-document.getElementById("usernameh3").appendChild(document.createTextNode(name));
-}
-
-function Jogador(nick, points){
-	this.nick = nick;
-	this.points = points;
+function validateForm(name) {
+    document.getElementById("usr").className="hidden";
+	name = myForm.fname.value;
+    document.getElementById("username").className="inlineblock";
+    document.getElementById("usernameh3").appendChild(document.createTextNode(name));
 }
 
 //-----------------------------------------------------------------
@@ -216,97 +216,66 @@ function expand(x, y, nrow, ncol, difficulty) {
 		setColor(x, y, nrow, ncol, difficulty);
 	}
 }
-//To show the honor board
 function showHonor(){
-    if(!showHonordb){
-	document.getElementById('allhonorboard').classList.add('block');
-	document.getElementById('allhonorboard').classList.remove('hidden');
-	document.getElementById('honorboard').classList.add('block');
-	document.getElementById('honorboard').classList.remove('hidden');
-	document.getElementById('menubott').classList.add('hidden');
-	document.getElementById('menubott').classList.remove('block');
+	document.getElementById("allhonorboard").style.display = "block";
+	document.getElementById("honorboard").style.display = "block";
+	document.getElementById("menubott").style.display = "block";
 	var scores = document.getElementById("scores");
+	//Eh so dos Acores e na sê apagá filhes!
 	if(scores.childNodes.length > 0)
 		while( scores.hasChildNodes() ){
     		scores.removeChild(scores.lastChild);
-		}
-    }
-    if(!showHonordb){
-	if(jogadores_scores.length - 1 > 3)
-	    jogadores_scores.pop();
+	}
+	jogadores_scores.sort(compareFunction);
     for(var i = 0; i < jogadores_scores.length; i++){
-		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + " --- " + jogadores_scores[i].points.toString() +"s";
+		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
 		var para = document.createElement("p");
 		var node = document.createTextNode(honorarray[i]);
 		para.appendChild(node);
 		scores.appendChild(para);
-    }
-	showHonordb=true;
-    }
-    else{
-	document.getElementById('allhonorboard').classList.add('hidden');
-	document.getElementById('allhonorboard').classList.remove('block');
-	document.getElementById('honorboard').classList.add('hidden');
-	document.getElementById('honorboard').classList.remove('block');
-	document.getElementById('menubott').classList.add('block');
-	document.getElementById('menubott').classList.remove('hidden');
-		showHonordb = false;
 	}
+
+	if(showHonordb){
+		document.getElementById("allhonorboard").style.display = "none";
+		document.getElementById("honorboard").style.display = "none";
+		document.getElementById("menubott").style.display = "block";
+		showHonordb = false;
+	}else showHonordb = true;
 }
 
-//To manipulate Honor Board
 function changeHonor(){
-    if(showHonordb){
-	document.getElementById('allhonorboard').classList.add('block');
-	document.getElementById('allhonorboard').classList.remove('hidden');
-	document.getElementById('honorboard').classList.add('block');
-	document.getElementById('honorboard').classList.remove('hidden');
-	document.getElementById('menubott').classList.add('hidden');
-	document.getElementById('menubott').classList.remove('block');
-   	      /*document.getElementById("allhonorboard").style.display = "block";
-	      document.getElementById("honorboard").style.display = "block";
-	      document.getElementById("menubott").style.display = "block";*/
+   	document.getElementById("allhonorboard").style.display = "block";
+	document.getElementById("honorboard").style.display = "block";
+	document.getElementById("menubott").style.display = "block";
 	var scores = document.getElementById("scores");
 	if(scores.childNodes.length > 0)
-	    while( scores.hasChildNodes() ){
+		while( scores.hasChildNodes() ){
     		scores.removeChild(scores.lastChild);
-	    }
-    }
-    if(showHonordb){
-	if(jogadores_scores.length > 10)
-	    jogadores_scores.pop();
-	for(var i = 0; i < jogadores_scores.length; i++){
-	    honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + " --- " + jogadores_scores[i].points.toString() +"s";
-	    var para = document.createElement("p");
-	    var node = document.createTextNode(honorarray[i]);
-	    para.appendChild(node);
-	    scores.appendChild(para);
 	}
-    }
-}
+	jogadores_scores.sort(compareFunction);
+    for(var i = 0; i < jogadores_scores.length; i++){
+		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + "---" + jogadores_scores[i].points.toString() +"s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[i]);
+		para.appendChild(node);
+		scores.appendChild(para);
+	}
+	showHonordb = true;
+   }
 
 
 // Function to hide start menu and display the game page
 function fromHomeMenu(difficulty) {
-    document.getElementById('home_page').classList.add('hidden');
-    document.getElementById('home_page').classList.remove('block');
-    document.getElementById('gamepage').classList.add('block');
-    document.getElementById('gamepage').classList.remove('hidden');
-
-/*	document.getElementById("home_page").style.display = "none";
-	document.getElementById("gamepage").style.display = "block";*/
+	document.getElementById("home_page").style.display = "none";
+	document.getElementById("gamepage").style.display = "block";
 	fooBar = difficulty;
 	start(fooBar);
 }
 
 //dispays home and hides the game page
 function goHome() {
-    document.getElementById('home_page').classList.add('block');
-    document.getElementById('home_page').classList.remove('hidden');
-    document.getElementById('gamepage').classList.add('hidden');
-    document.getElementById('gamepage').classList.remove('block');
-/*	document.getElementById("home_page").style.display = "block";
-	document.getElementById("gamepage").style.display = "none";*/
+	document.getElementById("home_page").style.display = "block";
+	document.getElementById("gamepage").style.display = "none";
 }
 
 //It shows the bombs when a person lose
@@ -354,11 +323,15 @@ function start(difficulty) {
 	var nbombs = diff[difficulty].nbombs;
 	var bombrcl = nbombs;
 	var todiscover = (nrow*ncol-nbombs);
-        var progress = document.getElementById("countFlag");
-        var node = document.createTextNode(nbombs);
-        var child = progress.childNodes[0];
-        progress.replaceChild(node,child);
-    
+    var progress = document.getElementById("countFlag");
+/* 
+    for(i=0;i<2;i++){
+    var playa = new Jogador(myForm.fname.value, clockCurrent);
+    jogadores_scores.push(playa);
+    //nem sei se isto funciona
+    jogadores_scores.sort(compareFunction);
+	changeHonor();}
+*/
 	//Creates a table
 	createTable(difficulty, nrow, ncol);
 
@@ -459,17 +432,19 @@ function start(difficulty) {
 					
 				}
 			}
-		}
+		}console.log(todiscover + " " + discovered);
 		//if the cells have been all discovered
 		if(todiscover === discovered){
 			clockStop();
 			alert("CONGRATS! YOU WINNNNN");
-			var playa = new Jogador(name, clockCurrent);
-		    jogadores_scores.push(playa);console.log(jogadores_scores);
-		    if(jogadores_scores.length>1)
-		        jogadores_scores.sort(compareFunction);
+			//TRETA
+			var playa = new Jogador(myForm.fname.value, clockCurrent);
+			jogadores_scores.push(playa);
+			//nem sei se isto funciona
+			jogadores_scores.sort(compareFunction);
 			changeHonor();
 			clockClear();
+			//start(difficulty);
 		}
 	};
 	
@@ -582,18 +557,14 @@ function start(difficulty) {
 			else if (exploded) {
 				confirm("GAME OVER");
 				clockClear();
-				start(difficulty);
+					start(difficulty);
 			}
 		}
 		//if the user has discovered all bombs
 		if(todiscover === discovered){
 			alert("CONGRATS! YOU WINNNNN");
-		        clockClear();
-		    	var playa = new Jogador(name, clockCurrent);
-			jogadores_scores.push(playa);
-			jogadores_scores.sort(compareFunction);
-			changeHonor();
 			clockClear();
+			start(difficulty);
 		}
 		return false;
 	};
