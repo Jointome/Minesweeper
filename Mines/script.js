@@ -15,10 +15,15 @@ var minutes;
 var exploded;
 var rightclick;
 var discovered;
-//dificuldade escolhida fica aqui metida, assim podes chamar o que queres com esta dificuldade
-var fooBar;
-var honorarray = [];
-var jogadores_scores = [];
+var honoreasy =[];
+var honormedium = [];
+var honorhard = [];
+var honorarray = [honoreasy,honormedium,honorhard];
+var jogadores_easy =[];
+var jogadores_hard = [];
+var jogadores_medium =[];
+var jogadores_scores = [jogadores_easy,jogadores_medium,jogadores_hard];
+var difficulty;
 clockMoving  = false;                
 clockActive  = false;                
 clockCurrent = -1;
@@ -56,7 +61,8 @@ tdeasy = {
 	read : "td4",
 	redbomb : "td5",
 	blackbomb : "td6",
-	bothbuttons : "td17"
+    bothbuttons : "td17",
+    changebuttons:"easy"
 };
 tdmedium = {
 	flag : "td7",
@@ -64,7 +70,8 @@ tdmedium = {
 	read : "td9",
 	redbomb : "td10",
 	blackbomb : "td11",
-	bothbuttons : "td18"
+    bothbuttons : "td18",
+    changebuttons:"medium"
 };
 tdhard = {
 	flag : "td12",
@@ -72,7 +79,8 @@ tdhard = {
 	read : "td14",
 	redbomb : "td15",
 	blackbomb : "td16",
-	bothbuttons : "td19"
+	bothbuttons : "td19",
+    changebuttons:"hard"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
@@ -84,9 +92,20 @@ function validateForm() {
     name = myForm.fname.value;
     document.getElementById('username').classList.add('inlineblock');
     document.getElementById('username').classList.remove('hidden');
-   /* var para = document.createElement("p");
-    para.appendChild));*/
-document.getElementById("usernameh3").appendChild(document.createTextNode(name));
+    document.getElementById('signout').classList.remove('hidden');
+    document.getElementById('signout').classList.add('inlineblock');
+    document.getElementById("usernameh3").appendChild(document.createTextNode(name));
+}
+
+function signOut(){
+    document.getElementById('usr').classList.add('inlineblock');
+    document.getElementById('usr').classList.remove('hidden');
+    name = "Player1";
+    document.getElementById('username').classList.add('hidden');
+    document.getElementById('username').classList.remove('inlineblock');
+    document.getElementById('signout').classList.remove('inlineblock');
+    document.getElementById('signout').classList.add('hidden');
+    document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[2]);
 }
 
 function Jogador(nick, points){
@@ -94,9 +113,28 @@ function Jogador(nick, points){
 	this.points = points;
 }
 
+// Function to hide start menu and display the game page
+function fromHomeMenu(diff) {
+    difficulty=diff;
+    document.getElementById('home_page').classList.add('hidden');
+    document.getElementById('home_page').classList.remove('block');
+    document.getElementById('gamepage').classList.add('block');
+    document.getElementById('gamepage').classList.remove('hidden');
+    for(var i = 0; i < 3;i++){
+	document.getElementById(tdimg[i].changebuttons).classList.remove('hidden');
+	document.getElementById(tdimg[i].changebuttons).classList.remove('nofu');
+    }
+	
+    document.getElementById(tdimg[difficulty].changebuttons).classList.add('hidden');
+    if(difficulty === 0)
+	document.getElementById(tdimg[1].changebuttons).classList.add('nofu');
+    else
+	document.getElementById(tdimg[0].changebuttons).classList.add('nofu');
+    start();
+}
 //-----------------------------------------------------------------
 // Function to create a Table
-function createTable(difficulty, rows, cols) {
+function createTable( rows, cols) {
 	var i;
 	var row;
 	var j;
@@ -114,7 +152,7 @@ function createTable(difficulty, rows, cols) {
 }
 
 // Function to positions the bombs at start
-function positionBomb(cols, rows, nbombs, difficulty) {
+function positionBomb(cols, rows, nbombs) {
 	var table = document.getElementById(tableid[difficulty]);
 	var i;
 	var x;
@@ -165,7 +203,7 @@ function verify(x, y, nrow, ncol) {
 
 //---------------------------------------------------------------------------------------------
 //set a css class for a cell in a specific situation
-function setColor(x, y, nrow, ncol, difficulty) {
+function setColor(x, y, nrow, ncol) {
 	var table = document.getElementById(tableid[difficulty]);
 	var cell = table.rows[y].cells[x];
 	//if is a cell without flag interrogation point or has been discovered
@@ -182,7 +220,7 @@ function setColor(x, y, nrow, ncol, difficulty) {
 			cell.appendChild(document.createTextNode(board[x][y]));
 		//if is a zero expands
 		else{
-			expand(x, y, nrow, ncol, difficulty);
+			expand(x, y, nrow, ncol);
 		}
 	}
 	//Set it to -2 to say it has been discovered and set's is class name
@@ -201,7 +239,7 @@ function notoutoftable(i, j, x, y, ncol, nrow) {
 }
 
 // Function that opens all cells around if it has no bombs around
-function expand(x, y, nrow, ncol, difficulty) {
+function expand(x, y, nrow, ncol) {
 	if(board[x][y] > -20 )
 	discovered++;
 	if (board[x][y] === 0 ) {
@@ -209,95 +247,69 @@ function expand(x, y, nrow, ncol, difficulty) {
 		for ( var i = -1; i < 2; i++)
 			for ( var j = -1; j < 2; j++)
 				if (notoutoftable(i, j, x, y, ncol, nrow) && board[x+i][y+j] !== -2) {
-					expand(x + i, y + j, nrow, ncol, difficulty);
+					expand(x + i, y + j, nrow, ncol);
 				}
 	}
 	if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
-		setColor(x, y, nrow, ncol, difficulty);
+		setColor(x, y, nrow, ncol);
 	}
 }
 //To show the honor board
-function showHonor(){
-    if(!showHonordb){
-	document.getElementById('allhonorboard').classList.add('block');
-	document.getElementById('allhonorboard').classList.remove('hidden');
-	document.getElementById('honorboard').classList.add('block');
-	document.getElementById('honorboard').classList.remove('hidden');
-	document.getElementById('menubott').classList.add('hidden');
-	document.getElementById('menubott').classList.remove('block');
-	var scores = document.getElementById("scores");
-	if(scores.childNodes.length > 0)
-		while( scores.hasChildNodes() ){
-    		scores.removeChild(scores.lastChild);
-		}
-    }
-    if(!showHonordb){
-	if(jogadores_scores.length - 1 > 3)
-	    jogadores_scores.pop();
-    for(var i = 0; i < jogadores_scores.length; i++){
-		honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + " --- " + jogadores_scores[i].points.toString() +"s";
-		var para = document.createElement("p");
-		var node = document.createTextNode(honorarray[i]);
-		para.appendChild(node);
-		scores.appendChild(para);
-    }
-	showHonordb=true;
-    }
-    else{
-	document.getElementById('allhonorboard').classList.add('hidden');
+function getMenuback(){
+    	document.getElementById('allhonorboard').classList.add('hidden');
 	document.getElementById('allhonorboard').classList.remove('block');
 	document.getElementById('honorboard').classList.add('hidden');
 	document.getElementById('honorboard').classList.remove('block');
 	document.getElementById('menubott').classList.add('block');
 	document.getElementById('menubott').classList.remove('hidden');
-		showHonordb = false;
-	}
 }
-
-//To manipulate Honor Board
-function changeHonor(){
-    if(showHonordb){
+function showHonor(){
 	document.getElementById('allhonorboard').classList.add('block');
 	document.getElementById('allhonorboard').classList.remove('hidden');
 	document.getElementById('honorboard').classList.add('block');
 	document.getElementById('honorboard').classList.remove('hidden');
 	document.getElementById('menubott').classList.add('hidden');
 	document.getElementById('menubott').classList.remove('block');
-   	      /*document.getElementById("allhonorboard").style.display = "block";
-	      document.getElementById("honorboard").style.display = "block";
-	      document.getElementById("menubott").style.display = "block";*/
+	var scores = document.getElementById("scores");
+	if(scores.childNodes.length > 0)
+		while(scores.hasChildNodes() ){
+    		scores.removeChild(scores.lastChild);
+		}
+    console.log(jogadores_scores[difficulty].length);
+    
+	if(jogadores_scores[difficulty].length - 1 > 3)
+	    jogadores_scores[difficulty].pop();
+	
+    for(var i = 0; i < jogadores_scores[difficulty].length; i++){
+		honorarray[difficulty][i] = "Player:" + jogadores_scores[difficulty][i].nick.toString() + " --- " + jogadores_scores[difficulty][i].points.toString() +"s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[difficulty][i]);
+		para.appendChild(node);
+		scores.appendChild(para);
+    }
+    
+}
+
+//To manipulate Honor Board
+function changeHonor(){
 	var scores = document.getElementById("scores");
 	if(scores.childNodes.length > 0)
 	    while( scores.hasChildNodes() ){
     		scores.removeChild(scores.lastChild);
 	    }
-    }
-    if(showHonordb){
-	if(jogadores_scores.length > 10)
-	    jogadores_scores.pop();
-	for(var i = 0; i < jogadores_scores.length; i++){
-	    honorarray[i] = "Player:" + jogadores_scores[i].nick.toString() + " --- " + jogadores_scores[i].points.toString() +"s";
+	if(jogadores_scores[difficulty].length > 10)
+	    jogadores_scores[difficulty].pop();
+	for(var i = 0; i < jogadores_scores[difficulty].length; i++){
+	    honorarray[difficulty][i] = "Player:" + jogadores_scores[difficulty][i].nick.toString() + " --- " + jogadores_scores[difficulty][i].points.toString() +"s";
 	    var para = document.createElement("p");
-	    var node = document.createTextNode(honorarray[i]);
+	    var node = document.createTextNode(honorarray[difficulty][i]);
 	    para.appendChild(node);
 	    scores.appendChild(para);
 	}
-    }
 }
 
 
-// Function to hide start menu and display the game page
-function fromHomeMenu(difficulty) {
-    document.getElementById('home_page').classList.add('hidden');
-    document.getElementById('home_page').classList.remove('block');
-    document.getElementById('gamepage').classList.add('block');
-    document.getElementById('gamepage').classList.remove('hidden');
 
-/*	document.getElementById("home_page").style.display = "none";
-	document.getElementById("gamepage").style.display = "block";*/
-	fooBar = difficulty;
-	start(fooBar);
-}
 
 //dispays home and hides the game page
 function goHome() {
@@ -305,12 +317,9 @@ function goHome() {
     document.getElementById('home_page').classList.remove('hidden');
     document.getElementById('gamepage').classList.add('hidden');
     document.getElementById('gamepage').classList.remove('block');
-/*	document.getElementById("home_page").style.display = "block";
-	document.getElementById("gamepage").style.display = "none";*/
 }
-
 //It shows the bombs when a person lose
-function ifhasBomb(x, y, ncol, nrow, difficulty) {
+function ifhasBomb(x, y, ncol, nrow) {
 	var table = document.getElementById(tableid[difficulty]);
 	var i;
 	var j;
@@ -335,8 +344,7 @@ function ifhasBomb(x, y, ncol, nrow, difficulty) {
 }              
 
 // Function to start the game
-function start(difficulty) {
-
+function start() {
 	hours = 0;
 	seconds = 0;
 	minutes = 0;
@@ -360,7 +368,7 @@ function start(difficulty) {
         progress.replaceChild(node,child);
     
 	//Creates a table
-	createTable(difficulty, nrow, ncol);
+	createTable( nrow, ncol);
 
 	//creates a multidimensional array that it is used for everything
         board = [ ncol ];
@@ -374,7 +382,7 @@ function start(difficulty) {
 	}
     
 	//Places the bombs on the array
-	board = positionBomb(ncol, nrow, nbombs, difficulty);
+	board = positionBomb(ncol, nrow, nbombs);
 	
 	//sets the number of bombs around each cell on it position
 	for (i = 0; i < ncol; i++) {
@@ -426,10 +434,10 @@ function start(difficulty) {
 			
 			//if it is diferent then a zero only shows the cell if not it expends all the cells around and shows it
 			if (board[x][y] !== 0 && board[x][y] !== -20){ 
-				setColor(x, y, nrow, ncol, difficulty);
+				setColor(x, y, nrow, ncol);
 				discovered++;}
 			else{
-				expand(x, y, nrow, ncol, difficulty);}
+				expand(x, y, nrow, ncol);}
 		}
 		//if is a click and hasn't the right button on the mous down
 		else if(rightclick === false && board[x][y] !== -2){
@@ -440,7 +448,7 @@ function start(difficulty) {
 			}
 			//If is on a bomb and it hasn't already exploded and explodes
 			if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
-				ifhasBomb(x, y, ncol, nrow, difficulty);
+				ifhasBomb(x, y, ncol, nrow);
 				exploded = true;
 			}
 			//if already has exploded starts the game again
@@ -452,10 +460,10 @@ function start(difficulty) {
 			//if it hasn't a flag shows it
 			else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 				if (board[x][y] !== 0 && board[x][y] !== -20) {
-					setColor(x, y, nrow, ncol, difficulty);
+					setColor(x, y, nrow, ncol);
 					discovered++;
 				} else if (board[x][y] === 0 || board[x][y] === -20) {
-					expand(x, y, nrow, ncol, difficulty);
+					expand(x, y, nrow, ncol);
 					
 				}
 			}
@@ -465,9 +473,9 @@ function start(difficulty) {
 			clockStop();
 			alert("CONGRATS! YOU WINNNNN");
 			var playa = new Jogador(name, clockCurrent);
-		    jogadores_scores.push(playa);console.log(jogadores_scores);
-		    if(jogadores_scores.length>1)
-		        jogadores_scores.sort(compareFunction);
+		    jogadores_scores[difficulty].push(playa);console.log(jogadores_scores[difficulty]);
+		    if(jogadores_scores[difficulty].length>1)
+		        jogadores_scores[difficulty].sort(compareFunction);
 			changeHonor();
 			clockClear();
 		}
@@ -520,10 +528,10 @@ function start(difficulty) {
 												&& (board[x + i][y + j] > -1 || (board[x + i][y + j] < -19 
 														&& board[x + i][y + j] > -29))) {
 											if(board[x + i][y + j] === 0){
-												expand(x + i, y + j, nrow, ncol,difficulty);
+												expand(x + i, y + j, nrow, ncol);
 											}
 											else {
-												setColor(x+i, y+j, nrow, ncol, difficulty);
+												setColor(x+i, y+j, nrow, ncol);
 												discovered++;
 											}
 										}
@@ -532,8 +540,7 @@ function start(difficulty) {
 												ncol, nrow)
 												&& (board[x + i][y + j] === 9 || board[x
 														+ i][y + j] === -29)) {
-											ifhasBomb(x + i, y + j, ncol, nrow,
-													difficulty);
+											ifhasBomb(x + i, y + j, ncol, nrow);
 											exploded = true;
 										}
 									}

@@ -8,19 +8,23 @@
 </head>
 <body>
   <div id="menutop">
-    <div id="title">
+    <div class="inlineblock" id="title">
       <h3 id="titleh3" onclick="goHome()" data-toggle="tooltip" data-placement="bottom" title="Get back to homepage">Minesweeper</h3>
     </div>
     <div class="inlineblock" id = "usr">
       <form name="myForm" action="javascript:validateForm()" method="post">
-	Username: <input type="text" name="fname" pattern = "[A-Z][a-zA-Z0-9]{2,20}" data-toggle="tooltip" data-placement="bottom"   title="Three letter/number or more" ><br>	
+	Username: <input type="text" name="fname" pattern = "[A-Z][a-zA-Z0-9]{2,20}" data-toggle="tooltip" data-placement="bottom"   title="Between three letter/number and 20"><br>	
 	Password: <input type="password" name="password" id="pw" data-toggle="tooltip" data-placement="bottom" title="Dont need anthing">
 	<input type="submit" class="hidden">
       </form>
     </div>
     <div class="hidden" id="username">
-      <h3 id="usernameh3">Hi!<br></h3>
+      <p id="usernameh3">Hi!<br></p>
     </div>
+    <div class = "hidden" id="signout"><p>
+	<button id="signoutbutton" type="button" onclick="signOut()"  data-toggle="tooltip" data-placement="bottom" title= "Press to Sign Out">Sign Out</button>
+	</p>
+     </div>
   </div>
   <!--Home page MENU-->
 	<div class="all" id="home_page">
@@ -47,17 +51,17 @@
 		<div class="all" id="gamepanel">
 			<div id="gamewprogress">
 			<div id="progress">
-				<p id="progressh3">00:00:00</p><button type="button" onclick="start(fooBar)" id="againbutt">PLAY AGAIN!</button><p id = "countFlag">00</p>
+				<p id="progressh3">00:00:00</p><button type="button" onclick="start(difficulty)" id="againbutt">PLAY AGAIN!</button><p id = "countFlag">00</p>
 			</div>
 			<div id="game">
 			</div>
 			</div>	
 			<div id ="menubott">
 				<p id = "pbott">
-					<button type="button" onclick="fromHomeMenu(0)" class="menu_game" id= "hidden" class="menu_home" data-placement="bottom" title= " Start a game on easy difficulty">Newbee</button>
-					<button type="button" onclick="fromHomeMenu(1)" class="menu_game" id="nofu" class="menu_home" data-placement="bottom" title= " Start a game on medium difficulty">Medium</button>
-					<button type="button" onclick="fromHomeMenu(2)" class="menu_game" class="menu_home" data-placement="bottom" title= " Start a game on hard difficulty">Impossibro</button>
-					<button type="button" onclick="showHonor()" class="menu_game" class="menu_home" data-placement="bottom" title= "Open Honor Board of actual difficulty">Honor Board</button>
+					<button type="button" onclick="fromHomeMenu(0)" class="menu_game" id="easy" data-placement="bottom" title= " Start a game on easy difficulty">Newbee</button>
+					<button type="button" onclick="fromHomeMenu(1)" class="menu_game" id="medium" data-placement="bottom" title= " Start a game on medium difficulty">Medium</button>
+					<button type="button" onclick="fromHomeMenu(2)" class="menu_game" id="hard" data-placement="bottom" title= " Start a game on hard difficulty">Impossibro</button>
+					<button type="button" onclick="showHonor()" class="menu_game" data-placement="bottom" title= "Open Honor Board of actual difficulty">Honor Board</button>
 				</p>
 			</div>
 		</div>
@@ -65,7 +69,7 @@
 	<div class="all, hidden" id="allhonorboard">
 				<hr>
 				<div id="honorboard">
-				  <h1 id = "honorh2">Honor Board</h1>
+				  <h1 id = "honorh2" onclick="getMenuback()">Honor Board</h1>
 				  <div id="scores">
 				    </div>
 				</div>
