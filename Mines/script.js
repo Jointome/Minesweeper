@@ -174,7 +174,7 @@ function positionBomb(cols, rows, nbombs) {
 			y = Math.floor((Math.random() * rows));
 		}
 		board[x][y] = 9;
-		table.rows[y].cells[x].className = "td1";
+		//table.rows[y].cells[x].className = "td1";
 	}
 	return board;
 }
