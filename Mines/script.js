@@ -15,24 +15,21 @@ var minutes;
 var exploded;
 var rightclick;
 var discovered;
-var honoreasy =[];
+var honoreasy = [];
 var honormedium = [];
 var honorhard = [];
-var honorarray = [honoreasy,honormedium,honorhard];
-var jogadores_easy =[];
+var honorarray = [ honoreasy, honormedium, honorhard ];
+var jogadores_easy = [];
 var jogadores_hard = [];
-var jogadores_medium =[];
-var jogadores_scores = [jogadores_easy,jogadores_medium,jogadores_hard];
+var jogadores_medium = [];
+var jogadores_scores = [ jogadores_easy, jogadores_medium, jogadores_hard ];
 var allhonor = false;
 var difficulty;
-clockMoving  = false;                
-clockActive  = false;                
+clockMoving = false;
+clockActive = false;
 clockCurrent = -1;
 // HONOR SHOW AND HIDE
 showHonordb = false;
-
-
-
 
 //Defines which board and number of bombs
 easy = {
@@ -62,8 +59,8 @@ tdeasy = {
 	read : "td4",
 	redbomb : "td5",
 	blackbomb : "td6",
-    bothbuttons : "td17",
-    changebuttons:"Easy"
+	bothbuttons : "td17",
+	changebuttons : "Easy"
 };
 tdmedium = {
 	flag : "td7",
@@ -71,8 +68,8 @@ tdmedium = {
 	read : "td9",
 	redbomb : "td10",
 	blackbomb : "td11",
-    bothbuttons : "td18",
-    changebuttons:"Medium"
+	bothbuttons : "td18",
+	changebuttons : "Medium"
 };
 tdhard = {
 	flag : "td12",
@@ -81,66 +78,72 @@ tdhard = {
 	redbomb : "td15",
 	blackbomb : "td16",
 	bothbuttons : "td19",
-    changebuttons:"Hard"
+	changebuttons : "Hard"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
-
 //validation form
 function validateForm() {
-    document.getElementById('usr').classList.add('hidden');
-    document.getElementById('usr').classList.remove('inlineblock');
-    name = myForm.fname.value;
-    document.getElementById('username').classList.add('inlineblock');
-    document.getElementById('username').classList.remove('hidden');
-    document.getElementById('signout').classList.remove('hidden');
-    document.getElementById('signout').classList.add('inlineblock');
-    document.getElementById("usernameh3").appendChild(document.createTextNode(name));
+	document.getElementById('usr').classList.add('hidden');
+	document.getElementById('usr').classList.remove('inlineblock');
+	name = myForm.fname.value;
+	document.getElementById('username').classList.add('inlineblock');
+	document.getElementById('username').classList.remove('hidden');
+	document.getElementById('signout').classList.remove('hidden');
+	document.getElementById('signout').classList.add('inlineblock');
+	document.getElementById("usernameh3").appendChild(
+			document.createTextNode(name));
 }
 
-function signOut(){
-    document.getElementById('usr').classList.add('inlineblock');
-    document.getElementById('usr').classList.remove('hidden');
-    name = "Player1";
-    document.getElementById('username').classList.add('hidden');
-    document.getElementById('username').classList.remove('inlineblock');
-    document.getElementById('signout').classList.remove('inlineblock');
-    document.getElementById('signout').classList.add('hidden');
-    document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[2]);
+function signOut() {
+	document.getElementById('usr').classList.add('inlineblock');
+	document.getElementById('usr').classList.remove('hidden');
+	name = "Player1";
+	document.getElementById('username').classList.add('hidden');
+	document.getElementById('username').classList.remove('inlineblock');
+	document.getElementById('signout').classList.remove('inlineblock');
+	document.getElementById('signout').classList.add('hidden');
+	document.getElementById('usernameh3').removeChild(
+			document.getElementById('usernameh3').childNodes[2]);
 }
 
-function Jogador(nick, points){
+function Jogador(nick, points) {
 	this.nick = nick;
 	this.points = points;
 }
 
 // Function to hide start menu and display the game page
 function fromHomeMenu(diff) {
-    difficulty=diff;
-    document.getElementById('home_page').classList.add('hidden');
-    document.getElementById('home_page').classList.remove('block');
-    document.getElementById('gamepage').classList.add('block');
-    document.getElementById('gamepage').classList.remove('hidden');
-    document.getElementById('allhonorboard').classList.add('hidden');
-    document.getElementById('allhonorboard').classList.remove('block');
-    document.getElementById('honorboard').classList.add('hidden');
-    document.getElementById('honorboard').classList.remove('block');
-    for(var i = 0; i < 3;i++){
-	document.getElementById(tdimg[1].changebuttons).classList.add('inlineblock');
-	document.getElementById(tdimg[i].changebuttons).classList.remove('hidden');
-	document.getElementById(tdimg[i].changebuttons).classList.remove('nofu');
-    }
-    document.getElementById(tdimg[difficulty].changebuttons).classList.add('hidden');
-    document.getElementById(tdimg[difficulty].changebuttons).classList.remove('inlineblock');
-    if(difficulty === 0)
-	document.getElementById(tdimg[1].changebuttons).classList.add('nofu');
-    else
-	document.getElementById(tdimg[0].changebuttons).classList.add('nofu');
-    start();
+	difficulty = diff;
+	document.getElementById('home_page').classList.add('hidden');
+	document.getElementById('home_page').classList.remove('block');
+	document.getElementById('gamepage').classList.add('block');
+	document.getElementById('gamepage').classList.remove('hidden');
+	document.getElementById('allhonorboard').classList.add('hidden');
+	document.getElementById('allhonorboard').classList.remove('block');
+	document.getElementById('honorboard').classList.add('hidden');
+	document.getElementById('honorboard').classList.remove('block');
+	for ( var i = 0; i < 3; i++) {
+		document.getElementById(tdimg[1].changebuttons).classList
+				.add('inlineblock');
+		document.getElementById(tdimg[i].changebuttons).classList
+				.remove('hidden');
+		document.getElementById(tdimg[i].changebuttons).classList
+				.remove('nofu');
+	}
+	document.getElementById(tdimg[difficulty].changebuttons).classList
+			.add('hidden');
+	document.getElementById(tdimg[difficulty].changebuttons).classList
+			.remove('inlineblock');
+	if (difficulty === 0)
+		document.getElementById(tdimg[1].changebuttons).classList.add('nofu');
+	else
+		document.getElementById(tdimg[0].changebuttons).classList.add('nofu');
+	start();
 }
 //-----------------------------------------------------------------
 // Function to create a Table
-function createTable( rows, cols) {
+function createTable(rows, cols) {
 	var i;
 	var row;
 	var j;
@@ -220,12 +223,12 @@ function setColor(x, y, nrow, ncol) {
 	else if (board[x][y] < -19) {
 		board[x][y] += 20;
 		board[x][y] -= (2 * board[x][y]);
-			cell.removeChild(cell.childNodes[0]);
+		cell.removeChild(cell.childNodes[0]);
 		//if is not a zero put a number on the cell
 		if (board[x][y] !== 0)
 			cell.appendChild(document.createTextNode(board[x][y]));
 		//if is a zero expands
-		else{
+		else {
 			expand(x, y, nrow, ncol);
 		}
 	}
@@ -246,13 +249,14 @@ function notoutoftable(i, j, x, y, ncol, nrow) {
 
 // Function that opens all cells around if it has no bombs around
 function expand(x, y, nrow, ncol) {
-	if(board[x][y] > -20 )
-	discovered++;
-	if (board[x][y] === 0 ) {
+	if (board[x][y] > -20)
+		discovered++;
+	if (board[x][y] === 0) {
 		board[x][y] = -2;
 		for ( var i = -1; i < 2; i++)
 			for ( var j = -1; j < 2; j++)
-				if (notoutoftable(i, j, x, y, ncol, nrow) && board[x+i][y+j] !== -2) {
+				if (notoutoftable(i, j, x, y, ncol, nrow)
+						&& board[x + i][y + j] !== -2) {
 					expand(x + i, y + j, nrow, ncol);
 				}
 	}
@@ -261,51 +265,53 @@ function expand(x, y, nrow, ncol) {
 	}
 }
 //To show the honor board
-function getMenuback(){
-    	document.getElementById('allhonorboard').classList.add('hidden');
+function getMenuback() {
+	document.getElementById('allhonorboard').classList.add('hidden');
 	document.getElementById('allhonorboard').classList.remove('block');
 	document.getElementById('honorboard').classList.add('hidden');
 	document.getElementById('honorboard').classList.remove('block');
 	document.getElementById('menubott').classList.add('block');
 	document.getElementById('menubott').classList.remove('hidden');
 }
-function showAllHonor(){
-    if(!allhonor){
-	document.getElementById('allhonorboard').classList.add('block');
-	document.getElementById('allhonorboard').classList.remove('hidden');
-	document.getElementById('honorboard').classList.add('block');
-	document.getElementById('honorboard').classList.remove('hidden');
-	var scores = document.getElementById("scores");
-	if(scores.childNodes.length > 0)
-	    while(scores.hasChildNodes() ){
-    		scores.removeChild(scores.lastChild);
-	    }
-	for(var j = 0 ; j < 3; j++){
-	    var para = document.createElement("h3");
-	    var node = document.createTextNode(tdimg[j].changebuttons);
-	    para.appendChild(node);
-	    scores.appendChild(para);
-	    if(jogadores_scores[j].length - 1 > 3)
-		jogadores_scores[j].pop();
-	    
-	    for(var i = 0; i < jogadores_scores[j].length; i++){
-		honorarray[j][i] = "Player:" + jogadores_scores[j][i].nick.toString() + " --- " + jogadores_scores[j][i].points.toString() +"s";
-		var para = document.createElement("p");
-		var node = document.createTextNode(honorarray[j][i]);
-		para.appendChild(node);
-		scores.appendChild(para);
-	    }
-	}allhonor = true;
-    }
-    else{
-	document.getElementById('allhonorboard').classList.add('hidden');
-	document.getElementById('allhonorboard').classList.remove('block');
-	document.getElementById('honorboard').classList.add('hidden');
-	document.getElementById('honorboard').classList.remove('block');
-	allhonor = false;
-    }	
+function showAllHonor() {
+	if (!allhonor) {
+		document.getElementById('allhonorboard').classList.add('block');
+		document.getElementById('allhonorboard').classList.remove('hidden');
+		document.getElementById('honorboard').classList.add('block');
+		document.getElementById('honorboard').classList.remove('hidden');
+		var scores = document.getElementById("scores");
+		if (scores.childNodes.length > 0)
+			while (scores.hasChildNodes()) {
+				scores.removeChild(scores.lastChild);
+			}
+		for ( var j = 0; j < 3; j++) {
+			var para = document.createElement("h3");
+			var node = document.createTextNode(tdimg[j].changebuttons);
+			para.appendChild(node);
+			scores.appendChild(para);
+			if (jogadores_scores[j].length - 1 > 3)
+				jogadores_scores[j].pop();
+
+			for ( var i = 0; i < jogadores_scores[j].length; i++) {
+				honorarray[j][i] = "Player:"
+						+ jogadores_scores[j][i].nick.toString() + " --- "
+						+ jogadores_scores[j][i].points.toString() + "s";
+				var para = document.createElement("p");
+				var node = document.createTextNode(honorarray[j][i]);
+				para.appendChild(node);
+				scores.appendChild(para);
+			}
+		}
+		allhonor = true;
+	} else {
+		document.getElementById('allhonorboard').classList.add('hidden');
+		document.getElementById('allhonorboard').classList.remove('block');
+		document.getElementById('honorboard').classList.add('hidden');
+		document.getElementById('honorboard').classList.remove('block');
+		allhonor = false;
+	}
 }
-function showHonor(){
+function showHonor() {
 	document.getElementById('allhonorboard').classList.add('block');
 	document.getElementById('allhonorboard').classList.remove('hidden');
 	document.getElementById('honorboard').classList.add('block');
@@ -313,68 +319,72 @@ function showHonor(){
 	document.getElementById('menubott').classList.add('hidden');
 	document.getElementById('menubott').classList.remove('block');
 	var scores = document.getElementById("scores");
-	if(scores.childNodes.length > 0)
-		while(scores.hasChildNodes() ){
-    		scores.removeChild(scores.lastChild);
+	if (scores.childNodes.length > 0)
+		while (scores.hasChildNodes()) {
+			scores.removeChild(scores.lastChild);
 		}
-    console.log(jogadores_scores[difficulty].length);
-    
-	if(jogadores_scores[difficulty].length - 1 > 3)
-	    jogadores_scores[difficulty].pop();
-	
-    for(var i = 0; i < jogadores_scores[difficulty].length; i++){
-		honorarray[difficulty][i] = "Player:" + jogadores_scores[difficulty][i].nick.toString() + " --- " + jogadores_scores[difficulty][i].points.toString() +"s";
+	console.log(jogadores_scores[difficulty].length);
+
+	if (jogadores_scores[difficulty].length - 1 > 3)
+		jogadores_scores[difficulty].pop();
+
+	for ( var i = 0; i < jogadores_scores[difficulty].length; i++) {
+		honorarray[difficulty][i] = "Player:"
+				+ jogadores_scores[difficulty][i].nick.toString() + " --- "
+				+ jogadores_scores[difficulty][i].points.toString() + "s";
 		var para = document.createElement("p");
 		var node = document.createTextNode(honorarray[difficulty][i]);
 		para.appendChild(node);
 		scores.appendChild(para);
-    }
-    
+	}
+
 }
 
 //To manipulate Honor Board
-function changeHonor(){
+function changeHonor() {
 	var scores = document.getElementById("scores");
-	if(scores.childNodes.length > 0)
-	    while( scores.hasChildNodes() ){
-    		scores.removeChild(scores.lastChild);
-	    }
-	if(jogadores_scores[difficulty].length > 10)
-	    jogadores_scores[difficulty].pop();
-	for(var i = 0; i < jogadores_scores[difficulty].length; i++){
-	    honorarray[difficulty][i] = "Player:" + jogadores_scores[difficulty][i].nick.toString() + " --- " + jogadores_scores[difficulty][i].points.toString() +"s";
-	    var para = document.createElement("p");
-	    var node = document.createTextNode(honorarray[difficulty][i]);
-	    para.appendChild(node);
-	    scores.appendChild(para);
+	if (scores.childNodes.length > 0)
+		while (scores.hasChildNodes()) {
+			scores.removeChild(scores.lastChild);
+		}
+	if (jogadores_scores[difficulty].length > 10)
+		jogadores_scores[difficulty].pop();
+	for ( var i = 0; i < jogadores_scores[difficulty].length; i++) {
+		honorarray[difficulty][i] = "Player:"
+				+ jogadores_scores[difficulty][i].nick.toString() + " --- "
+				+ jogadores_scores[difficulty][i].points.toString() + "s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[difficulty][i]);
+		para.appendChild(node);
+		scores.appendChild(para);
 	}
 }
 
-function getBackwinner(){
-    document.getElementById('winner').classList.add('hidden');
-    document.getElementById('winner').classList.remove('block');
-    document.getElementById('gamepage').classList.add('block');
-    document.getElementById('gamepage').classList.remove('hidden');
+function getBackwinner() {
+	document.getElementById('winner').classList.add('hidden');
+	document.getElementById('winner').classList.remove('block');
+	document.getElementById('gamepage').classList.add('block');
+	document.getElementById('gamepage').classList.remove('hidden');
 }
-function getBackloser(){
-    document.getElementById('loser').classList.add('hidden');
-    document.getElementById('loser').classList.remove('block');
-    document.getElementById('gamepage').classList.add('block');
-    document.getElementById('gamepage').classList.remove('hidden');
+function getBackloser() {
+	document.getElementById('loser').classList.add('hidden');
+	document.getElementById('loser').classList.remove('block');
+	document.getElementById('gamepage').classList.add('block');
+	document.getElementById('gamepage').classList.remove('hidden');
 }
 
 //dispays home and hides the game page
 function goHome() {
-    document.getElementById('allhonorboard').classList.add('hidden');
-    document.getElementById('allhonorboard').classList.remove('block');
-    document.getElementById('honorboard').classList.add('hidden');
-    document.getElementById('honorboard').classList.remove('block');
-    document.getElementById('menubott').classList.add('block');
-    document.getElementById('menubott').classList.remove('hidden');
-    document.getElementById('home_page').classList.add('block');
-    document.getElementById('home_page').classList.remove('hidden');
-    document.getElementById('gamepage').classList.add('hidden');
-    document.getElementById('gamepage').classList.remove('block');
+	document.getElementById('allhonorboard').classList.add('hidden');
+	document.getElementById('allhonorboard').classList.remove('block');
+	document.getElementById('honorboard').classList.add('hidden');
+	document.getElementById('honorboard').classList.remove('block');
+	document.getElementById('menubott').classList.add('block');
+	document.getElementById('menubott').classList.remove('hidden');
+	document.getElementById('home_page').classList.add('block');
+	document.getElementById('home_page').classList.remove('hidden');
+	document.getElementById('gamepage').classList.add('hidden');
+	document.getElementById('gamepage').classList.remove('block');
 }
 //It shows the bombs when a person lose
 function ifhasBomb(x, y, ncol, nrow) {
@@ -399,20 +409,20 @@ function ifhasBomb(x, y, ncol, nrow) {
 			}
 		}
 	}
-}              
+}
 
 // Function to start the game
 function start() {
 	hours = 0;
 	seconds = 0;
 	minutes = 0;
-	discovered = 0;	
+	discovered = 0;
 	exploded = false;
 	rightclick = false;
 	nrow = diff[difficulty].nrow;
 	ncol = diff[difficulty].ncol;
-        allhonor = false;
-    
+	allhonor = false;
+
 	var i;
 	var j;
 	var cell;
@@ -420,29 +430,29 @@ function start() {
 	var firstclick = false;
 	var nbombs = diff[difficulty].nbombs;
 	var bombrcl = nbombs;
-	var todiscover = (nrow*ncol-nbombs);
-        var progress = document.getElementById("countFlag");
-        var node = document.createTextNode(nbombs);
-        var child = progress.childNodes[0];
-        progress.replaceChild(node,child);
-    
+	var todiscover = (nrow * ncol - nbombs);
+	var progress = document.getElementById("countFlag");
+	var node = document.createTextNode(nbombs);
+	var child = progress.childNodes[0];
+	progress.replaceChild(node, child);
+
 	//Creates a table
-	createTable( nrow, ncol);
+	createTable(nrow, ncol);
 
 	//creates a multidimensional array that it is used for everything
-        board = [ ncol ];
-    	auxboard = [ ncol ];
+	board = [ ncol ];
+	auxboard = [ ncol ];
 	for (i = 0; i < ncol; i++) {
-	    board[i] = [ nrow ];
-	    auxboard[i] = [ nrow ];
+		board[i] = [ nrow ];
+		auxboard[i] = [ nrow ];
 		for (j = 0; j < nrow; j++) {
-		    board[i][j] = auxboard[i][j] = 0;
+			board[i][j] = auxboard[i][j] = 0;
 		}
 	}
-    
+
 	//Places the bombs on the array
 	board = positionBomb(ncol, nrow, nbombs);
-	
+
 	//sets the number of bombs around each cell on it position
 	for (i = 0; i < ncol; i++) {
 		for (j = 0; j < nrow; j++) {
@@ -452,20 +462,21 @@ function start() {
 		}
 	}
 	var table = document.getElementById(tableid[difficulty]);
-    clockClear();
-    
+	clockClear();
+
 	//If it has a click
 	table.onclick = function(event) {
 		var x = event.target.cellIndex;
 		var y = event.target.parentNode.rowIndex;
 		cell = table.rows[y].cells[x];
-		
+
 		//If it is the firstclick and is on a bomb
-		if (firstclick === false && rightclick === false &&(board[x][y] === 9 || board[x][y] === -29)) {
+		if (firstclick === false && rightclick === false
+				&& (board[x][y] === 9 || board[x][y] === -29)) {
 			firstclick = true;
 			clockStart();
 			cell.className = tdimg[difficulty].inte;
-			
+
 			//put's the bomb on the left corner if it hasn't a bomb
 			var countx = 0;
 			var county = 0;
@@ -481,7 +492,7 @@ function start() {
 			table.rows[county].cells[countx].className = "td1";
 			board[x][y] = 1;
 			board[countx][county] = 9;
-			
+
 			//Sets the number of bombs again on each cell
 			for (i = 0; i < ncol; i++) {
 				for (j = 0; j < nrow; j++) {
@@ -490,16 +501,17 @@ function start() {
 
 				}
 			}
-			
+
 			//if it is diferent then a zero only shows the cell if not it expends all the cells around and shows it
-			if (board[x][y] !== 0 && board[x][y] !== -20){ 
+			if (board[x][y] !== 0 && board[x][y] !== -20) {
 				setColor(x, y, nrow, ncol);
-				discovered++;}
-			else{
-				expand(x, y, nrow, ncol);}
+				discovered++;
+			} else {
+				expand(x, y, nrow, ncol);
+			}
 		}
 		//if is a click and hasn't the right button on the mous down
-		else if(rightclick === false && board[x][y] !== -2){
+		else if (rightclick === false && board[x][y] !== -2) {
 			//If is the firstclick sets the clock
 			if (firstclick === false) {
 				clockStart();
@@ -511,7 +523,7 @@ function start() {
 				exploded = true;
 			}
 			//if already has exploded starts the game again
-			
+
 			//if it hasn't a flag shows it
 			else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 				if (board[x][y] !== 0 && board[x][y] !== -20) {
@@ -519,36 +531,36 @@ function start() {
 					discovered++;
 				} else if (board[x][y] === 0 || board[x][y] === -20) {
 					expand(x, y, nrow, ncol);
-					
+
 				}
 			}
 		}
-	    if (exploded) {
-			    document.getElementById('loser').classList.add('block');
-			    document.getElementById('loser').classList.remove('hidden');
-			    document.getElementById('gamepage').classList.add('hidden');
-			    document.getElementById('gamepage').classList.remove('block');
-			    clockClear();
-			} 
+		if (exploded) {
+			document.getElementById('loser').classList.add('block');
+			document.getElementById('loser').classList.remove('hidden');
+			document.getElementById('gamepage').classList.add('hidden');
+			document.getElementById('gamepage').classList.remove('block');
+			clockClear();
+		}
 		//if the cells have been all discovered
-		if(todiscover === discovered){
-		    clockStop();
-		    document.getElementById('winner').classList.add('block');
-		    document.getElementById('winner').classList.remove('hidden');
-		    document.getElementById('gamepage').classList.add('hidden');
-		    document.getElementById('gamepage').classList.remove('block');
+		if (todiscover === discovered) {
+			clockStop();
+			document.getElementById('winner').classList.add('block');
+			document.getElementById('winner').classList.remove('hidden');
+			document.getElementById('gamepage').classList.add('hidden');
+			document.getElementById('gamepage').classList.remove('block');
 			var playa = new Jogador(name, clockCurrent);
-		    jogadores_scores[difficulty].push(playa);
-		    if(jogadores_scores[difficulty].length>1)
-		        jogadores_scores[difficulty].sort(compareFunction);
+			jogadores_scores[difficulty].push(playa);
+			if (jogadores_scores[difficulty].length > 1)
+				jogadores_scores[difficulty].sort(compareFunction);
 			changeHonor();
 			clockClear();
 		}
 	};
-	
+
 	// Received a right click
 	table.oncontextmenu = function(event) {
-		if(firstclick === true) {
+		if (firstclick === true) {
 			rightclick = true;
 			x = event.target.cellIndex;
 			y = event.target.parentNode.rowIndex;
@@ -556,7 +568,8 @@ function start() {
 			table.onmousedown = function(e) {
 				x = e.target.cellIndex;
 				y = e.target.parentNode.rowIndex;
-				if (e.button === 0 && e.which === 1 && board[x][y] === -2 && rightclick === true) {
+				if (e.button === 0 && e.which === 1 && board[x][y] === -2
+						&& rightclick === true) {
 					//received a right followed by a left click sets all around it gray
 					for ( var i = -1; i < 2; i++) {
 						for ( var j = -1; j < 2; j++) {
@@ -588,15 +601,17 @@ function start() {
 									for ( var j = -1; j < 2; j++) {
 										//if it is a cell without a bomb and a flag
 										if (notoutoftable(i, j, x, y, ncol,
-												nrow) 
-												&& board[x + i][y + j] !== 9 && board[x + i][y + j] !== -29
-												&& (board[x + i][y + j] > -1 || (board[x + i][y + j] < -19 
-														&& board[x + i][y + j] > -29))) {
-											if(board[x + i][y + j] === 0){
+												nrow)
+												&& board[x + i][y + j] !== 9
+												&& board[x + i][y + j] !== -29
+												&& (board[x + i][y + j] > -1 || (board[x
+														+ i][y + j] < -19 && board[x
+														+ i][y + j] > -29))) {
+											if (board[x + i][y + j] === 0) {
 												expand(x + i, y + j, nrow, ncol);
-											}
-											else {
-												setColor(x+i, y+j, nrow, ncol);
+											} else {
+												setColor(x + i, y + j, nrow,
+														ncol);
 												discovered++;
 											}
 										}
@@ -614,7 +629,9 @@ function start() {
 							}
 						}
 						//if the right button has been released set it to false
-						else{rightclick = false;}
+						else {
+							rightclick = false;
+						}
 					};
 
 				}
@@ -626,7 +643,7 @@ function start() {
 					board[x][y] -= (2 * board[x][y]);
 					board[x][y] -= 10;
 					bombrcl--;
-					if(progress.childNodes.length > 0)
+					if (progress.childNodes.length > 0)
 						progress.removeChild(progress.childNodes[0]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.className = tdimg[difficulty].flag;
@@ -635,7 +652,7 @@ function start() {
 				else if (board[x][y] < -9 && board[x][y] > -20) {
 					board[x][y] -= 10;
 					bombrcl++;
-					if(progress.childNodes.length > 0)
+					if (progress.childNodes.length > 0)
 						progress.removeChild(progress.childNodes[0]);
 					progress.appendChild(document.createTextNode(bombrcl));
 					cell.appendChild(document.createTextNode("?"));
@@ -648,28 +665,29 @@ function start() {
 					if (cell.childNodes.length > 0)
 						cell.removeChild(cell.childNodes[0]);
 					cell.className = tdimg[difficulty].inte;
-				}rightclick = false;
+				}
+				rightclick = false;
 			}
 			//if it has exploded
 			if (exploded) {
-			    document.getElementById('loser').classList.add('block');
-			    document.getElementById('loser').classList.remove('hidden');
-			    document.getElementById('gamepage').classList.add('hidden');
-			    document.getElementById('gamepage').classList.remove('block');
-			    clockClear();
+				document.getElementById('loser').classList.add('block');
+				document.getElementById('loser').classList.remove('hidden');
+				document.getElementById('gamepage').classList.add('hidden');
+				document.getElementById('gamepage').classList.remove('block');
+				clockClear();
 			}
 		}
 		//if the user has discovered all bombs
-	    if(todiscover === discovered){
-		    clockStop();
-		    document.getElementById('winner').classList.add('block');
-		    document.getElementById('winner').classList.remove('hidden');
-		    document.getElementById('gamepage').classList.add('hidden');
-		    document.getElementById('gamepage').classList.remove('block');
+		if (todiscover === discovered) {
+			clockStop();
+			document.getElementById('winner').classList.add('block');
+			document.getElementById('winner').classList.remove('hidden');
+			document.getElementById('gamepage').classList.add('hidden');
+			document.getElementById('gamepage').classList.remove('block');
 			var playa = new Jogador(name, clockCurrent);
-		    jogadores_scores[difficulty].push(playa);
-		    if(jogadores_scores[difficulty].length>1)
-		        jogadores_scores[difficulty].sort(compareFunction);
+			jogadores_scores[difficulty].push(playa);
+			if (jogadores_scores[difficulty].length > 1)
+				jogadores_scores[difficulty].sort(compareFunction);
 			changeHonor();
 			clockClear();
 		}
@@ -684,66 +702,72 @@ function updateClock() {
 	var digit = 0;
 	var digitm = 0;
 	var digith = 0;
-   
-     if (tempClock == -1) { tempClock = 0; }
-     while(tempClock >= 60){
-    	 tempClock-=60;
-    	 digitm++;
-    	 if(digitm===60){
-    		 digitm = 0;
-    		 digith++;
-    		 }
-     }
-     digit = tempClock;
-     var sec = digit;
-     var min = digitm;
-     var hou = digith;
-     if(digit < 10){
-    	 sec = "0" + digit;
-     }
-     if(digitm < 10){
-    	 min = "0" + digitm;
-     }
-     if(digith < 10){
-    	 hou = "0" + digith;
-     }
-	 document.getElementById("progressh3").innerHTML = hou + ":" + min + ":" + sec;
+
+	if (tempClock == -1) {
+		tempClock = 0;
 	}
-
-	function ticClock() {
-      if (clockMoving) {
-         ++ clockCurrent; }
-      if ((clockMoving)) // Max out display at 999?
-         updateClock(); 
-      clockActive = clockMoving;
-      if (clockActive)  {          
-         id = setTimeout("ticClock()",1000); } 
+	while (tempClock >= 60) {
+		tempClock -= 60;
+		digitm++;
+		if (digitm === 60) {
+			digitm = 0;
+			digith++;
+		}
 	}
+	digit = tempClock;
+	var sec = digit;
+	var min = digitm;
+	var hou = digith;
+	if (digit < 10) {
+		sec = "0" + digit;
+	}
+	if (digitm < 10) {
+		min = "0" + digitm;
+	}
+	if (digith < 10) {
+		hou = "0" + digith;
+	}
+	document.getElementById("progressh3").innerHTML = hou + ":" + min + ":"
+			+ sec;
+}
 
+function ticClock() {
+	if (clockMoving) {
+		++clockCurrent;
+	}
+	if ((clockMoving)) // Max out display at 999?
+		updateClock();
+	clockActive = clockMoving;
+	if (clockActive) {
+		id = setTimeout("ticClock()", 1000);
+	}
+}
 
+function clockStop() {
+	clockMoving = false;
+}
 
-  function clockStop() {
-   clockMoving = false; }
+function clockClear() {
+	if ((!clockMoving) && (clockCurrent != 0)) {
+		clockCurrent = 0;
+		updateClock();
+	}
+	clockCurrent = -1;
+	clockMoving = false;
+	updateClock();
+	if (clockActive)
+		clearTimeout(id);
+}
 
-  function clockClear() {
-   if ((!clockMoving) && (clockCurrent != 0)) {
-      clockCurrent = 0;
-      updateClock(); }
-   clockCurrent = -1;
-   clockMoving = false; 
-   updateClock();
-   if(clockActive)
-   	clearTimeout(id);
-  }
+function clockStart() {
+	clockWasActive = clockActive;
+	clockMoving = true;
+	ticClock();
+}
 
-	function clockStart() {
-   clockWasActive = clockActive;
-   clockMoving = true;
-   ticClock();
-	}	
-	
-
-function compareFunction(a,b){
-	if(a.points < b.points) return -1;
-	else return 1;
+function compareFunction(a, b) {
+	if (a.points < b.points)
+		return -1;
+	else
+		return 1;
 }
