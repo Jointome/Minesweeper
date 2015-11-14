@@ -23,6 +23,7 @@ var jogadores_easy =[];
 var jogadores_hard = [];
 var jogadores_medium =[];
 var jogadores_scores = [jogadores_easy,jogadores_medium,jogadores_hard];
+var allhonor = false;
 var difficulty;
 clockMoving  = false;                
 clockActive  = false;                
@@ -62,7 +63,7 @@ tdeasy = {
 	redbomb : "td5",
 	blackbomb : "td6",
     bothbuttons : "td17",
-    changebuttons:"easy"
+    changebuttons:"Easy"
 };
 tdmedium = {
 	flag : "td7",
@@ -71,7 +72,7 @@ tdmedium = {
 	redbomb : "td10",
 	blackbomb : "td11",
     bothbuttons : "td18",
-    changebuttons:"medium"
+    changebuttons:"Medium"
 };
 tdhard = {
 	flag : "td12",
@@ -80,7 +81,7 @@ tdhard = {
 	redbomb : "td15",
 	blackbomb : "td16",
 	bothbuttons : "td19",
-    changebuttons:"hard"
+    changebuttons:"Hard"
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
@@ -120,12 +121,17 @@ function fromHomeMenu(diff) {
     document.getElementById('home_page').classList.remove('block');
     document.getElementById('gamepage').classList.add('block');
     document.getElementById('gamepage').classList.remove('hidden');
+    document.getElementById('allhonorboard').classList.add('hidden');
+    document.getElementById('allhonorboard').classList.remove('block');
+    document.getElementById('honorboard').classList.add('hidden');
+    document.getElementById('honorboard').classList.remove('block');
     for(var i = 0; i < 3;i++){
+	document.getElementById(tdimg[1].changebuttons).classList.add('inlineblock');
 	document.getElementById(tdimg[i].changebuttons).classList.remove('hidden');
 	document.getElementById(tdimg[i].changebuttons).classList.remove('nofu');
     }
-	
     document.getElementById(tdimg[difficulty].changebuttons).classList.add('hidden');
+    document.getElementById(tdimg[difficulty].changebuttons).classList.remove('inlineblock');
     if(difficulty === 0)
 	document.getElementById(tdimg[1].changebuttons).classList.add('nofu');
     else
@@ -263,6 +269,42 @@ function getMenuback(){
 	document.getElementById('menubott').classList.add('block');
 	document.getElementById('menubott').classList.remove('hidden');
 }
+function showAllHonor(){
+    if(!allhonor){
+	document.getElementById('allhonorboard').classList.add('block');
+	document.getElementById('allhonorboard').classList.remove('hidden');
+	document.getElementById('honorboard').classList.add('block');
+	document.getElementById('honorboard').classList.remove('hidden');
+	var scores = document.getElementById("scores");
+	if(scores.childNodes.length > 0)
+	    while(scores.hasChildNodes() ){
+    		scores.removeChild(scores.lastChild);
+	    }
+	for(var j = 0 ; j < 3; j++){
+	    var para = document.createElement("h3");
+	    var node = document.createTextNode(tdimg[j].changebuttons);
+	    para.appendChild(node);
+	    scores.appendChild(para);
+	    if(jogadores_scores[j].length - 1 > 3)
+		jogadores_scores[j].pop();
+	    
+	    for(var i = 0; i < jogadores_scores[j].length; i++){
+		honorarray[j][i] = "Player:" + jogadores_scores[j][i].nick.toString() + " --- " + jogadores_scores[j][i].points.toString() +"s";
+		var para = document.createElement("p");
+		var node = document.createTextNode(honorarray[j][i]);
+		para.appendChild(node);
+		scores.appendChild(para);
+	    }
+	}allhonor = true;
+    }
+    else{
+	document.getElementById('allhonorboard').classList.add('hidden');
+	document.getElementById('allhonorboard').classList.remove('block');
+	document.getElementById('honorboard').classList.add('hidden');
+	document.getElementById('honorboard').classList.remove('block');
+	allhonor = false;
+    }	
+}
 function showHonor(){
 	document.getElementById('allhonorboard').classList.add('block');
 	document.getElementById('allhonorboard').classList.remove('hidden');
@@ -308,11 +350,27 @@ function changeHonor(){
 	}
 }
 
-
-
+function getBackwinner(){
+    document.getElementById('winner').classList.add('hidden');
+    document.getElementById('winner').classList.remove('block');
+    document.getElementById('gamepage').classList.add('block');
+    document.getElementById('gamepage').classList.remove('hidden');
+}
+function getBackloser(){
+    document.getElementById('loser').classList.add('hidden');
+    document.getElementById('loser').classList.remove('block');
+    document.getElementById('gamepage').classList.add('block');
+    document.getElementById('gamepage').classList.remove('hidden');
+}
 
 //dispays home and hides the game page
 function goHome() {
+    document.getElementById('allhonorboard').classList.add('hidden');
+    document.getElementById('allhonorboard').classList.remove('block');
+    document.getElementById('honorboard').classList.add('hidden');
+    document.getElementById('honorboard').classList.remove('block');
+    document.getElementById('menubott').classList.add('block');
+    document.getElementById('menubott').classList.remove('hidden');
     document.getElementById('home_page').classList.add('block');
     document.getElementById('home_page').classList.remove('hidden');
     document.getElementById('gamepage').classList.add('hidden');
@@ -353,7 +411,8 @@ function start() {
 	rightclick = false;
 	nrow = diff[difficulty].nrow;
 	ncol = diff[difficulty].ncol;
-	
+        allhonor = false;
+    
 	var i;
 	var j;
 	var cell;
@@ -392,9 +451,9 @@ function start() {
 
 		}
 	}
-	
 	var table = document.getElementById(tableid[difficulty]);
-	clockClear();
+    clockClear();
+    
 	//If it has a click
 	table.onclick = function(event) {
 		var x = event.target.cellIndex;
@@ -452,11 +511,7 @@ function start() {
 				exploded = true;
 			}
 			//if already has exploded starts the game again
-			else if (exploded) {
-				 alert("GAME OVER");
-				 clockClear();
-				 start(difficulty);
-			} 
+			
 			//if it hasn't a flag shows it
 			else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 				if (board[x][y] !== 0 && board[x][y] !== -20) {
@@ -468,12 +523,22 @@ function start() {
 				}
 			}
 		}
+	    if (exploded) {
+			    document.getElementById('loser').classList.add('block');
+			    document.getElementById('loser').classList.remove('hidden');
+			    document.getElementById('gamepage').classList.add('hidden');
+			    document.getElementById('gamepage').classList.remove('block');
+			    clockClear();
+			} 
 		//if the cells have been all discovered
 		if(todiscover === discovered){
-			clockStop();
-			alert("CONGRATS! YOU WINNNNN");
+		    clockStop();
+		    document.getElementById('winner').classList.add('block');
+		    document.getElementById('winner').classList.remove('hidden');
+		    document.getElementById('gamepage').classList.add('hidden');
+		    document.getElementById('gamepage').classList.remove('block');
 			var playa = new Jogador(name, clockCurrent);
-		    jogadores_scores[difficulty].push(playa);console.log(jogadores_scores[difficulty]);
+		    jogadores_scores[difficulty].push(playa);
 		    if(jogadores_scores[difficulty].length>1)
 		        jogadores_scores[difficulty].sort(compareFunction);
 			changeHonor();
@@ -586,19 +651,25 @@ function start() {
 				}rightclick = false;
 			}
 			//if it has exploded
-			else if (exploded) {
-				confirm("GAME OVER");
-				clockClear();
-				start(difficulty);
+			if (exploded) {
+			    document.getElementById('loser').classList.add('block');
+			    document.getElementById('loser').classList.remove('hidden');
+			    document.getElementById('gamepage').classList.add('hidden');
+			    document.getElementById('gamepage').classList.remove('block');
+			    clockClear();
 			}
 		}
 		//if the user has discovered all bombs
-		if(todiscover === discovered){
-			alert("CONGRATS! YOU WINNNNN");
-		        clockClear();
-		    	var playa = new Jogador(name, clockCurrent);
-			jogadores_scores.push(playa);
-			jogadores_scores.sort(compareFunction);
+	    if(todiscover === discovered){
+		    clockStop();
+		    document.getElementById('winner').classList.add('block');
+		    document.getElementById('winner').classList.remove('hidden');
+		    document.getElementById('gamepage').classList.add('hidden');
+		    document.getElementById('gamepage').classList.remove('block');
+			var playa = new Jogador(name, clockCurrent);
+		    jogadores_scores[difficulty].push(playa);
+		    if(jogadores_scores[difficulty].length>1)
+		        jogadores_scores[difficulty].sort(compareFunction);
 			changeHonor();
 			clockClear();
 		}

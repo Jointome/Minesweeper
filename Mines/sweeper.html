@@ -27,7 +27,7 @@
      </div>
   </div>
   <!--Home page MENU-->
-	<div class="all" id="home_page">
+	<div class="all " id="home_page">
 		<h1>Welcome to Minesweeper</h1>
 		<img id="home_pageimg" src="home_pageimg.jpg" alt="commic">
 		<p class="welcome">
@@ -40,7 +40,7 @@
 			<button id="leftbuttontop" type="button" onclick="fromHomeMenu(0)" class="menu_home" data-toggle="tooltip" data-placement="bottom" title= " Start a game on easy difficulty">Newbee</button>
 			<button type="button" onclick="fromHomeMenu(1)" class="menu_home" data-placement="bottom" title= " Start a game on medium difficulty">Medium</button>
 			<button type="button" onclick="fromHomeMenu(2)" class="menu_home" data-placement="bottom" title= " Start a game on hard difficulty">Impossibro</button>
-			<button type="button" onclick="showHonor()" class="menu_home"data-placement="bottom" title= "Open Honor Board">Honor Board</button>
+			<button type="button" onclick="showAllHonor()" class="menu_home"data-placement="bottom" title= "Open Honor Board">Honor Board</button>
 		</p>
 
 	</div>
@@ -51,30 +51,48 @@
 		<div class="all" id="gamepanel">
 			<div id="gamewprogress">
 			<div id="progress">
-				<p id="progressh3">00:00:00</p><button type="button" onclick="start(difficulty)" id="againbutt">PLAY AGAIN!</button><p id = "countFlag">00</p>
+				<p id="progressh3">00:00:00</p><button type="button" onclick="start(difficulty)" id="againbutt" data-placement="bottom" title= " Press to restart on the same difficulty ">PLAY AGAIN!</button><p id = "countFlag">00</p>
 			</div>
 			<div id="game">
 			</div>
 			</div>	
 			<div id ="menubott">
 				<p id = "pbott">
-					<button type="button" onclick="fromHomeMenu(0)" class="menu_game" id="easy" data-placement="bottom" title= " Start a game on easy difficulty">Newbee</button>
-					<button type="button" onclick="fromHomeMenu(1)" class="menu_game" id="medium" data-placement="bottom" title= " Start a game on medium difficulty">Medium</button>
-					<button type="button" onclick="fromHomeMenu(2)" class="menu_game" id="hard" data-placement="bottom" title= " Start a game on hard difficulty">Impossibro</button>
+					<button type="button" onclick="fromHomeMenu(0)" class="menu_game" id="Easy" data-placement="bottom" title= " Start a game on easy difficulty">Newbee</button>
+					<button type="button" onclick="fromHomeMenu(1)" class="menu_game" id="Medium" data-placement="bottom" title= " Start a game on medium difficulty">Medium</button>
+					<button type="button" onclick="fromHomeMenu(2)" class="menu_game" id="Hard" data-placement="bottom" title= " Start a game on hard difficulty">Impossibro</button>
 					<button type="button" onclick="showHonor()" class="menu_game" data-placement="bottom" title= "Open Honor Board of actual difficulty">Honor Board</button>
 				</p>
 			</div>
 		</div>
 	</div>
-	<div class="all, hidden" id="allhonorboard">
+	<div class=" all , hidden" id="allhonorboard">
 				<hr>
 				<div id="honorboard">
-				  <h1 id = "honorh2" onclick="getMenuback()">Honor Board</h1>
+				  <h1 id = "honorh2" onclick="getMenuback()" data-placement="bottom" title= " Press here to show menu ">Honor Board</h1>
 				  <div id="scores">
 				    </div>
 				</div>
 	</div>
 
+	<div class=" all , hidden" id="winner">
+	  <br>
+	  <h1 id="winnerh1"> You are THE WINNER </h1>
+	  <br>
+	  <img id="winnerimg" src="winner-02.jpg" alt="commicwinner">
+	   <br>
+	  <button type="button" onclick="getBackwinner()" class="menu_game" id="winnerbutt" data-placement="bottom" title= "Get back to game">Get Back</button>
+	</div>
+
+	<div class=" all , hidden " id="loser">
+	  <br>
+	  <h1 id="winnerh1"> You lost </h1>
+	  <br>
+	  <img id="loserimg" src="025393-110909-abbott.jpg" alt="commicloser">
+	  <br>
+	  <button type="button" onclick="getBackloser()" class="menu_game" id="loserbutt" data-placement="bottom" title= "Get back to game">Get Back</button>
+	</div>
+		
 	<!-- roda pé da página	 -->
 	<div id="footer">
 		<p>Created by: Rodrigo Costa & Tiago Castanheira</p>
