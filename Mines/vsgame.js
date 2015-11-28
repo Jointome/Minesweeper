@@ -86,7 +86,12 @@ function vsPlayer(){
 		alert(game_key + " --- " + game_num);
 
 		var link = 'http://twserver.alunos.dcc.fc.up.pt:8000/update?name=' + user + '&game=' + game_num + '&key=' + game_key;
-		
+		var source = new EventSource(link);
+
+		source.addEventListener('message', function(e) {
+		    var response2 = JSON.parse(e.data);
+		    alert(respose2);
+		}
 	    }
 	}
     }
