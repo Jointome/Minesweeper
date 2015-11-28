@@ -83,7 +83,7 @@ tdhard = {
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
 //validation form
-function validateForm() {
+function validateForm(){
 	document.getElementById('usr').classList.add('hidden');
 	document.getElementById('usr').classList.remove('inlineblock');
 	name = myForm.fname.value;
@@ -92,7 +92,7 @@ function validateForm() {
 	document.getElementById('signout').classList.remove('hidden');
 	document.getElementById('signout').classList.add('inlineblock');
 	document.getElementById("usernameh3").appendChild(
-			document.createTextNode(name));
+		document.createTextNode(name));
 }
 
 function signOut() {
@@ -103,8 +103,7 @@ function signOut() {
 	document.getElementById('username').classList.remove('inlineblock');
 	document.getElementById('signout').classList.remove('inlineblock');
 	document.getElementById('signout').classList.add('hidden');
-	document.getElementById('usernameh3').removeChild(
-			document.getElementById('usernameh3').childNodes[2]);
+	document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[3]);
 }
 
 function Jogador(nick, points) {
@@ -143,13 +142,17 @@ function fromHomeMenu(diff) {
 }
 //-----------------------------------------------------------------
 // Function to create a Table
-function createTable(rows, cols) {
+function createTable(rows, cols, place2) {
 	var i;
 	var row;
 	var j;
-	var place = document.getElementById("game"), table = document
+	var place3 = document.getElementById("game");
+	var place4 = document.getElementById("vsgamepage");
+	place4.textContent = '';
+	place3.textContent = '';
+	var place = document.getElementById(place2), table = document
 			.createElement("table");
-	place.textContent = '';
+
 	table.id = tableid[difficulty];
 	for (i = 0; i < rows; ++i) {
 		row = table.insertRow();
@@ -293,7 +296,7 @@ function showAllHonor() {
 				jogadores_scores[j].pop();
 
 			for ( var i = 0; i < jogadores_scores[j].length; i++) {
-				honorarray[j][i] = "Player:"
+				honorarray[j][i] = "Player:  "
 						+ jogadores_scores[j][i].nick.toString() + " --- "
 						+ jogadores_scores[j][i].points.toString() + "s";
 				var para = document.createElement("p");
@@ -413,305 +416,320 @@ function ifhasBomb(x, y, ncol, nrow) {
 
 // Function to start the game
 function start() {
-	hours = 0;
-	seconds = 0;
-	minutes = 0;
-	discovered = 0;
-	exploded = false;
-	rightclick = false;
-	nrow = diff[difficulty].nrow;
-	ncol = diff[difficulty].ncol;
-	allhonor = false;
+    hours = 0;
+    seconds = 0;
+    minutes = 0;
+    discovered = 0;
+    exploded = false;
+    rightclick = false;
+    nrow = diff[difficulty].nrow;
+    ncol = diff[difficulty].ncol;
+    allhonor = false;
+    
+    var i;
+    var j;
+    var cell;
+    var auxboard;
+    var firstclick = false;
+    var nbombs = diff[difficulty].nbombs;
+    var bombrcl = nbombs;
+    var todiscover = (nrow * ncol - nbombs);
+    var progress = document.getElementById("countFlag");
+    var node = document.createTextNode(nbombs);
+    var child = progress.childNodes[0];
+    var finished=false;
 
-	var i;
-	var j;
-	var cell;
-	var auxboard;
-	var firstclick = false;
-	var nbombs = diff[difficulty].nbombs;
-	var bombrcl = nbombs;
-	var todiscover = (nrow * ncol - nbombs);
-	var progress = document.getElementById("countFlag");
-	var node = document.createTextNode(nbombs);
-	var child = progress.childNodes[0];
-	progress.replaceChild(node, child);
+    progress.replaceChild(node, child);
 
-	//Creates a table
-	createTable(nrow, ncol);
-
-	//creates a multidimensional array that it is used for everything
-	board = [ ncol ];
-	auxboard = [ ncol ];
-	for (i = 0; i < ncol; i++) {
-		board[i] = [ nrow ];
-		auxboard[i] = [ nrow ];
-		for (j = 0; j < nrow; j++) {
-			board[i][j] = auxboard[i][j] = 0;
-		}
+    //Creates a table
+    createTable(nrow, ncol, "game");
+    
+    //creates a multidimensional array that it is used for everything
+    board = [ ncol ];
+    auxboard = [ ncol ];
+    for (i = 0; i < ncol; i++) {
+	board[i] = [ nrow ];
+	auxboard[i] = [ nrow ];
+	for (j = 0; j < nrow; j++) {
+	    board[i][j] = auxboard[i][j] = 0;
 	}
+    }
 
-	//Places the bombs on the array
-	board = positionBomb(ncol, nrow, nbombs);
+    //Places the bombs on the array
+  board = positionBomb(ncol, nrow, nbombs);
 
-	//sets the number of bombs around each cell on it position
-	for (i = 0; i < ncol; i++) {
-		for (j = 0; j < nrow; j++) {
-			if (board[i][j] !== 9)
-				auxboard[i][j] = board[i][j] = verify(i, j, nrow, ncol);
+    //sets the number of bombs around each cell on it position
+    for (i = 0; i < ncol; i++) {
+	for (j = 0; j < nrow; j++) {
+	    if (board[i][j] !== 9)
+		auxboard[i][j] = board[i][j] = verify(i, j, nrow, ncol);
 
-		}
 	}
-	var table = document.getElementById(tableid[difficulty]);
-	clockClear();
+    }
+    var table = document.getElementById(tableid[difficulty]);
+    clockClear();
 
-	//If it has a click
-	table.onclick = function(event) {
-		var x = event.target.cellIndex;
-		var y = event.target.parentNode.rowIndex;
-		cell = table.rows[y].cells[x];
+    //If it has a click
+    table.onclick = function(event) {
+	var x = event.target.cellIndex;
+	var y = event.target.parentNode.rowIndex;
+	cell = table.rows[y].cells[x];
 
-		//If it is the firstclick and is on a bomb
-		if (firstclick === false && rightclick === false
-				&& (board[x][y] === 9 || board[x][y] === -29)) {
-			firstclick = true;
-			clockStart();
-			cell.className = tdimg[difficulty].inte;
+	//If it is the firstclick and is on a bomb
+	if (firstclick === false && rightclick === false
+	    && board[x][y] === 9) {
+	    firstclick = true;
+	    clockStart();
+	    cell.className = tdimg[difficulty].inte;
 
-			//put's the bomb on the left corner if it hasn't a bomb
-			var countx = 0;
-			var county = 0;
-			while (board[countx][county] === 9) {
-				if (countx < ncol - 1)
-					countx++;
-				else {
-					countx = 0;
-					county++;
+	    //put's the bomb on the left corner if it hasn't a bomb
+	    var countx = 0;
+	    var county = 0;
+	    while (board[countx][county] === 9) {
+		if (countx < ncol - 1)
+		    countx++;
+		else {
+		    countx = 0;
+		    county++;
+		}
+	    }
+	    //Opens the cell that the user has clicked
+	    //table.rows[county].cells[countx].className = "td1";
+	    board[x][y] = 1;
+	    board[countx][county] = 9;
+
+	    //Sets the number of bombs again on each cell
+	    for (i = 0; i < ncol; i++) {
+		for (j = 0; j < nrow; j++) {
+		    if (board[i][j] !== 9)
+
+			auxboard[i][j] = board[i][j] = verify(i, j, nrow, ncol);
+
+		}
+	    }
+
+	    //if it is diferent then a zero only shows the cell if not it expends all the cells around and shows it
+	    if (board[x][y] !== 0 && board[x][y] !== -20) {
+		setColor(x, y, nrow, ncol);
+		discovered++;
+	    } else {
+		expand(x, y, nrow, ncol);
+	    }
+	}
+	//if is a click and hasn't the right button on the mous down
+	else if (rightclick === false && board[x][y] !== -2)
+	    //If is the firstclick sets the clock
+	    if (firstclick === false) {
+		clockStart();
+		firstclick = true;
+	    }
+	//If is on a bomb and it hasn't already exploded and explodes
+	if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
+	    ifhasBomb(x, y, ncol, nrow);
+	    exploded = true;
+	}
+	//if already has exploded starts the game again
+	//if it hasn't a flag shows it
+	else if (!(board[x][y] <= -10 && board[x][y] >= -19) && !exploded) {
+	    if (board[x][y] !== 0 && board[x][y] !== -20) {
+		setColor(x, y, nrow, ncol);
+		discovered++;
+	    } else if (board[x][y] === 0 || board[x][y] === -20) {
+		expand(x, y, nrow, ncol);
+
+	    }
+	}
+    if(exploded) {
+	    document.getElementById('loser').classList.add('block');
+	    document.getElementById('loser').classList.remove('hidden');
+	    document.getElementById('gamepage').classList.add('hidden');
+	    document.getElementById('gamepage').classList.remove('block');
+	    getMenuback();
+	    clockClear();
+    }
+    //if the cells have been all discovered
+    if (todiscover === discovered) {
+	clockStop();
+	document.getElementById('winner').classList.add('block');
+	document.getElementById('winner').classList.remove('hidden');
+	document.getElementById('gamepage').classList.add('hidden');
+	document.getElementById('gamepage').classList.remove('block');
+	getMenuback();
+	if(!finished){
+	    finished = true;
+	    var playa = new Jogador(name, clockCurrent);
+	    jogadores_scores[difficulty].push(playa);
+	    if (jogadores_scores[difficulty].length > 1)
+		jogadores_scores[difficulty].sort(compareFunction);
+	    changeHonor();
+	    clockClear();
+	}
+    }
+};
+
+    // Received a right click
+    table.oncontextmenu = function(event) {
+	if (firstclick === true) {
+	    rightclick = true;
+	    x = event.target.cellIndex;
+	    y = event.target.parentNode.rowIndex;
+	    cell = table.rows[y].cells[x];
+	    
+	    table.onmousedown = function(e) {
+		x = e.target.cellIndex;
+		y = e.target.parentNode.rowIndex;
+		if (e.button === 0 && e.which === 1 && board[x][y] === -2
+		    && rightclick === true) {
+		    //received a right followed by a left click sets all around it gray
+		    for ( var i = -1; i < 2; i++) {
+			for ( var j = -1; j < 2; j++) {
+			    if (notoutoftable(i, j, x, y, ncol, nrow)
+				&& (board[x + i][y + j] > -1 || (board[x
+								       + i][y + j] < -19))) {
+				table.rows[y + j].cells[x + i].className = tdimg[difficulty].bothbuttons;
+			    }
+			}
+		    }
+		    table.onmouseup = function(e) {
+			if (e.button === 0 && e.which === 1
+			    && board[x][y] === -2) {
+			    //if left button is set up it puts all aroud lightgray again
+			    var nbombs;
+			    for ( var i = -1; i < 2; i++) {
+				for ( var j = -1; j < 2; j++) {
+				    if (notoutoftable(i, j, x, y, ncol, nrow)
+					&& (board[x + i][y + j] > -1 || board[x
+									      + i][y + j] < -19)) {
+					table.rows[y + j].cells[x + i].className = tdimg[difficulty].inte;
+				    }
 				}
-			}
-			//Opens the cell that the user has clicked
-			table.rows[county].cells[countx].className = "td1";
-			board[x][y] = 1;
-			board[countx][county] = 9;
-
-			//Sets the number of bombs again on each cell
-			for (i = 0; i < ncol; i++) {
-				for (j = 0; j < nrow; j++) {
-					if (board[i][j] !== 9)
-						auxboard[i][j] = board[i][j] = verify(i, j, nrow, ncol);
-
-				}
-			}
-
-			//if it is diferent then a zero only shows the cell if not it expends all the cells around and shows it
-			if (board[x][y] !== 0 && board[x][y] !== -20) {
-				setColor(x, y, nrow, ncol);
-				discovered++;
-			} else {
-				expand(x, y, nrow, ncol);
-			}
-		}
-		//if is a click and hasn't the right button on the mous down
-		else if (rightclick === false && board[x][y] !== -2) {
-			//If is the firstclick sets the clock
-			if (firstclick === false) {
-				clockStart();
-				firstclick = true;
-			}
-			//If is on a bomb and it hasn't already exploded and explodes
-			if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
-				ifhasBomb(x, y, ncol, nrow);
-				exploded = true;
-			}
-			//if already has exploded starts the game again
-
-			//if it hasn't a flag shows it
-			else if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
-				if (board[x][y] !== 0 && board[x][y] !== -20) {
-					setColor(x, y, nrow, ncol);
-					discovered++;
-				} else if (board[x][y] === 0 || board[x][y] === -20) {
-					expand(x, y, nrow, ncol);
-
-				}
-			}
-		}
-		if (exploded) {
-			document.getElementById('loser').classList.add('block');
-			document.getElementById('loser').classList.remove('hidden');
-			document.getElementById('gamepage').classList.add('hidden');
-			document.getElementById('gamepage').classList.remove('block');
-			clockClear();
-		}
-		//if the cells have been all discovered
-		if (todiscover === discovered) {
-			clockStop();
-			document.getElementById('winner').classList.add('block');
-			document.getElementById('winner').classList.remove('hidden');
-			document.getElementById('gamepage').classList.add('hidden');
-			document.getElementById('gamepage').classList.remove('block');
-			var playa = new Jogador(name, clockCurrent);
-			jogadores_scores[difficulty].push(playa);
-			if (jogadores_scores[difficulty].length > 1)
-				jogadores_scores[difficulty].sort(compareFunction);
-			changeHonor();
-			clockClear();
-		}
-	};
-
-	// Received a right click
-	table.oncontextmenu = function(event) {
-		if (firstclick === true) {
-			rightclick = true;
-			x = event.target.cellIndex;
-			y = event.target.parentNode.rowIndex;
-			cell = table.rows[y].cells[x];
-			table.onmousedown = function(e) {
-				x = e.target.cellIndex;
-				y = e.target.parentNode.rowIndex;
-				if (e.button === 0 && e.which === 1 && board[x][y] === -2
-						&& rightclick === true) {
-					//received a right followed by a left click sets all around it gray
-					for ( var i = -1; i < 2; i++) {
-						for ( var j = -1; j < 2; j++) {
-							if (notoutoftable(i, j, x, y, ncol, nrow)
-									&& (board[x + i][y + j] > -1 || (board[x
-											+ i][y + j] < -19))) {
-								table.rows[y + j].cells[x + i].className = tdimg[difficulty].bothbuttons;
-							}
-						}
+			    }
+			    //then verifies if it has the number of flags equal to the number of bombs around
+			    nbombs = verifyAround(x, y, nrow, ncol);
+			    if (nbombs === auxboard[x][y]) {
+				for ( var i = -1; i < 2; i++) {
+				    for ( var j = -1; j < 2; j++) {
+					//if it is a cell without a bomb and a flag
+					if (notoutoftable(i, j, x, y, ncol,
+							  nrow)
+					    && board[x + i][y + j] !== 9
+					    && board[x + i][y + j] !== -29
+					    && (board[x + i][y + j] > -1 || (board[x
+										   + i][y + j] < -19 && board[x
+													      + i][y + j] > -29))) {
+					    if (board[x + i][y + j] === 0) {
+						expand(x + i, y + j, nrow, ncol);
+					    } else {
+						setColor(x + i, y + j, nrow,
+							 ncol);
+						discovered++;
+					    }
 					}
-					table.onmouseup = function(e) {
-						if (e.button === 0 && e.which === 1
-								&& board[x][y] === -2) {
-							//if left button is set up it puts all aroud lightgray again
-							var nbombs;
-							for ( var i = -1; i < 2; i++) {
-								for ( var j = -1; j < 2; j++) {
-									if (notoutoftable(i, j, x, y, ncol, nrow)
-											&& (board[x + i][y + j] > -1 || board[x
-													+ i][y + j] < -19)) {
-										table.rows[y + j].cells[x + i].className = tdimg[difficulty].inte;
-									}
-								}
-							}
-							//then verifies if it has the number of flags equal to the number of bombs around
-							nbombs = verifyAround(x, y, nrow, ncol);
-							if (nbombs === auxboard[x][y]) {
-								for ( var i = -1; i < 2; i++) {
-									for ( var j = -1; j < 2; j++) {
-										//if it is a cell without a bomb and a flag
-										if (notoutoftable(i, j, x, y, ncol,
-												nrow)
-												&& board[x + i][y + j] !== 9
-												&& board[x + i][y + j] !== -29
-												&& (board[x + i][y + j] > -1 || (board[x
-														+ i][y + j] < -19 && board[x
-														+ i][y + j] > -29))) {
-											if (board[x + i][y + j] === 0) {
-												expand(x + i, y + j, nrow, ncol);
-											} else {
-												setColor(x + i, y + j, nrow,
-														ncol);
-												discovered++;
-											}
-										}
-										//if it has bomb explodes
-										else if (notoutoftable(i, j, x, y,
-												ncol, nrow)
-												&& (board[x + i][y + j] === 9 || board[x
-														+ i][y + j] === -29)) {
-											ifhasBomb(x + i, y + j, ncol, nrow);
-											exploded = true;
-										}
-									}
-								}
+					//if it has bomb it explodes
+					else if (notoutoftable(i, j, x, y,
+							       ncol, nrow)
+						 && (board[x + i][y + j] === 9 || board[x
+											+ i][y + j] === -29)) {
+					    ifhasBomb(x + i, y + j, ncol, nrow);
+					    exploded = true;
+					}
+				    }
+				}
 
-							}
-						}
-						//if the right button has been released set it to false
-						else {
-							rightclick = false;
-						}
-					};
-
-				}
-			};
-			//If isn't in a discovered cell
-			if (board[x][y] !== -2 && !exploded) {
-				//if is a cell not manipuleted insert a flag
-				if (board[x][y] > -1) {
-					board[x][y] -= (2 * board[x][y]);
-					board[x][y] -= 10;
-					bombrcl--;
-					if (progress.childNodes.length > 0)
-						progress.removeChild(progress.childNodes[0]);
-					progress.appendChild(document.createTextNode(bombrcl));
-					cell.className = tdimg[difficulty].flag;
-				}
-				//if it has a flag turns to an interrogation point
-				else if (board[x][y] < -9 && board[x][y] > -20) {
-					board[x][y] -= 10;
-					bombrcl++;
-					if (progress.childNodes.length > 0)
-						progress.removeChild(progress.childNodes[0]);
-					progress.appendChild(document.createTextNode(bombrcl));
-					cell.appendChild(document.createTextNode("?"));
-					cell.className = tdimg[difficulty].inte;
-				}
-				//if it has an interrogation point sets it to not manipulated
-				else if (board[x][y] < -19) {
-					board[x][y] += 20;
-					board[x][y] -= (2 * board[x][y]);
-					if (cell.childNodes.length > 0)
-						cell.removeChild(cell.childNodes[0]);
-					cell.className = tdimg[difficulty].inte;
-				}
-				rightclick = false;
+			    }
 			}
-			//if it has exploded
-			if (exploded) {
-				document.getElementById('loser').classList.add('block');
-				document.getElementById('loser').classList.remove('hidden');
-				document.getElementById('gamepage').classList.add('hidden');
-				document.getElementById('gamepage').classList.remove('block');
-				clockClear();
+			//if the right button has been released set it to false
+			else {
+			    rightclick = false;
 			}
-		}
-		//if the user has discovered all bombs
-		if (todiscover === discovered) {
-			clockStop();
-			document.getElementById('winner').classList.add('block');
-			document.getElementById('winner').classList.remove('hidden');
-			document.getElementById('gamepage').classList.add('hidden');
-			document.getElementById('gamepage').classList.remove('block');
-			var playa = new Jogador(name, clockCurrent);
-			jogadores_scores[difficulty].push(playa);
-			if (jogadores_scores[difficulty].length > 1)
-				jogadores_scores[difficulty].sort(compareFunction);
-			changeHonor();
-			clockClear();
-		}
-		return false;
-	};
+		    };
 
+		}
+	    };
+	    //If isn't in a discovered cell
+	    if (board[x][y] !== -2 && !exploded) {
+		//if is a cell not manipuleted insert a flag
+		if (board[x][y] > -1) {
+		    board[x][y] -= (2 * board[x][y]);
+		    board[x][y] -= 10;
+		    bombrcl--;
+		    if (progress.childNodes.length > 0)
+			progress.removeChild(progress.childNodes[0]);
+		    progress.appendChild(document.createTextNode(bombrcl));
+		    cell.className = tdimg[difficulty].flag;
+		}
+		//if it has a flag turns to an interrogation point
+		else if (board[x][y] < -9 && board[x][y] > -20) {
+		    board[x][y] -= 10;
+		    bombrcl++;
+		    if (progress.childNodes.length > 0)
+			progress.removeChild(progress.childNodes[0]);
+		    progress.appendChild(document.createTextNode(bombrcl));
+		    cell.appendChild(document.createTextNode("?"));
+		    cell.className = tdimg[difficulty].inte;
+		}
+		//if it has an interrogation point sets it to not manipulated
+		else if (board[x][y] < -19) {
+		    board[x][y] += 20;
+		    board[x][y] -= (2 * board[x][y]);
+		    if (cell.childNodes.length > 0)
+			cell.removeChild(cell.childNodes[0]);
+		    cell.className = tdimg[difficulty].inte;
+		}
+		rightclick = false;
+	    }
+	    //if it has exploded
+	    if (exploded) {
+		if(!finished){
+		    finished=true;
+		    document.getElementById('loser').classList.add('block');
+		    document.getElementById('loser').classList.remove('hidden');
+		    document.getElementById('gamepage').classList.add('hidden');
+		    document.getElementById('gamepage').classList.remove('block');
+		    getMenuback();
+		    clockClear();
+		}
+	    }
+	}
+	//if the user has discovered all bombs
+	if (todiscover === discovered) {
+	    clockStop();
+	    document.getElementById('winner').classList.add('block');
+	    document.getElementById('winner').classList.remove('hidden');
+	    document.getElementById('gamepage').classList.add('hidden');
+	    document.getElementById('gamepage').classList.remove('block');
+	    getMenuback();
+	    if(!finished){
+		finished=true;
+		var playa = new Jogador(name, clockCurrent);
+		jogadores_scores[difficulty].push(playa);
+		if (jogadores_scores[difficulty].length > 1)
+		    jogadores_scores[difficulty].sort(compareFunction);
+		changeHonor();
+		clockClear();
+	    }
+	}
+	return false;
+
+    };
 }
 
 //updates the clock
 function updateClock() {
-	tempClock = clockCurrent;
-	var digit = 0;
-	var digitm = 0;
-	var digith = 0;
+    tempClock = clockCurrent;
+    var digit = 0;
+    var digitm = 0;
+    var digith = 0;
 
-	if (tempClock == -1) {
-		tempClock = 0;
-	}
-	while (tempClock >= 60) {
-		tempClock -= 60;
-		digitm++;
-		if (digitm === 60) {
-			digitm = 0;
-			digith++;
+    if (tempClock == -1) {
+	tempClock = 0;
+    }
+    while (tempClock >= 60) {
+	tempClock -= 60;
+	digitm++;
+	if (digitm === 60) {
+	    digitm = 0;
+	    digith++;
 		}
 	}
 	digit = tempClock;

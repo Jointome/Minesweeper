@@ -12,20 +12,15 @@
 #title{text-align: left;border:0px;padding: 0px;margin:0px;vertical-align:middle;margin-left:10px;
        width:39%;height:60px;}
 
-#titleh3{color:white;width:10%; data-toggle:tooltip;
-	 data-placement:bottom;}
+#titleh3{color:white;width:10%;}
 #titleh3:hover{color:gray;cursor: pointer;}
 
-#usr{text-align: right;margin: 0px ;border:0px;padding: 0px; width:59%; vertical-align: middle; height:60px;data-toggle:tooltip;
-     data-placement:bottom;	pattern:[A-Z][a-zA-Z0-9]{2,20}; }
+#usr{text-align: right;margin: 0px ;border:0px;padding: 0px; width:59%; vertical-align: middle; height:60px;}
 
 #username{margin: 0px ;border:0px;padding: 0px; width: 20%;vertical-align:middle; height:60px;}
 #usernameh3{text-align: center; color: #333300; line-height: 1em; font-size: 1.2em;margin: 10px ;border:0px;padding: 0px;font-weight: bold;}
 
 #signout{text-align: right;margin: 0px ;border:0px;vertical-align:middle;padding: 0px; width:35%;height:60px;}
-#signoutbutton{	data-toggle:tooltip; data-placement:bottom;}
-
-
 
 /*Home page*/
 #home_pageimg{border-radius: 25px;display:inline-block; margin-right: 20px;margin-left:30px;padding: 0px;border: 0px; vertical-align:top;}
@@ -34,10 +29,7 @@ p.welcome{display: inline-block;width:300px;}
 
 .menu_home{color: inherit;font-weight: bold;cursor: pointer; width: 200px; height: 40px; margin: 20px;}
 .menu_home:hover{color:gray;}
-#leftbuttontop{margin-left:65px; data-toggle:tooltip; data-placement:bottom;}
-#mediumbuttom{data-toggle:tooltip; data-placement:bottom;}
-#mediumbuttom{data-toggle:tooltip; data-placement:bottom;}
-#mediumbuttom{data-toggle:tooltip; data-placement:bottom;}
+#leftbuttontop{margin-left:65px;}
 
 h1{color:#0099FF;margin-left:30px;}
 
@@ -57,36 +49,38 @@ table{border: 10px ridge lightgray; background-color: lightgray;cursor: pointer;
 #table2{width: 770px; height: 420px;}
  
 td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
-.td2,.td3,.td4,.td5,.td6,.td17{width: 24px; height: 30px;}
+.td2,.td3,.td4,.td5,.td6,.td17{width: 24px; height: 24px;}
 .td1{background-color: red;}
 .td2{background-image: url("images/2000px-Minesweeper_flag.svg.png");background-size: 24px 24px;}
-.td3{background-image: none;font-weight: bold; background-color: none;text-align: center;}
+.td3{background-image: none;font-weight: bold; text-align: center;}
 .td4{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
 .td5{background-image: url("images/Bomb.jpeg");background-size: 24px 24px;}
 .td6{background-image: url("images/BombBl.jpg");background-size: 24px 24px;}
 .td17{background-color: gray;text-align: center}
 
-.td7,.td8,.td9,.td10,.td11,.td18{width: 19px; height: 25px;}
+.td7,.td8,.td9,.td10,.td11,.td18{width: 19px; height: 19px;}
 .td7{background-image:url("images/2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
-.td8{background-image: none;font-weight: bold;background-color: none; background-size: 25px 25px;}
+.td8{background-image: none;font-weight: bold; text-align: center;}
 .td9{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
 .td10{background-image: url("images/Bomb.jpeg");background-size: 19px 19px;}
 .td11{background-image: url("images/BombBl.jpg");background-size: 19px 19px;}
-.td18{background-color: gray;text-align: center}
+.td18{background-color: gray; text-align: center}
 
-.td12,.td13,.td14,.td15,.td16,.td19{width: 19px; height: 25px;}
+.td12,.td13,.td14,.td15,.td16,.td19{width: 19px; height: 19px;}
 .td12{background-image:url("images/2000px-Minesweeper_flag.svg.png"); background-size: 19px 19px;}
-.td13{background-image: none;font-weight: bold;background-color: none;text-align: center; background-size: 20px 20px;}
+.td13{background-image: none;font-weight: bold;text-align: center; background-size: 20px 20px;}
 .td14{background-color: lightgray; text-align: center;border: 1px solid gray; border-radius: 0px;padding:2px;}
 .td15{background-image: url("images/Bomb.jpeg");background-size: 19px 19px;}
 .td16{background-image: url("images/BombBl.jpg");background-size: 19px 19px;}
 .td19{background-color: gray;text-align: center}
 
-#game{display: block;align: middle;}
+/*GAME*/
+#game{display: block;}
+#vsgamepage{display: block;}
 
 /*Progress*/
 #progress{display: block; padding: 0; border: 0;margin: auto;margin-bottom:30px; height: 50px; width: 1050px;background-color:white;box-shadow:3px 3px 20px black, 5px 5px 5px #000052;border-radius: 25px;}
-#againbutt{color: inherit; cursor: pointer;margin-bottom:10px;vertical-align:middle; data-toggle:tooltip; data-placement:bottom;}
+#againbutt{color: inherit; cursor: pointer;margin-bottom:10px;vertical-align:middle;}
 #progressh3{display: inline-block; padding: 0; border: 0;margin-top:7px;width:44.5%;text-align:center;color:#80B3FF;font-size: 1.9em;}
 #countFlag{display: inline-block; padding: 0; border: 0;margin-top:7px;width:42%;text-align:center;color:#80B3FF;font-size: 1.9em}
 
@@ -95,16 +89,12 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 .menu_game{ color: inherit;font-weight: bold; cursor: pointer; width: 200px; height: 40px; margin: 20px;}
 .menu_game:hover{color:gray;}
 .nofu{margin-left:185px;}
-#Easy{data-toggle:tooltip; data-placement:bottom;}
-#Medium{data-toggle:tooltip; data-placement:bottom;}
-#Hard{data-toggle:tooltip; data-placement:bottom;}
-#honordiff{data-toggle:tooltip; data-placement:bottom;}
 
 
 /*honorboard*/
 .displayblock{display:block;}
-#allhonorboard{position: relative;margin: 20 auto;width: 1050px;padding: 10px;}
-#honorh2{color:#80B3FF; data-toggle:tooltip; data-placement:bottom;}
+#allhonorboard{position: relative;margin: 20px auto;width: 1050px;padding: 10px;}
+#honorh2{color:#80B3FF;}
 #honorh2:hover{color:gray;cursor: pointer;}
 #honorboard{text-align: center; margin: 0; padding: 0; float: right;
 	    width: 1050px;}
@@ -112,16 +102,15 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 /*winner*/
 #winnerh1{margin:auto;text-align: center;}
 #winnerimg{display:block;border-radius: 30px;padding: 0px;border: 0px; width:500px;margin:auto;}
-#winnerbutt{display:block;margin:auto;background-color: green;border-radius: 30px;data-toggle:tooltip; data-placement:bottom;}
+#winnerbutt{display:block;margin:auto;background-color: green;border-radius: 30px;}
 
 /*loser*/
 #loserh1{margin:auto;text-align: center;}
 #loserimg{display:block;border-radius: 30px;padding: 0px;border: 0px; width:500px;margin:auto;}
-#loserbutt{display:block;margin:auto;background-color: red;border-radius: 30px;data-toggle:tooltip; data-placement:bottom;}
+#loserbutt{display:block;margin:auto;background-color: red;border-radius: 30px;}
 
 /*footer*/
 #footer {background: #fff; border-top: 2px solid #e0e0e0; clear: both; color: gray; margin: 0 auto; padding: 10px 0; text-align: center;
-	width: 1050px;line-height: 1.5em; font-size: 0.9em;
-}
+	width: 1050px;line-height: 1.5em; font-size: 0.9em;}
 
 #footer p {margin: 0; padding: 0; text-align: center; font-size: 1em;}
