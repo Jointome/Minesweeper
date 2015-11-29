@@ -25,6 +25,7 @@ var jogadores_medium = [];
 var jogadores_scores = [ jogadores_easy, jogadores_medium, jogadores_hard ];
 var allhonor = false;
 var difficulty;
+var online = false;
 clockMoving = false;
 clockActive = false;
 clockCurrent = -1;
@@ -82,18 +83,7 @@ tdhard = {
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
-//validation form
-function validateForm(){
-	document.getElementById('usr').classList.add('hidden');
-	document.getElementById('usr').classList.remove('inlineblock');
-	name = myForm.fname.value;
-	document.getElementById('username').classList.add('inlineblock');
-	document.getElementById('username').classList.remove('hidden');
-	document.getElementById('signout').classList.remove('hidden');
-	document.getElementById('signout').classList.add('inlineblock');
-	document.getElementById("usernameh3").appendChild(
-		document.createTextNode(name));
-}
+
 
 function signOut() {
 	document.getElementById('usr').classList.add('inlineblock');
@@ -104,6 +94,7 @@ function signOut() {
 	document.getElementById('signout').classList.remove('inlineblock');
 	document.getElementById('signout').classList.add('hidden');
 	document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[3]);
+	
 }
 
 function Jogador(nick, points) {
@@ -326,8 +317,8 @@ function showHonor() {
 		while (scores.hasChildNodes()) {
 			scores.removeChild(scores.lastChild);
 		}
-	console.log(jogadores_scores[difficulty].length);
-
+	//console.log(jogadores_scores[difficulty].length);
+	if(!online){
 	if (jogadores_scores[difficulty].length - 1 > 3)
 		jogadores_scores[difficulty].pop();
 
@@ -340,7 +331,9 @@ function showHonor() {
 		para.appendChild(node);
 		scores.appendChild(para);
 	}
-
+	}
+	if(online)
+	callRanking();
 }
 
 //To manipulate Honor Board
@@ -416,6 +409,7 @@ function ifhasBomb(x, y, ncol, nrow) {
 
 // Function to start the game
 function start() {
+	online = false;
     hours = 0;
     seconds = 0;
     minutes = 0;

@@ -5,6 +5,8 @@ var URL =  "http://twserver.alunos.dcc.fc.up.pt:8000/"
 var curPlayer = '';
 var game_num = null;
 var game_key = null;
+var opponent = false;
+
 //var players = ["player1","player2"];
 
 function login(){
@@ -73,6 +75,9 @@ function createvsgame(){
 
 function vsPlayer(){
     createvsgame();
+    online = true;
+    var table = document.getElementById(tableid[difficulty]);
+    var quemJoga = null;
     var params = {'name':user, 'pass': pass, 'level':"beginner", 'group':37};
     var req = new XMLHttpRequest();
     req.open("POST", URL+"join", true);
@@ -88,12 +93,146 @@ function vsPlayer(){
 		var link = 'http://twserver.alunos.dcc.fc.up.pt:8000/update?name=' + user + '&game=' + game_num + '&key=' + game_key;
 		var source = new EventSource(link);
 
-		source.addEventListener('message', function(e) {
-		    var response2 = JSON.parse(e.data);
-		    alert(respose2);
-		}
-	    }
+			source.addEventListener('message', function(e) {
+		   	   var ansL = JSON.parse(e.data);
+
+		    	  if(ansL["opponent"] != undefined)
+		     	 	opponent = true;//aqui dá quem é o opponent
+
+		     	  if(ansL["turn"] != undefined){
+			     	  	quemJoga = ansL["turn"];
+			     	  	alert("Quem joga agora e o idiota com o nome de: " + ansL["turn"]);
+					}
+					else{
+						alert("Deu asneira aqui");
+					}
+
+				   if(ansL["move"] != undefined){
+				   		var array = ansL["move"]["cells"];
+				   		alert("entrou!");
+				   		expandeX(array, table);
+
+				   }
+				   if(ansL["winner"]!= undefined){
+				   	if(user === ansL["winner"])
+				   		alert("WINNER");
+				   	else
+				   		alert("LOSER");
+				   }
+
+					if(user === quemJoga){
+						table.onclick = function (event) {
+						var x = event.target.cellIndex + 1;
+						var y = event.target.parentNode.rowIndex + 1;
+						cell = table.rows[y-1].cells[x-1];
+			        	alert(x + " " + y);
+			    		clickFoleiro(user, game_num, game_key, y, x);
+		    		}
+
+
+			}
+			else{
+				table.onclick = function(event){
+					alert("Não e a tua vez!");
+				}
+			}
+
+
+	 		},false);
+
+	 	}
 	}
     }
     req.send(JSON.stringify(params));
+}
+
+function clickFoleiro(user, game_num, game_key, row, col){
+var params = {'name': user, 'game': game_num, 'key': game_key, 'row': row, 'col': col};
+
+		var req = new XMLHttpRequest();
+		req.open("POST", URL+"notify", true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				var response = JSON.parse(req.responseText);
+				if(req.responseText == "{}"){
+					alert("HEISH CA PUTA DE TIRO NESTE BURACO")
+					return;
+				}
+				else{
+					alert(response["error"]);
+				}
+			}
+		}
+		req.send(JSON.stringify(params));	
+}
+
+function expandeX(array, table){
+	for(var i = 0; i < array.length; i++){
+		if(!(array[i][2] === 0 || array[i][2]== -1) ){
+		table.rows[array[i][0] - 1].cells[array[i][1] - 1].appendChild(document.createTextNode(array[i][2]));
+		}
+		if(array[i][2] == -1)
+			table.rows[array[i][0] - 1].cells[array[i][1] - 1].className = tdimg[difficulty].blackbomb;
+		else
+			table.rows[array[i][0] - 1].cells[array[i][1] - 1].className = tdimg[difficulty].read;
+
+	}
+}
+
+function callRanking(){
+var array = ["beginner","intermediate","expert"];
+
+var params = {'level': array[difficulty]};
+
+		var req = new XMLHttpRequest();
+		req.open("POST", URL+"ranking", true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				var response = JSON.parse(req.responseText);
+				if(response["ranking"] != undefined){
+					var outroA = response["ranking"];
+					for(var i = 0; i < outroA.length; i++){
+						var para = document.createElement("p");
+						var node = document.createTextNode(outroA[i].name + " " + outroA[i].score);
+						para.appendChild(node);
+						document.getElementById("scores").appendChild(para);
+					}
+
+				}
+				else{
+					alert(response["error"]);
+				}
+			}
+		}
+		req.send(JSON.stringify(params));	
+}
+
+
+
+function quitGame(){
+	if(game_key!=null){
+		if(!opponent){
+		var params = {'name': user, 'key': game_key, 'game': game_num};
+		var req = new XMLHttpRequest();
+		req.open("POST", URL + "leave", true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.onreadystatechange = function () {
+		    if (req.readyState == 4 && req.status == 200) {
+		    	var response = JSON.parse(req.responseText);
+		        alert("Abandonaste a fila de espera!");
+		        signOut();
+		        user = "";
+		        pass = "";
+			}
+			
+		}
+		req.send(JSON.stringify(params));
+	}
+	else {
+		alert("LOSER NAO SAIS DAQUI ATE ACABARES O JOGO CRL");
+	}
+	}
+	
 }
