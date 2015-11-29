@@ -114,10 +114,14 @@ function vsPlayer(){
 
 				   }
 				   if(ansL["winner"]!= undefined){
-				   	if(user === ansL["winner"])
+				   	if(user === ansL["winner"]){
 				   		alert("WINNER");
-				   	else
+				   		game_key = "";
+				   	}
+				   	else{
 				   		alert("LOSER");
+				   		game_key = "";
+				   	}
 				   }
 
 					if(user === quemJoga){
