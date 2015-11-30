@@ -41,7 +41,7 @@ function login(){
 }
 
 
-function showvsgame(){
+function showvsgame(difficulty){
     document.getElementById('home_page').classList.add('hidden');
     document.getElementById('home_page').classList.remove('block');
     document.getElementById('gamepage').classList.add('block');
@@ -116,11 +116,15 @@ function vsPlayer(){
 				   if(ansL["winner"]!= undefined){
 				   	if(user === ansL["winner"]){
 				   		alert("WINNER");
-				   		game_key = "";
+				   	    game_key = null;
+					    game_num=null;
+					    goHome();
 				   	}
 				   	else{
 				   		alert("LOSER");
-				   		game_key = "";
+				   	    game_key = null;
+					    game_num = null;
+					    goHome();
 				   	}
 				   }
 
@@ -216,7 +220,7 @@ var params = {'level': array[difficulty]};
 
 
 function quitGame(){
-	if(game_key!=null){
+	if(game_key != null){
 		if(!opponent){
 		var params = {'name': user, 'key': game_key, 'game': game_num};
 		var req = new XMLHttpRequest();
@@ -238,5 +242,6 @@ function quitGame(){
 		alert("LOSER NAO SAIS DAQUI ATE ACABARES O JOGO CRL");
 	}
 	}
+    else signOut();
 	
 }

@@ -102,6 +102,22 @@ function Jogador(nick, points) {
 	this.points = points;
 }
 
+
+function showbuttons(which){
+    document.getElementById('onlinebutton').classList.add('hidden');
+    document.getElementById('offlinebutton').classList.add('hidden');
+    if(which === 0){
+	document.getElementById('easybuttonvs').classList.remove('hidden');
+	document.getElementById('mediumbuttonvs').classList.remove('hidden');
+	document.getElementById('hardbuttonvs').classList.remove('hidden');
+    }
+    else{
+	document.getElementById('leftbuttontop').classList.remove('hidden');
+	document.getElementById('mediumbutton').classList.remove('hidden');
+	document.getElementById('hardbutton').classList.remove('hidden');
+    }
+}
+
 // Function to hide start menu and display the game page
 function fromHomeMenu(diff) {
 	difficulty = diff;

@@ -45,13 +45,19 @@
 		<br> <br>
 		<p>
 			<button id="leftbuttontop" type="button" onclick="fromHomeMenu(0)"
-				class="menu_home"
-				title=" Start a game on easy difficulty">Newbee</button>
-			<button type="button" onclick="fromHomeMenu(1)" class="menu_home" id="mediumbuttom" title=" Start a game on medium difficulty">Medium</button>
-			<button type="button" onclick="fromHomeMenu(2)" class="menu_home" id="hardbuttom" title=" Start a game on hard difficulty">Impossibro</button>
-			<button type="button" onclick="showAllHonor()" class="menu_home" id="honorbuttom" title="Open Honor Board">Honor
+				class="menu_home , hidden , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
+			<button type="button" onclick="fromHomeMenu(1)" class="menu_home , hidden" id="mediumbutton" title=" Start a game on medium difficulty">Medium</button>
+			<button type="button" onclick="fromHomeMenu(2)" class="menu_home , hidden" id="hardbutton" title=" Start a game on hard difficulty">Impossibro</button>
+			<button type="button" onclick="showAllHonor()" class="menu_home , hidden" id="honorbutton" title="Open Honor Board">Honor
 			  Board</button>
-			<button type="button" onclick="showvsgame()" class="menu_home" id="honorbuttom" title="Open Honor Board">Play ONLINE bastard</button>
+			<button id="easybuttonvs" type="button" onclick="showvsgame(0)"
+				class="menu_home , hidden , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
+			<button type="button" onclick="showvsgame(1)" class="menu_home , hidden" id="mediumbuttonvs" title=" Start a game on medium difficulty">Medium</button>
+			<button type="button" onclick="showvsgame(2)" class="menu_home , hidden" id="hardbuttonvs" title=" Start a game on hard difficulty">Impossibro</button>
+			<button type="button" onclick="showAllHonor()" class="menu_home , hidden" id="honorbuttonvs" title="Open Honor Board">Honor
+			  Board</button>
+			<button type="button" onclick="showbuttons(0)" class="menu_home" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
+			<button type="button" onclick="showbuttons(1)" class="menu_home" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
 		</p>
 
 	</div>
