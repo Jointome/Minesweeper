@@ -6,6 +6,8 @@ var curPlayer = '';
 var game_num = null;
 var game_key = null;
 var opponent = false;
+var array = ["beginner","intermediate","expert"];
+
 
 //var players = ["player1","player2"];
 
@@ -42,7 +44,8 @@ function login(){
 }
 
 
-function showvsgame(difficulty){
+function showvsgame(diff){
+	difficulty = diff;
 	if(online){
     document.getElementById('home_page').classList.add('hidden');
     document.getElementById('home_page').classList.remove('block');
@@ -50,6 +53,10 @@ function showvsgame(difficulty){
     document.getElementById('gamepage').classList.remove('hidden');
     document.getElementById('game').classList.add('hidden');
     document.getElementById('game').classList.remove('block');
+    document.getElementById('qualquer12').classList.add('hidden');
+    document.getElementById('qualquer12').classList.remove('inlineblock');
+
+
     vsPlayer();
 	}
 	else {
@@ -59,7 +66,6 @@ function showvsgame(difficulty){
 }
 
 function createvsgame(){
-    difficulty=0;
     var nbombs = diff[difficulty].nbombs;
     nrow = diff[difficulty].nrow;
     ncol = diff[difficulty].ncol;
@@ -84,7 +90,7 @@ function vsPlayer(){
     online = true;
     var table = document.getElementById(tableid[difficulty]);
     var quemJoga = null;
-    var params = {'name':user, 'pass': pass, 'level':"beginner", 'group':37};
+    var params = {'name':user, 'pass': pass, 'level':array[difficulty], 'group':37};
     var req = new XMLHttpRequest();
     req.open("POST", URL+"join", true);
     req.setRequestHeader('Content-Type', 'application/json');
@@ -123,16 +129,28 @@ function vsPlayer(){
 				   }
 				   if(ansL["winner"]!= undefined){
 				   	if(user === ansL["winner"]){
-				   		alert("WINNER");
-				   	    game_key = null;
-					    game_num=null;
-					    goHome();
+					document.getElementById('winner').classList.add('block');
+					document.getElementById('winner').classList.remove('hidden');
+					document.getElementById('gamepage').classList.add('hidden');
+					document.getElementById('gamepage').classList.remove('block');
+					document.getElementById('winnerbutton').classList.remove('hidden');
+
+					getMenuback();
+					game_key = null;
+					game_num=null;
+					  
 				   	}
 				   	else{
-				   		alert("LOSER");
+				   		document.getElementById('loser').classList.add('block');
+	  				 	document.getElementById('loser').classList.remove('hidden');
+	   					document.getElementById('gamepage').classList.add('hidden');
+	    				document.getElementById('gamepage').classList.remove('block');
+	    				document.getElementById('loserbutton').classList.remove('hidden');
+
+	   					getMenuback();
 				   	    game_key = null;
 					    game_num = null;
-					    goHome();
+					 
 				   	}
 				   }
 
@@ -204,7 +222,6 @@ function expandeX(array, table){
 }
 
 function callRanking(){
-var array = ["beginner","intermediate","expert"];
 
 var params = {'level': array[difficulty]};
 
@@ -247,6 +264,7 @@ function quitGame(){
 		        alert("Abandonaste a fila de espera!");
 		        signOut();
 		        inGame = false;
+		        online = false;
 		        goHome();
 		        user = "";
 		        pass = "";

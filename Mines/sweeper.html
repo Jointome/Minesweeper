@@ -10,7 +10,7 @@
 <body>
 	<div id="menutop">
 		<div class="inlineblock" id="title">
-			<h3 id="titleh3" onclick="goHome()" title="Get back to homepage">Minesweeper</h3>
+			<h3 id="titleh3" onclick="goHome()" title="Get back to homepage">Minesweeper|Home</h3> 
 		</div>
 		<div class="inlineblock" id="usr">
 			<form name="myForm" action="Javascript:login()">
@@ -86,6 +86,7 @@
 			</div>
 			<div id="menubott">
 				<p id="pbott">
+					<div id="qualquer12" class = "">
 					<button type="button" onclick="fromHomeMenu(0)" class="menu_game"
 						id="Easy"
 						title=" Start a game on easy difficulty">Newbee</button>
@@ -95,6 +96,7 @@
 					<button type="button" onclick="fromHomeMenu(2)" class="menu_game"
 						id="Hard"
 						title=" Start a game on hard difficulty">Impossibro</button>
+					</div>
 					<button type="button" onclick="showHonor()" class="menu_game" id="Honordiff"
 						title="Open Honor Board of actual difficulty">Honor Board</button>
 				</p>
@@ -117,8 +119,11 @@
 		<h1 id="winnerh1">You are THE WINNER</h1>
 		<br> <img id="winnerimg" src="images/winner-02.jpg" alt="commicwinner">
 		<br>
-		<button type="button" onclick="getBackwinner()" class="menu_game"
+		<button type="button" onclick="getBackwinner()" class="menu_game, hidden"
 			id="winnerbutt" title="Get back to game">Get
+			Back</button>
+		<button type="button" onclick="goHome()" class="menu_game, hidden"
+			id="winnerbutton" title="Get back to game">Get
 			Back</button>
 	</div>
 
@@ -127,8 +132,11 @@
 		<h1 id="loserh1">You lost</h1>
 		<br> <img id="loserimg" src="images/025393-110909-abbott.jpg"
 			alt="commicloser"> <br>
-		<button type="button" onclick="getBackloser()" class="menu_game"
+		<button type="button" onclick="getBackloser()" class="menu_game, hidden"
 			id="loserbutt" title="Get back to game">Get
+			Back</button>
+		<button type="button" onclick="goHome()" class="menu_game, hidden"
+			id="loserbutton" title="Get back to game">Get
 			Back</button>
 	</div>
 

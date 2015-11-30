@@ -127,6 +127,10 @@ function fromHomeMenu(diff) {
 	document.getElementById('allhonorboard').classList.remove('block');
 	document.getElementById('honorboard').classList.add('hidden');
 	document.getElementById('honorboard').classList.remove('block');
+	document.getElementById('qualquer12').classList.remove('hidden');
+	document.getElementById('qualquer12').classList.add('inlineblock');
+
+
 	for ( var i = 0; i < 3; i++) {
 		document.getElementById(tdimg[1].changebuttons).classList
 				.add('inlineblock');
@@ -395,6 +399,10 @@ function getBackloser() {
 //dispays home and hides the game page
 function goHome() {
 	if(!inGame){
+	document.getElementById('winnerbutt').classList.add('hidden');
+	document.getElementById('loserbutt').classList.add('hidden');
+	document.getElementById('winnerbutton').classList.add('hidden');
+	document.getElementById('loserbutton').classList.add('hidden');
 	document.getElementById('allhonorboard').classList.add('hidden');
 	document.getElementById('allhonorboard').classList.remove('block');
 	document.getElementById('honorboard').classList.add('hidden');
@@ -568,6 +576,8 @@ function start() {
 	    document.getElementById('loser').classList.remove('hidden');
 	    document.getElementById('gamepage').classList.add('hidden');
 	    document.getElementById('gamepage').classList.remove('block');
+	    document.getElementById('loserbutt').classList.remove('hidden');
+
 	    getMenuback();
 	    clockClear();
     }
@@ -578,6 +588,8 @@ function start() {
 	document.getElementById('winner').classList.remove('hidden');
 	document.getElementById('gamepage').classList.add('hidden');
 	document.getElementById('gamepage').classList.remove('block');
+	document.getElementById('winnerbutt').classList.remove('hidden');
+
 	getMenuback();
 	if(!finished){
 	    finished = true;
@@ -603,7 +615,7 @@ function start() {
 		x = e.target.cellIndex;
 		y = e.target.parentNode.rowIndex;
 		if (e.button === 0 && e.which === 1 && board[x][y] === -2
-		    && rightclick === true) {
+		    && rightclick) {
 		    //received a right followed by a left click sets all around it gray
 		    for ( var i = -1; i < 2; i++) {
 			for ( var j = -1; j < 2; j++) {
@@ -616,7 +628,7 @@ function start() {
 		    }
 		    table.onmouseup = function(e) {
 			if (e.button === 0 && e.which === 1
-			    && board[x][y] === -2) {
+			    && board[x][y] === -2 && rightclick) {
 			    //if left button is set up it puts all aroud lightgray again
 			    var nbombs;
 			    for ( var i = -1; i < 2; i++) {
@@ -661,9 +673,12 @@ function start() {
 				}
 
 			    }
+			    			console.log("preso");
+
 			}
 			//if the right button has been released set it to false
 			else {
+				console.log("nunca aqui estive!");
 			    rightclick = false;
 			}
 		    };
@@ -710,6 +725,7 @@ function start() {
 		    document.getElementById('loser').classList.remove('hidden');
 		    document.getElementById('gamepage').classList.add('hidden');
 		    document.getElementById('gamepage').classList.remove('block');
+		    document.getElementById('loserbutt').classList.remove('hidden');
 		    getMenuback();
 		    clockClear();
 		}
@@ -722,6 +738,8 @@ function start() {
 	    document.getElementById('winner').classList.remove('hidden');
 	    document.getElementById('gamepage').classList.add('hidden');
 	    document.getElementById('gamepage').classList.remove('block');
+	    document.getElementById('winnerbutt').classList.remove('hidden');
+
 	    getMenuback();
 	    if(!finished){
 		finished=true;
