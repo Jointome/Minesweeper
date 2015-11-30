@@ -133,6 +133,8 @@ function vsPlayer(){
 					document.getElementById('gamepage').classList.add('hidden');
 					document.getElementById('gamepage').classList.remove('block');
 					document.getElementById('winnerbutton').classList.remove('hidden');
+					document.getElementById('winnerbutt').classList.add('hidden');
+
 
 					getMenuback();
 					game_key = null;
@@ -145,6 +147,8 @@ function vsPlayer(){
 	   					document.getElementById('gamepage').classList.add('hidden');
 	    				document.getElementById('gamepage').classList.remove('block');
 	    				document.getElementById('loserbutton').classList.remove('hidden');
+	    				document.getElementById('loserbutt').classList.add('hidden');
+
 
 	   					getMenuback();
 				   	    game_key = null;

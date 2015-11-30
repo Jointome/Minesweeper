@@ -447,7 +447,7 @@ function ifhasBomb(x, y, ncol, nrow) {
 
 // Function to start the game
 function start() {
-	online = false;
+	inGame = false;
     hours = 0;
     seconds = 0;
     minutes = 0;
