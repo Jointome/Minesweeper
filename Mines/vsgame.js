@@ -128,32 +128,32 @@ function vsPlayer(){
 				   }
 				   if(ansL["winner"]!= undefined){
 				   	if(user === ansL["winner"]){
-					document.getElementById('winner').classList.add('block');
-					document.getElementById('winner').classList.remove('hidden');
-					document.getElementById('gamepage').classList.add('hidden');
-					document.getElementById('gamepage').classList.remove('block');
-					document.getElementById('winnerbutton').classList.remove('hidden');
-					document.getElementById('winnerbutt').classList.add('hidden');
-
-
-					getMenuback();
-					game_key = null;
-					game_num=null;
-					inGame = false;
+					    document.getElementById('winner').classList.add('block');
+					    document.getElementById('winner').classList.remove('hidden');
+					    document.getElementById('gamepage').classList.add('hidden');
+					    document.getElementById('gamepage').classList.remove('block');
+					    document.getElementById('winnerbutton').classList.remove('hidden');
+					    document.getElementById('winnerbutton').classList.add('block');
+					   
+					    getMenuback();
+					    game_key = null;
+					    game_num=null;
+					    inGame = false;
+					    opponent = false;
 				   	}
 				   	else{
-				   		document.getElementById('loser').classList.add('block');
-	  				 	document.getElementById('loser').classList.remove('hidden');
-	   					document.getElementById('gamepage').classList.add('hidden');
-	    				document.getElementById('gamepage').classList.remove('block');
-	    				document.getElementById('loserbutton').classList.remove('hidden');
-	    				document.getElementById('loserbutt').classList.add('hidden');
+				   	    document.getElementById('loser').classList.add('block');
+	  				    document.getElementById('loser').classList.remove('hidden');
+	   				    document.getElementById('gamepage').classList.add('hidden');
+	    				    document.getElementById('gamepage').classList.remove('block');
+	    				    document.getElementById('loserbutton').classList.remove('hidden');
+					    document.getElementById('loserbutton').classList.add('block');
 
-
-	   					getMenuback();
+					    getMenuback();
 				   	    game_key = null;
 					    game_num = null;
-					 	inGame = false;
+					    inGame = false;
+					    opponent = false;
 				   	}
 				   }
 
@@ -264,18 +264,16 @@ function quitGame(){
 		    	var response = JSON.parse(req.responseText);
 		        alert("Abandonaste a fila de espera!");
 		        signOut();
-		        inGame = false;
-		        online = false;
+
 		        goHome();
-		        user = "";
-		        pass = "";
+
 			}
 			
 		}
 		req.send(JSON.stringify(params));
 	}
 	else {
-		alert("LOSER NAO SAIS DAQUI ATE ACABARES O JOGO CRL");
+		alert("You can't quit. Fair play said the teacher.");
 	}
 	}
     else signOut();

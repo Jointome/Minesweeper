@@ -106,12 +106,12 @@ td{border: 3px outset lightgray; margin: 0; padding: 0; border-radius: 3px;}
 /*winner*/
 #winnerh1{margin:auto;text-align: center;}
 #winnerimg{display:block;border-radius: 30px;padding: 0px;border: 0px; width:500px;margin:auto;}
-#winnerbutt{display:block;margin:auto;background-color: green;border-radius: 30px;}
+.winnerbuttclass{margin:auto;background-color: green;border-radius: 30px;}
 
 /*loser*/
 #loserh1{margin:auto;text-align: center;}
 #loserimg{display:block;border-radius: 30px;padding: 0px;border: 0px; width:500px;margin:auto;}
-#loserbutt{display:block;margin:auto;background-color: red;border-radius: 30px;}
+.loserbuttclass{margin:auto;background-color: red;border-radius: 30px;}
 
 /*footer*/
 #footer {background: #fff; border-top: 2px solid #e0e0e0; clear: both; color: gray; margin: 0 auto; padding: 10px 0; text-align: center;

@@ -87,6 +87,10 @@ tdimg = [ tdeasy, tdmedium, tdhard ];
 
 
 function signOut() {
+    		inGame = false;
+		        online = false;
+			user = "";
+		        pass = "";
 	document.getElementById('usr').classList.add('inlineblock');
 	document.getElementById('usr').classList.remove('hidden');
 	name = "Player1";
@@ -399,25 +403,34 @@ function getBackloser() {
 //dispays home and hides the game page
 function goHome() {
 	if(!inGame){
-	document.getElementById('winnerbutt').classList.add('hidden');
-	document.getElementById('loserbutt').classList.add('hidden');
-	document.getElementById('winnerbutton').classList.add('hidden');
-	document.getElementById('loserbutton').classList.add('hidden');
-	document.getElementById('allhonorboard').classList.add('hidden');
-	document.getElementById('allhonorboard').classList.remove('block');
-	document.getElementById('honorboard').classList.add('hidden');
-	document.getElementById('honorboard').classList.remove('block');
-	document.getElementById('menubott').classList.add('block');
-	document.getElementById('menubott').classList.remove('hidden');
-	document.getElementById('home_page').classList.add('block');
-	document.getElementById('home_page').classList.remove('hidden');
-	document.getElementById('gamepage').classList.add('hidden');
-	document.getElementById('gamepage').classList.remove('block');
-	document.getElementById('onlines').classList.add('hidden');
-	document.getElementById('onlines').classList.remove('block');
-	document.getElementById('offlines').classList.remove('block');
-	document.getElementById('offlines').classList.add('hidden');
-	document.getElementById('butoesonoff').classList.remove('hidden');
+	    document.getElementById('winnerbutt').classList.add('hidden');
+	    document.getElementById('loserbutt').classList.add('hidden');
+	    document.getElementById('winnerbutton').classList.add('hidden');
+	    document.getElementById('loserbutton').classList.add('hidden');
+	    document.getElementById('winnerbutt').classList.remove('block');
+	    document.getElementById('winnerbutton').classList.remove('block');
+	    document.getElementById('loserbutt').classList.remove('block');
+	    document.getElementById('loserbutton').classList.remove('block');
+	    
+	    document.getElementById('winner').classList.add('hidden');
+	    document.getElementById('loser').classList.add('hidden');
+	    document.getElementById('winner').classList.remove('block');
+	    document.getElementById('loser').classList.remove('block');
+	    document.getElementById('allhonorboard').classList.add('hidden');
+	    document.getElementById('allhonorboard').classList.remove('block');
+	    document.getElementById('honorboard').classList.add('hidden');
+	    document.getElementById('honorboard').classList.remove('block');
+	    document.getElementById('menubott').classList.add('block');
+	    document.getElementById('menubott').classList.remove('hidden');
+	    document.getElementById('home_page').classList.add('block');
+	    document.getElementById('home_page').classList.remove('hidden');
+	    document.getElementById('gamepage').classList.add('hidden');
+	    document.getElementById('gamepage').classList.remove('block');
+	    document.getElementById('onlines').classList.add('hidden');
+	    document.getElementById('onlines').classList.remove('block');
+	    document.getElementById('offlines').classList.remove('block');
+	    document.getElementById('offlines').classList.add('hidden');
+	    document.getElementById('butoesonoff').classList.remove('hidden');
 	}
 }
 //It shows the bombs when a person lose
@@ -576,7 +589,8 @@ function start() {
 	    document.getElementById('loser').classList.remove('hidden');
 	    document.getElementById('gamepage').classList.add('hidden');
 	    document.getElementById('gamepage').classList.remove('block');
-	    document.getElementById('loserbutt').classList.remove('hidden');
+	document.getElementById('loserbutt').classList.remove('hidden');
+	    document.getElementById('loserbutt').classList.add('block');
 
 	    getMenuback();
 	    clockClear();
@@ -589,6 +603,8 @@ function start() {
 	document.getElementById('gamepage').classList.add('hidden');
 	document.getElementById('gamepage').classList.remove('block');
 	document.getElementById('winnerbutt').classList.remove('hidden');
+	document.getElementById('winnerbutt').classList.add('block');
+	document.getElementById('loserbutt').classList.add('block');
 
 	getMenuback();
 	if(!finished){
@@ -726,6 +742,7 @@ function start() {
 		    document.getElementById('gamepage').classList.add('hidden');
 		    document.getElementById('gamepage').classList.remove('block');
 		    document.getElementById('loserbutt').classList.remove('hidden');
+		    document.getElementById('loserbutt').classList.add('block');
 		    getMenuback();
 		    clockClear();
 		}
@@ -739,6 +756,7 @@ function start() {
 	    document.getElementById('gamepage').classList.add('hidden');
 	    document.getElementById('gamepage').classList.remove('block');
 	    document.getElementById('winnerbutt').classList.remove('hidden');
+	document.getElementById('winnerbutt').classList.add('block');
 
 	    getMenuback();
 	    if(!finished){
