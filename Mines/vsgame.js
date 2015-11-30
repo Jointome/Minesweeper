@@ -10,6 +10,7 @@ var opponent = false;
 //var players = ["player1","player2"];
 
 function login(){
+	online = true;
     user = myForm.fname.value;
     pass = myForm.password.value;
     var loginInfo = JSON.stringify({'name': user, 'pass':pass});
@@ -42,6 +43,7 @@ function login(){
 
 
 function showvsgame(difficulty){
+	if(online){
     document.getElementById('home_page').classList.add('hidden');
     document.getElementById('home_page').classList.remove('block');
     document.getElementById('gamepage').classList.add('block');
@@ -49,6 +51,10 @@ function showvsgame(difficulty){
     document.getElementById('game').classList.add('hidden');
     document.getElementById('game').classList.remove('block');
     vsPlayer();
+	}
+	else {
+		alert("You need to be logged in!")
+	}
 
 }
 
@@ -88,6 +94,7 @@ function vsPlayer(){
 	    if(response["error"] == undefined){
 		game_key = response["key"];
 		game_num = response["game"];
+		inGame = true;
 		alert(game_key + " --- " + game_num);
 
 		var link = 'http://twserver.alunos.dcc.fc.up.pt:8000/update?name=' + user + '&game=' + game_num + '&key=' + game_key;
@@ -104,7 +111,8 @@ function vsPlayer(){
 			     	  	alert("Quem joga agora e o idiota com o nome de: " + ansL["turn"]);
 					}
 					else{
-						alert("Deu asneira aqui");
+						if(ansL["winner"] === undefined)
+							alert("Deu asneira aqui");
 					}
 
 				   if(ansL["move"] != undefined){
@@ -182,8 +190,15 @@ function expandeX(array, table){
 		}
 		if(array[i][2] == -1)
 			table.rows[array[i][0] - 1].cells[array[i][1] - 1].className = tdimg[difficulty].blackbomb;
-		else
+		else{
 			table.rows[array[i][0] - 1].cells[array[i][1] - 1].className = tdimg[difficulty].read;
+			if(array[i][2] === 1)
+		 	   table.rows[array[i][0] - 1].cells[array[i][1] - 1].classList.add('blue');
+			else if(array[i][2] === 2)
+		 	   table.rows[array[i][0] - 1].cells[array[i][1] - 1].classList.add('green');
+			else
+		    	table.rows[array[i][0] - 1].cells[array[i][1] - 1].classList.add('red');
+		}
 
 	}
 }
@@ -231,6 +246,8 @@ function quitGame(){
 		    	var response = JSON.parse(req.responseText);
 		        alert("Abandonaste a fila de espera!");
 		        signOut();
+		        inGame = false;
+		        goHome();
 		        user = "";
 		        pass = "";
 			}

@@ -4,6 +4,10 @@
 .inlineblock{display: inline-block;}
 .block{display:block;}
 
+.red{color:red;}
+.blue{color:blue;}
+.green{color:green;}
+
 
 /*Top bar*/
 #menutop{display: block;margin: 0px;padding: 0px;position:fixed;top:0;left:0;z-index: 1;width:100%;height:60px;

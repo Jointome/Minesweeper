@@ -26,6 +26,7 @@ var jogadores_scores = [ jogadores_easy, jogadores_medium, jogadores_hard ];
 var allhonor = false;
 var difficulty;
 var online = false;
+var inGame = false;
 clockMoving = false;
 clockActive = false;
 clockCurrent = -1;
@@ -104,17 +105,14 @@ function Jogador(nick, points) {
 
 
 function showbuttons(which){
-    document.getElementById('onlinebutton').classList.add('hidden');
-    document.getElementById('offlinebutton').classList.add('hidden');
+    document.getElementById('butoesonoff').classList.add('hidden');
     if(which === 0){
-	document.getElementById('easybuttonvs').classList.remove('hidden');
-	document.getElementById('mediumbuttonvs').classList.remove('hidden');
-	document.getElementById('hardbuttonvs').classList.remove('hidden');
+	document.getElementById('onlines').classList.remove('hidden');
+	document.getElementById('onlines').classList.add('block');
     }
     else{
-	document.getElementById('leftbuttontop').classList.remove('hidden');
-	document.getElementById('mediumbutton').classList.remove('hidden');
-	document.getElementById('hardbutton').classList.remove('hidden');
+	document.getElementById('offlines').classList.add('block');
+	document.getElementById('offlines').classList.remove('hidden');
     }
 }
 
@@ -184,7 +182,7 @@ function positionBomb(cols, rows, nbombs) {
 			y = Math.floor((Math.random() * rows));
 		}
 		board[x][y] = 9;
-		//table.rows[y].cells[x].className = "td1";
+		table.rows[y].cells[x].className = "td1";
 	}
 	return board;
 }
@@ -243,8 +241,17 @@ function setColor(x, y, nrow, ncol) {
 		}
 	}
 	//Set it to -2 to say it has been discovered and set's is class name
-	board[x][y] = -2;
+	
 	cell.className = tdimg[difficulty].read;
+
+	if(board[x][y] === 1 || board[x][y] === 9)
+			table.rows[y].cells[x].classList.add('blue');
+    	else if(board[x][y] === 2)
+			table.rows[y].cells[x].classList.add('green');
+    	else
+			table.rows[y].cells[x].classList.add('red');
+
+	board[x][y] = -2;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -272,7 +279,7 @@ function expand(x, y, nrow, ncol) {
 	}
 	if (!(board[x][y] <= -10 && board[x][y] >= -19)) {
 		setColor(x, y, nrow, ncol);
-	}
+		} 
 }
 //To show the honor board
 function getMenuback() {
@@ -334,7 +341,7 @@ function showHonor() {
 			scores.removeChild(scores.lastChild);
 		}
 	//console.log(jogadores_scores[difficulty].length);
-	if(!online){
+	if(!inGame){
 	if (jogadores_scores[difficulty].length - 1 > 3)
 		jogadores_scores[difficulty].pop();
 
@@ -348,7 +355,7 @@ function showHonor() {
 		scores.appendChild(para);
 	}
 	}
-	if(online)
+	if(online && inGame)
 	callRanking();
 }
 
@@ -387,6 +394,7 @@ function getBackloser() {
 
 //dispays home and hides the game page
 function goHome() {
+	if(!inGame){
 	document.getElementById('allhonorboard').classList.add('hidden');
 	document.getElementById('allhonorboard').classList.remove('block');
 	document.getElementById('honorboard').classList.add('hidden');
@@ -397,6 +405,12 @@ function goHome() {
 	document.getElementById('home_page').classList.remove('hidden');
 	document.getElementById('gamepage').classList.add('hidden');
 	document.getElementById('gamepage').classList.remove('block');
+	document.getElementById('onlines').classList.add('hidden');
+	document.getElementById('onlines').classList.remove('block');
+	document.getElementById('offlines').classList.remove('block');
+	document.getElementById('offlines').classList.add('hidden');
+	document.getElementById('butoesonoff').classList.remove('hidden');
+	}
 }
 //It shows the bombs when a person lose
 function ifhasBomb(x, y, ncol, nrow) {
@@ -540,7 +554,7 @@ function start() {
 	}
 	//if already has exploded starts the game again
 	//if it hasn't a flag shows it
-	else if (!(board[x][y] <= -10 && board[x][y] >= -19) && !exploded) {
+	else if (!(board[x][y] <= -10 && board[x][y] >= -19) && !exploded && board[x][y] !== -2) {
 	    if (board[x][y] !== 0 && board[x][y] !== -20) {
 		setColor(x, y, nrow, ncol);
 		discovered++;
