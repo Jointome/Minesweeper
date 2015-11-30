@@ -123,7 +123,6 @@ function vsPlayer(){
 
 				   if(ansL["move"] != undefined){
 				   		var array = ansL["move"]["cells"];
-				   		alert("entrou!");
 				   		expandeX(array, table);
 
 				   }
@@ -138,7 +137,7 @@ function vsPlayer(){
 					getMenuback();
 					game_key = null;
 					game_num=null;
-					  
+					inGame = false;
 				   	}
 				   	else{
 				   		document.getElementById('loser').classList.add('block');
@@ -150,7 +149,7 @@ function vsPlayer(){
 	   					getMenuback();
 				   	    game_key = null;
 					    game_num = null;
-					 
+					 	inGame = false;
 				   	}
 				   }
 
@@ -159,7 +158,6 @@ function vsPlayer(){
 						var x = event.target.cellIndex + 1;
 						var y = event.target.parentNode.rowIndex + 1;
 						cell = table.rows[y-1].cells[x-1];
-			        	alert(x + " " + y);
 			    		clickFoleiro(user, game_num, game_key, y, x);
 		    		}
 
@@ -190,7 +188,6 @@ var params = {'name': user, 'game': game_num, 'key': game_key, 'row': row, 'col'
 			if (req.readyState == 4 && req.status == 200) {
 				var response = JSON.parse(req.responseText);
 				if(req.responseText == "{}"){
-					alert("HEISH CA PUTA DE TIRO NESTE BURACO")
 					return;
 				}
 				else{
