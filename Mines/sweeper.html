@@ -6,6 +6,7 @@
 <title>Minesweeper</title>
 <script type="text/javascript" src="script.js"></script>
 <script type="text/javascript" src="vsgame.js"></script>
+<script src="http://heartcode-canvasloader.googlecode.com/files/heartcode-canvasloader-min-0.9.1.js"></script>
 </head>
 <body>
 	<div id="menutop">
@@ -61,8 +62,8 @@
 			  Board</button>
 			</div>
 			<div id="butoesonoff" class="">
-			<button type="button" onclick="showbuttons(0)" class="menu_home" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
-			<button type="button" onclick="showbuttons(1)" class="menu_home" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
+			<button type="button" onclick="showbuttons(0)" class="butoesonsep" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
+			<button type="button" onclick="showbuttons(1)" class="butoesonsep" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
 			</div>
 		</p>
 
@@ -72,19 +73,34 @@
 	<!-- GAME page -->
 	<div class="all, hidden" id="gamepage">
 		<div class="all" id="gamepanel">
-			<div id="gamewprogress">
-				<div id="progress">
+		  <div id="gamewprogress">
+		    
+				<div id="progress" class="block" >
 				  <p id="progressh3">00:00:00</p>
-				  <canvas class="inlineblock" id="canvas" width="300" height="300"></canvas>
-				    <canvas class="inlineblock" id="canvasadv" width="300" height="300"></canvas>
+				
 					<button type="button" onclick="start(difficulty)" id="againbutt"
 						title=" Press to restart on the same difficulty ">PLAY
 						AGAIN!</button>
 					<p id="countFlag">00</p>
 				</div>
-				<div id="game"></div>
+				
+				<div id="game">
+				</div>
+				
+				<div id="canvasdiv" class="hidden">
+				  <div id="loading">
+				  <p>Waiting for Opponent</p>
+				  <div id="canvasloader-container" class="wrapper"></div>
+				  </div>
+				  <br>
+				<div class="inlineblock" id="canvasblock">
+				  <canvas class="block" id="canvas" width="300" height="300"></canvas>
+				  <p id="turn" class="">YOUR TURN</p>
+				  </div>
 				<div id="vsgamepage">
-				</div> 
+				</div>
+				<canvas class="inlineblock" id="canvasadv" width="300" height="300"></canvas>
+				</div>
 			</div>
 			<div id="menubott">
 				<p id="pbott">

@@ -98,7 +98,8 @@ function signOut() {
 	document.getElementById('username').classList.remove('inlineblock');
 	document.getElementById('signout').classList.remove('inlineblock');
 	document.getElementById('signout').classList.add('hidden');
-	document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[3]);
+    document.getElementById('usernameh3').removeChild(document.getElementById('usernameh3').childNodes[3]);
+    document.getElementById('usernameid').focus();
 	
 }
 
@@ -190,7 +191,7 @@ function positionBomb(cols, rows, nbombs) {
 			y = Math.floor((Math.random() * rows));
 		}
 		board[x][y] = 9;
-		table.rows[y].cells[x].className = "td1";
+		//table.rows[y].cells[x].className = "td1";
 	}
 	return board;
 }
@@ -411,7 +412,6 @@ function goHome() {
 	    document.getElementById('winnerbutton').classList.remove('block');
 	    document.getElementById('loserbutt').classList.remove('block');
 	    document.getElementById('loserbutton').classList.remove('block');
-	    
 	    document.getElementById('winner').classList.add('hidden');
 	    document.getElementById('loser').classList.add('hidden');
 	    document.getElementById('winner').classList.remove('block');
@@ -431,6 +431,9 @@ function goHome() {
 	    document.getElementById('offlines').classList.remove('block');
 	    document.getElementById('offlines').classList.add('hidden');
 	    document.getElementById('butoesonoff').classList.remove('hidden');
+	    document.getElementById('canvasdiv').classList.add('hidden');
+	    document.getElementById('progress').classList.remove('hidden');
+	    
 	}
 }
 //It shows the bombs when a person lose
@@ -569,13 +572,13 @@ function start() {
 		firstclick = true;
 	    }
 	//If is on a bomb and it hasn't already exploded and explodes
-	if ((board[x][y] === 9 || board[x][y] === -29) && !exploded) {
+	if ((board[x][y] === 9 || board[x][y] === -29) && !exploded && !(todiscover === discovered)) {
 	    ifhasBomb(x, y, ncol, nrow);
 	    exploded = true;
 	}
 	//if already has exploded starts the game again
 	//if it hasn't a flag shows it
-	else if (!(board[x][y] <= -10 && board[x][y] >= -19) && !exploded && board[x][y] !== -2) {
+	else if (!(board[x][y] <= -10 && board[x][y] >= -19) && !exploded && board[x][y] !== -2 && !(todiscover === discovered)) {
 	    if (board[x][y] !== 0 && board[x][y] !== -20) {
 		setColor(x, y, nrow, ncol);
 		discovered++;
@@ -702,7 +705,7 @@ function start() {
 		}
 	    };
 	    //If isn't in a discovered cell
-	    if (board[x][y] !== -2 && !exploded) {
+	    if (board[x][y] !== -2 && !exploded && !(todiscover === discovered)) {
 		//if is a cell not manipuleted insert a flag
 		if (board[x][y] > -1) {
 		    board[x][y] -= (2 * board[x][y]);
