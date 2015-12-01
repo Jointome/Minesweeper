@@ -9,6 +9,21 @@
 .green{color:green;}
 
 
+
+#canvas {
+    width: 50px;
+}
+#canvasadv{
+	width: 50px;
+}
+
+
+
+
+
+
+
+
 /*Top bar*/
 #menutop{display: block;margin: 0px;padding: 0px;position:fixed;top:0;left:0;z-index: 1;width:100%;height:60px;
 	background-color:#80B3FF;box-shadow:2px 2px 20px 5px lightblue inset;}
