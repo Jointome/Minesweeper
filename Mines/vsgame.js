@@ -10,7 +10,8 @@ var array = ["beginner","intermediate","expert"];
 var bombsfound=0;
 var maxbombs;
 var enebombsfound=0;
- var cl;
+var cl;
+var thewinner;
 
 
 //var players = ["player1","player2"];
@@ -124,6 +125,8 @@ function vsPlayer(){
 		     	opponent = true;//aqui dá quem é o opponent
 			document.getElementById('loading').classList.add('hidden');
 			cl.hide();
+			document.getElementById('players').classList.remove('hidden');
+			document.getElementById('players').appendChild(document.createTextNode(user + " VS " + ansL["opponent"]));
 		    }
 
 		    if(ansL["turn"] != undefined){
@@ -132,11 +135,13 @@ function vsPlayer(){
 			if(quemJoga == user){
 			    document.getElementById('turn').classList.add('green');
 			    document.getElementById('turn').classList.remove('red');
+			    document.getElementById('turn').classList.add('blink_me');
 			}
 			else{
 			    document.getElementById('turn').classList.add('red');
 			    document.getElementById('turn').classList.remove('green');
-
+			    document.getElementById('turn').classList.remove('blink_me');
+			    
 			}
 		    }
 		    else{
@@ -149,61 +154,11 @@ function vsPlayer(){
 			expandeX(array, table);
 
 		    }
-		    
 		    if(ansL["winner"] != undefined){
-			if(user === ansL["winner"]){
-			    document.getElementById('winner').classList.add('block');
-			    document.getElementById('winner').classList.remove('hidden');
-			    document.getElementById('gamepage').classList.add('hidden');
-			    document.getElementById('gamepage').classList.remove('block');
-			    document.getElementById('winnerbutton').classList.remove('hidden');
-			    document.getElementById('winnerbutton').classList.add('inlineblock');
-			    document.getElementById('scorebutt').classList.remove('hidden');
-			    document.getElementById('scorebutt').classList.add('inlineblock');
-			    document.getElementById('loading').classList.remove('hidden');
-			    
-			    setvalueO();
-			    getMenuback();
-			    game_key = null;
-			    game_num=null;
-			    inGame = false;
-			    opponent = false;
-			    if(array[difficulty] == "expert"){
-				setitright();
-			    }
-			}
-			else{
-			    document.getElementById('loser').classList.add('block');
-	  		    document.getElementById('loser').classList.remove('hidden');
-	   		    document.getElementById('gamepage').classList.add('hidden');
-	    		    document.getElementById('gamepage').classList.remove('block');
-	    		    document.getElementById('loserbutton').classList.remove('hidden');
-			    document.getElementById('loserbutton').classList.add('inlineblock');
-			    document.getElementById('loserscorebutt').classList.remove('hidden');
-			    document.getElementById('loserscorebutt').classList.add('inlineblock');
-			    document.getElementById('loading').classList.remove('hidden');
-			    setvalueO();
-			    getMenuback();
-			    game_key = null;
-			    game_num = null;
-			    inGame = false;
-			    opponent = false;
-			    if(array[difficulty] == "expert"){
-				setitright();
-			    }
-			}
+			thewinner=ansL["winner"];
+			
 		    }
-		    else if(((maxbombs/2) == enebombsfound) && ((maxbombs/2) == bombsfound)){
-			alert("Empataram");
-			document.getElementById('loading').classList.remove('hidden');
-			game_key = null;
-			game_num = null;
-			inGame = false;
-			opponent = false;
-			setvalueO();
-			goHome();
-		    }
-		    
+		
 
 		    if(user === quemJoga){
 			table.onclick = function (event) {
@@ -230,6 +185,50 @@ function vsPlayer(){
     req.send(JSON.stringify(params));
 }
 
+function cemporcent(){
+    if(user === thewinner){
+	document.getElementById('winner').classList.add('block');
+	document.getElementById('winner').classList.remove('hidden');
+	document.getElementById('gamepage').classList.add('hidden');
+	document.getElementById('gamepage').classList.remove('block');
+	document.getElementById('winnerbutton').classList.remove('hidden');
+	document.getElementById('winnerbutton').classList.add('inlineblock');
+	document.getElementById('winnerscorebutt').classList.remove('hidden');
+	document.getElementById('winnerscorebutt').classList.add('inlineblock');
+	document.getElementById('loading').classList.remove('hidden');
+	
+	setvalueO();
+	getMenuback();
+	game_key = null;
+	game_num=null;
+	inGame = false;
+	opponent = false;
+	if(array[difficulty] == "expert"){
+	    setitright();
+	}
+    }
+
+    else{
+	document.getElementById('loser').classList.add('block');
+	document.getElementById('loser').classList.remove('hidden');
+	document.getElementById('gamepage').classList.add('hidden');
+	document.getElementById('gamepage').classList.remove('block');
+	document.getElementById('loserbutton').classList.remove('hidden');
+	document.getElementById('loserbutton').classList.add('inlineblock');
+	document.getElementById('loserscorebutt').classList.remove('hidden');
+	document.getElementById('loserscorebutt').classList.add('inlineblock');
+	document.getElementById('loading').classList.remove('hidden');
+	setvalueO();
+	getMenuback();
+	game_key = null;
+	game_num = null;
+	inGame = false;
+	opponent = false;
+	if(array[difficulty] == "expert"){
+	    setitright();
+	}
+    }
+}
 function clickFoleiro(user, game_num, game_key, row, col){
     var params = {'name': user, 'game': game_num, 'key': game_key, 'row': row, 'col': col};
 
@@ -401,6 +400,9 @@ function init()
 {
     ctx.clearRect(0, 0, W, H);
     ctx.beginPath();
+    if(new_degrees == 0)
+	ctx.strokeStyle = color;
+    else
     ctx.strokeStyle = bgcolor;
     ctx.lineWidth = 30;
     ctx.arc(W/2, H/2, 100, 0, Math.PI*2, false);
@@ -413,7 +415,7 @@ function init()
     ctx.stroke();
     ctx.fillStyle = color;
     ctx.font = "50px bebas";
-    text = Math.floor((degrees/360*100)+1) + "%";
+    text = Math.floor((degrees/360*100)) + "%";
     text_width = ctx.measureText(text).width;
     ctx.fillText(text, W/2 - text_width/2, H/2 + 15);
 }
@@ -421,19 +423,18 @@ function init()
 function draw()
 {
     if(typeof animation_loop != undefined) clearInterval(animation_loop);
-    new_degrees =((bombsfound * 360)/((maxbombs/2)+1));
+    new_degrees =((bombsfound * 360)/(maxbombs/2));
     difference = new_degrees - degrees;
     animation_loop = setInterval(animate_to, 1000/difference);
 }
 function animate_to()
 {
-    if(degrees == new_degrees) 
-	clearInterval(animation_loop);
-    
     if(degrees < new_degrees)
 	degrees++;
-    else
-	degrees--;
+    else{
+	clearInterval(animation_loop);
+	if(degrees == 360)
+	    cemporcent();}
     
     init();
 }
@@ -460,9 +461,9 @@ function percent2(){
     W2 = canvas2.width;
     H2 = canvas2.height;
     //Variables
-    degrees2 = 0;
-    new_degrees2 = 0;
-    difference2 = 0;
+    degrees2 = -1;
+    new_degrees2 = -1;
+    difference2 = -1;
     color2 = "red";
     bgcolor2 = "#222";
     text2;
@@ -476,11 +477,14 @@ function init2()
 {
     ctx2.clearRect(0, 0, W, H);
     ctx2.beginPath();
-    ctx2.strokeStyle = bgcolor2;
+    if(new_degrees2 == 0)
+	ctx2.strokeStyle = color2;
+    else
+	ctx2.strokeStyle = bgcolor2;
     ctx2.lineWidth = 30;
     ctx2.arc(W2/2, H2/2, 100, 0, Math.PI*2, false); //you can see the arc now
     ctx2.stroke();
-    var radians2 = degrees2 * Math.PI / 180;
+    var radians2 = (degrees2 * Math.PI / 180);
     ctx2.beginPath();
     ctx2.strokeStyle = color2;
     ctx2.lineWidth = 30;
@@ -488,7 +492,7 @@ function init2()
     ctx2.stroke();
     ctx2.fillStyle = color2;
     ctx2.font = "50px bebas";
-    text2 = Math.floor(degrees2/360*100) + 1 + "%";
+    text2 = Math.floor(degrees2/360*100) + "%";
     text_width2 = ctx2.measureText(text2).width;
     ctx2.fillText(text2, W2/2 - text_width2/2, H2/2 + 15);
 }
@@ -496,19 +500,19 @@ function init2()
 function draw2()
 {
     if(typeof animation_loop2 != undefined) clearInterval(animation_loop2);
-    new_degrees2 = ((enebombsfound * 360)/((maxbombs/2)+1));
+    new_degrees2 = ((enebombsfound * 360)/(maxbombs/2));
     difference2 = new_degrees2 - degrees2;
     animation_loop2 = setInterval(animate_to2, 1000/difference2);
 }
 function animate_to2()
 {
-    if(degrees2 == new_degrees2) 
-	clearInterval(animation_loop2);
-    
     if(degrees2 < new_degrees2)
 	degrees2++;
-    else
-	degrees2--;
+    else{
+	clearInterval(animation_loop2);
+	if(degrees2 == 360)
+	    cemporcent();
+    }
     
     init2();
 }

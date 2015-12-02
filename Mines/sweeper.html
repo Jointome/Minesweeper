@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link type="text/css" rel="stylesheet" href="stylesheet.css">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Minesweeper</title>
-<script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="vsgame.js"></script>
-<script src="http://heartcode-canvasloader.googlecode.com/files/heartcode-canvasloader-min-0.9.1.js"></script>
-</head>
-<body>
-	<div id="menutop">
-		<div class="inlineblock" id="title">
-			<h3 id="titleh3" onclick="goHome()" title="Get back to homepage">Minesweeper|Home</h3> 
-		</div>
-		<div class="inlineblock" id="usr">
-			<form name="myForm" action="Javascript:login()">
-				Username: <input id="usernameid" type="text" name="fname" pattern="[a-zA-Z0-9]{2,20}"; 
-				 title="Between three letter/number and 20"><br>
-				Password: <input type="password" name="password" id="pw" pattern="[a-zA-Z0-9]{4,20}";
-						 title="Between six and 20 letters/numbers">
-				<input type="submit" class="hidden">
-			</form>
-		</div>
-		<div class="hidden" id="username">
-			<p id="usernameh3">
-				Hi!<br>
-			</p>
-		</div>
-		<div class="hidden" id="signout">
-			<p>
-				<button id="signoutbutton" type="button" onclick="quitGame()"
-					title="Press to Sign Out">Sign Out</button>
-			</p>
-		</div>
+  <head>
+    <link type="text/css" rel="stylesheet" href="stylesheet.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Minesweeper</title>
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="vsgame.js"></script>
+    <script src="http://heartcode-canvasloader.googlecode.com/files/heartcode-canvasloader-min-0.9.1.js"></script>
+  </head>
+  <body>
+    <div id="menutop">
+      <div class="inlineblock" id="title">
+	<h3 id="titleh3" onclick="goHome()" title="Get back to homepage">Minesweeper|Home</h3> 
+      </div>
+      <div class="inlineblock" id="usr">
+	<form name="myForm" action="Javascript:login()">
+	  Username: <input id="usernameid" type="text" name="fname" pattern="[a-zA-Z0-9]{2,20}"; 
+			   title="Between three letter/number and 20"><br>
+	  Password: <input type="password" name="password" id="pw" pattern="[a-zA-Z0-9]{4,20}";
+			   title="Between six and 20 letters/numbers">
+	  <input type="submit" class="hidden">
+	</form>
+      </div>
+      <div class="hidden" id="username">
+	<p id="usernameh3">
+	  Hi!<br>
+	</p>
+      </div>
+      <div class="hidden" id="signout">
+	<p>
+	  <button id="signoutbutton" type="button" onclick="quitGame()"
+		  title="Press to Sign Out">Sign Out</button>
+	</p>
+      </div>
+    </div>
+    <!--Home page MENU-->
+    <div class="all " id="home_page">
+      <h1>Welcome to Minesweeper</h1>
+      <img id="home_pageimg" src="images/home_pageimg.jpg" alt="commic">
+      <p class="welcome">
+	Hi there!<br>Ready to have some FUN?<br>Press the
+	difficulty you want to play or press "Honor" to see the "Honor Board"<br>Get
+	in and good luck.<br>We hope you enjoy it.
+      </p>
+      <br> <br>
+      <p>
+	<div id="offlines" class="hidden">
+	  <button id="leftbuttontop" type="button" onclick="fromHomeMenu(0)"
+		  class="menu_home , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
+	  <button type="button" onclick="fromHomeMenu(1)" class="menu_home" id="mediumbutton" title=" Start a game on medium difficulty">Medium</button>
+	  <button type="button" onclick="fromHomeMenu(2)" class="menu_home" id="hardbutton" title=" Start a game on hard difficulty">Impossibro</button>
+	  <button type="button" onclick="showAllHonor()" class="menu_home" id="honorbutton" title="Open Honor Board">Honor
+	    Board</button>
 	</div>
-	<!--Home page MENU-->
-	<div class="all " id="home_page">
-		<h1>Welcome to Minesweeper</h1>
-		<img id="home_pageimg" src="images/home_pageimg.jpg" alt="commic">
-		<p class="welcome">
-			Hi there!<br>Ready to have some FUN?<br>Press the
-			difficulty you want to play or press "Honor" to see the "Honor Board"<br>Get
-			in and good luck.<br>We hope you enjoy it.
-		</p>
-		<br> <br>
-		<p>
-			<div id="offlines" class="hidden">
-			<button id="leftbuttontop" type="button" onclick="fromHomeMenu(0)"
-				class="menu_home , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
-			<button type="button" onclick="fromHomeMenu(1)" class="menu_home" id="mediumbutton" title=" Start a game on medium difficulty">Medium</button>
-			<button type="button" onclick="fromHomeMenu(2)" class="menu_home" id="hardbutton" title=" Start a game on hard difficulty">Impossibro</button>
-			<button type="button" onclick="showAllHonor()" class="menu_home" id="honorbutton" title="Open Honor Board">Honor
-			  Board</button>
-			</div>
-			<div id="onlines" class="hidden">
-			<button id="easybuttonvs" type="button" onclick="showvsgame(0)"
-				class="menu_home , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
-			<button type="button" onclick="showvsgame(1)" class="menu_home" id="mediumbuttonvs" title=" Start a game on medium difficulty">Medium</button>
-			<button type="button" onclick="showvsgame(2)" class="menu_home" id="hardbuttonvs" title=" Start a game on hard difficulty">Impossibro</button>
-			<button type="button" onclick="showAllHonor()" class="menu_home" id="honorbuttonvs" title="Open Honor Board">Honor
-			  Board</button>
-			</div>
-			<div id="butoesonoff" class="">
-			<button type="button" onclick="showbuttons(0)" class="butoesonsep" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
-			<button type="button" onclick="showbuttons(1)" class="butoesonsep" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
-			</div>
-		</p>
-
+	<div id="onlines" class="hidden">
+	  <button id="easybuttonvs" type="button" onclick="showvsgame(0)"
+		  class="menu_home , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
+	  <button type="button" onclick="showvsgame(1)" class="menu_home" id="mediumbuttonvs" title=" Start a game on medium difficulty">Medium</button>
+	  <button type="button" onclick="showvsgame(2)" class="menu_home" id="hardbuttonvs" title=" Start a game on hard difficulty">Impossibro</button>
+	  <button type="button" onclick="showAllHonor()" class="menu_home" id="honorbuttonvs" title="Open Honor Board">Honor
+	    Board</button>
 	</div>
-
-
-	<!-- GAME page -->
-	<div class="all, hidden" id="gamepage">
-		<div class="all" id="gamepanel">
-		  <div id="gamewprogress">
-		    
-				<div id="progress" class="block" >
-				  <p id="progressh3">00:00:00</p>
-				
-					<button type="button" onclick="start(difficulty)" id="againbutt"
-						title=" Press to restart on the same difficulty ">PLAY
-						AGAIN!</button>
-					<p id="countFlag">00</p>
-				</div>
-				
-				<div id="game">
-				</div>
-				
-				<div id="canvasdiv" class="hidden">
-				  <div id="loading">
-				  <p>Waiting for Opponent</p>
-				  <div id="canvasloader-container" class="wrapper"></div>
-				  </div>
-				  <br>
-				<div class="inlineblock" id="canvasblock">
-				  <canvas class="block" id="canvas" width="300" height="300"></canvas>
-				  <p id="turn" class="">YOUR TURN</p>
-				  </div>
-				<div id="vsgamepage">
-				</div>
-				<canvas class="inlineblock" id="canvasadv" width="300" height="300"></canvas>
-				</div>
-			</div>
-			<div id="menubott">
-				<p id="pbott">
-					<div id="qualquer12" class = "">
-					<button type="button" onclick="fromHomeMenu(0)" class="menu_game"
-						id="Easy"
-						title=" Start a game on easy difficulty">Newbee</button>
-					<button type="button" onclick="fromHomeMenu(1)" class="menu_game"
-						id="Medium"
-						title=" Start a game on medium difficulty">Medium</button>
-					<button type="button" onclick="fromHomeMenu(2)" class="menu_game"
-						id="Hard"
-						title=" Start a game on hard difficulty">Impossibro</button>
-					</div>
-					<button type="button" onclick="showHonor()" class="menu_game" id="Honordiff"
-						title="Open Honor Board of actual difficulty">Honor Board</button>
-				</p>
-			</div>
-		</div>
+	<div id="butoesonoff" class="">
+	  <button type="button" onclick="showbuttons(0)" class="butoesonsep" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
+	  <button type="button" onclick="showbuttons(1)" class="butoesonsep" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
 	</div>
-	<!-- VS GAME PAGE -->
+      </p>
 
-	<div class=" all , hidden" id="allhonorboard">
-		<hr>
-		<div id="honorboard">
-			<h1 id="honorh2" onclick="getMenuback()"
-				title=" Press here to show menu ">Honor Board</h1>
-			<div id="scores"></div>
-		</div>
-	</div>
+    </div>
 
-	<div class=" all , hidden" id="winner">
-		<br>
-		<h1 id="winnerh1">You are THE WINNER</h1>
-		<br> <img id="winnerimg" src="images/winner-02.jpg" alt="commicwinner">
-		<br>
-		<button type="button" onclick="getBackwinner()" class="menu_game , hidden , winnerbuttclass"
-			id="winnerbutt" title="Get back to game">Get
-			Back</button>
-		<button type="button" onclick="goHome()" class="menu_game hidden winnerbuttclass"
-			id="winnerbutton" title="Get back to game">Get
-		  Back</button>
-		<button type="button" onclick="knowscore()" class="menu_game hidden winnerbuttclass"
-			id="winnerscorebutt" title="Get back to game">Get your score</button>
-	</div>
 
-	<div class=" all , hidden " id="loser">
-		<br>
-		<h1 id="loserh1">You lost</h1>
-		<br> <img id="loserimg" src="images/025393-110909-abbott.jpg"
-			alt="commicloser"> <br>
-		<button type="button" onclick="getBackloser()" class="menu_game , hidden , loserbuttclass"
-			id="loserbutt" title="Get back to game">Get
-			Back</button>
-		<button type="button" onclick="goHome()" class="menu_game hidden loserbuttclass"
-			id="loserbutton" title="Get back to game">Get
-		  Back</button>
-		<button type="button" onclick="knowscore()" class="menu_game hidden loserbuttclass"
-			id="loserscorebutt" title="Get back to game">Get your score</button>
+    <!-- GAME page -->
+    <div class="all, hidden" id="gamepage">
+      <div class="all" id="gamepanel">
+	<div id="gamewprogress">
+	  
+	  <div id="progress" class="block" >
+	    <p id="progressh3">00:00:00</p>
+	    
+	    <button type="button" onclick="start(difficulty)" id="againbutt"
+		    title=" Press to restart on the same difficulty ">PLAY
+	      AGAIN!</button>
+	    <p id="countFlag">00</p>
+	  </div>
+	  
+	  <div id="game">
+	  </div>
+	  <div id="canvasdiv" class="hidden">
+	    <div id="loading">
+	      <p>Waiting for Opponent</p>
+	      <div id="canvasloader-container" class="wrapper"></div>
+	    </div>
+	    <div id="players" class="hidden"> <br></div>
+	    <br>
+	    <div class="inlineblock" id="canvasblock">
+	      <canvas class="block" id="canvas" width="300" height="300"></canvas>
+	      <p id="turn" class="">YOUR TURN</p>
+	    </div>
+	    <div id="vsgamepage">
+	    </div>
+	    <canvas class="inlineblock" id="canvasadv" width="300" height="300"></canvas>
+	  </div>
 	</div>
+	<div id="menubott">
+	  <p id="pbott">
+	    <div id="qualquer12" class = "">
+	      <button type="button" onclick="fromHomeMenu(0)" class="menu_game"
+		      id="Easy"
+		      title=" Start a game on easy difficulty">Newbee</button>
+	      <button type="button" onclick="fromHomeMenu(1)" class="menu_game"
+		      id="Medium"
+		      title=" Start a game on medium difficulty">Medium</button>
+	      <button type="button" onclick="fromHomeMenu(2)" class="menu_game"
+		      id="Hard"
+		      title=" Start a game on hard difficulty">Impossibro</button>
+	    </div>
+	    <button type="button" onclick="showHonor()" class="menu_game" id="Honordiff"
+		    title="Open Honor Board of actual difficulty">Honor Board</button>
+	  </p>
+	</div>
+      </div>
+    </div>
+    <!-- VS GAME PAGE -->
+    
+    <div class=" all , hidden" id="allhonorboard">
+      <hr>
+      <div id="honorboard">
+	<h1 id="honorh2" onclick="getMenuback()"
+	    title=" Press here to show menu ">Honor Board</h1>
+	<div id="scores"></div>
+      </div>
+    </div>
 
-	<!-- roda pé da página	 -->
-	<div id="footer">
-		<p>Created by: Rodrigo Costa & Tiago Castanheira</p>
-	</div>
-</body>
+    <div class=" all , hidden" id="winner">
+      <br>
+      <h1 id="winnerh1">You are THE WINNER</h1>
+      <br> <img id="winnerimg" src="images/winner-02.jpg" alt="commicwinner">
+      <br>
+      <button type="button" onclick="getBackwinner()" class="menu_game , hidden , winnerbuttclass"
+	      id="winnerbutt" title="Get back to game">Get
+	Back</button>
+      <button type="button" onclick="goHome()" class="menu_game hidden winnerbuttclass"
+	      id="winnerbutton" title="Get back to game">Get
+	Back</button>
+      <button type="button" onclick="knowscore()" class="menu_game hidden winnerbuttclass"
+	      id="winnerscorebutt" title="Get back to game">Get your score</button>
+    </div>
+
+    <div class=" all , hidden " id="loser">
+      <br>
+      <h1 id="loserh1">You lost</h1>
+      <br> <img id="loserimg" src="images/025393-110909-abbott.jpg"
+		alt="commicloser"> <br>
+      <button type="button" onclick="getBackloser()" class="menu_game , hidden , loserbuttclass"
+	      id="loserbutt" title="Get back to game">Get
+	Back</button>
+      <button type="button" onclick="goHome()" class="menu_game hidden loserbuttclass"
+	      id="loserbutton" title="Get back to game">Get
+	Back</button>
+      <button type="button" onclick="knowscore()" class="menu_game hidden loserbuttclass"
+	      id="loserscorebutt" title="Get back to game">Get your score</button>
+    </div>
+
+    <!-- roda pé da página	 -->
+    <div id="footer">
+      <p>Created by: Rodrigo Costa & Tiago Castanheira</p>
+    </div>
+  </body>
 </html>
