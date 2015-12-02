@@ -84,6 +84,9 @@ tdhard = {
 };
 tdimg = [ tdeasy, tdmedium, tdhard ];
 
+window.onload = function(){
+    alert("Don't use your personal password");
+}
 
 
 function signOut() {
@@ -409,9 +412,15 @@ function goHome() {
 	    document.getElementById('winnerbutton').classList.add('hidden');
 	    document.getElementById('loserbutton').classList.add('hidden');
 	    document.getElementById('winnerbutt').classList.remove('block');
-	    document.getElementById('winnerbutton').classList.remove('block');
+	    document.getElementById('winnerbutton').classList.remove('inlineblock');
+
+	    document.getElementById('winnerscorebutt').classList.add('hidden');
+	    document.getElementById('loserscorebutt').classList.add('hidden');
+	    document.getElementById('winnerscorebutt').classList.remove('inlineblock');
+	    document.getElementById('loserscorebutt').classList.remove('inlineblock');
+	    
 	    document.getElementById('loserbutt').classList.remove('block');
-	    document.getElementById('loserbutton').classList.remove('block');
+	    document.getElementById('loserbutton').classList.remove('inlineblock');
 	    document.getElementById('winner').classList.add('hidden');
 	    document.getElementById('loser').classList.add('hidden');
 	    document.getElementById('winner').classList.remove('block');

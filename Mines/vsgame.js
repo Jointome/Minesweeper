@@ -93,7 +93,7 @@ function vsPlayer(){
     percent();
     percent2();
     online = true;
-   cl = new CanvasLoader('canvasloader-container');
+    cl = new CanvasLoader('canvasloader-container');
     cl.setDiameter(48); // default is 40
     cl.show();
     var table = document.getElementById(tableid[difficulty]);
@@ -157,7 +157,9 @@ function vsPlayer(){
 			    document.getElementById('gamepage').classList.add('hidden');
 			    document.getElementById('gamepage').classList.remove('block');
 			    document.getElementById('winnerbutton').classList.remove('hidden');
-			    document.getElementById('winnerbutton').classList.add('block');
+			    document.getElementById('winnerbutton').classList.add('inlineblock');
+			    document.getElementById('scorebutt').classList.remove('hidden');
+			    document.getElementById('scorebutt').classList.add('inlineblock');
 			    document.getElementById('loading').classList.remove('hidden');
 			    
 			    setvalueO();
@@ -176,7 +178,9 @@ function vsPlayer(){
 	   		    document.getElementById('gamepage').classList.add('hidden');
 	    		    document.getElementById('gamepage').classList.remove('block');
 	    		    document.getElementById('loserbutton').classList.remove('hidden');
-			    document.getElementById('loserbutton').classList.add('block');
+			    document.getElementById('loserbutton').classList.add('inlineblock');
+			    document.getElementById('loserscorebutt').classList.remove('hidden');
+			    document.getElementById('loserscorebutt').classList.add('inlineblock');
 			    document.getElementById('loading').classList.remove('hidden');
 			    setvalueO();
 			    getMenuback();
@@ -301,6 +305,28 @@ var params = {'level': array[difficulty]};
 			}
 		}
 		req.send(JSON.stringify(params));	
+}
+
+function knowscore(){
+    var params = {'name':user, 'level': array[difficulty]};
+
+		var req = new XMLHttpRequest();
+		req.open("POST", URL+"score", true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.onreadystatechange = function () {
+			if (req.readyState == 4 && req.status == 200) {
+				var response = JSON.parse(req.responseText);
+				if(response["score"] != undefined){
+					alert("Your score is: " + response["score"]);
+
+				}
+				else{
+					alert(response["error"]);
+				}
+			}
+		}
+		req.send(JSON.stringify(params));
+
 }
 
 function setitright(){
