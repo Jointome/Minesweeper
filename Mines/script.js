@@ -313,6 +313,7 @@ function showAllHonor() {
 			while (scores.hasChildNodes()) {
 				scores.removeChild(scores.lastChild);
 			}
+	     storage(true);
 		for ( var j = 0; j < 3; j++) {
 			var para = document.createElement("h3");
 			var node = document.createTextNode(tdimg[j].changebuttons);
@@ -341,33 +342,36 @@ function showAllHonor() {
 	}
 }
 function showHonor() {
-	document.getElementById('allhonorboard').classList.add('block');
-	document.getElementById('allhonorboard').classList.remove('hidden');
-	document.getElementById('honorboard').classList.add('block');
-	document.getElementById('honorboard').classList.remove('hidden');
-	document.getElementById('menubott').classList.add('hidden');
-	document.getElementById('menubott').classList.remove('block');
-	var scores = document.getElementById("scores");
-	if (scores.childNodes.length > 0)
-		while (scores.hasChildNodes()) {
-			scores.removeChild(scores.lastChild);
-		}
-	//console.log(jogadores_scores[difficulty].length);
-	if(!inGame){
+    document.getElementById('allhonorboard').classList.add('block');
+    document.getElementById('allhonorboard').classList.remove('hidden');
+    document.getElementById('honorboard').classList.add('block');
+    document.getElementById('honorboard').classList.remove('hidden');
+    document.getElementById('menubott').classList.add('hidden');
+    document.getElementById('menubott').classList.remove('block');
+    var scores = document.getElementById("scores");
+    if (scores.childNodes.length > 0)
+	while (scores.hasChildNodes()) {
+	    scores.removeChild(scores.lastChild);
+	}
+   
+    if(!inGame){
+	
+	storage(false);
+	storage(true);
 	if (jogadores_scores[difficulty].length - 1 > 3)
-		jogadores_scores[difficulty].pop();
-
+	    jogadores_scores[difficulty].pop();
+	
 	for ( var i = 0; i < jogadores_scores[difficulty].length; i++) {
-		honorarray[difficulty][i] = "Player:"
-				+ jogadores_scores[difficulty][i].nick.toString() + " --- "
-				+ jogadores_scores[difficulty][i].points.toString() + "s";
-		var para = document.createElement("p");
-		var node = document.createTextNode(honorarray[difficulty][i]);
-		para.appendChild(node);
-		scores.appendChild(para);
+	    honorarray[difficulty][i] = "Player:"
+		+ jogadores_scores[difficulty][i].nick.toString() + " --- "
+		+ jogadores_scores[difficulty][i].points.toString() + "s";
+	    var para = document.createElement("p");
+	    var node = document.createTextNode(honorarray[difficulty][i]);
+	    para.appendChild(node);
+	    scores.appendChild(para);
 	}
-	}
-	if(online && inGame)
+    }
+    if(online && inGame)
 	callRanking();
 }
 
@@ -470,9 +474,29 @@ function ifhasBomb(x, y, ncol, nrow) {
 	}
 }
 
+function storage(get){
+    if(typeof(Storage) !== "undefined") {
+	if(localStorage.minesweeperscores){
+	    if(get){
+		jogadores_scores[difficulty] = JSON.parse(localStorage.getItem("minescores" + difficulty));
+	    }
+	    else
+		localStorage.removeItem("minescores" + difficulty);
+	}
+	if(!get){
+	    localStorage.setItem("minescores" + difficulty, JSON.stringify(jogadores_scores[difficulty]));
+	}
+} else {
+    console.log("your browser doesn't support web storage");
+    // Sorry! No Web Storage support..
+}
+
+
+}
+
 // Function to start the game
 function start() {
-	inGame = false;
+    inGame = false;
     hours = 0;
     seconds = 0;
     minutes = 0;
@@ -617,7 +641,6 @@ function start() {
 	document.getElementById('winnerbutt').classList.remove('hidden');
 	document.getElementById('winnerbutt').classList.add('block');
 	document.getElementById('loserbutt').classList.add('block');
-
 	getMenuback();
 	if(!finished){
 	    finished = true;
@@ -626,6 +649,7 @@ function start() {
 	    if (jogadores_scores[difficulty].length > 1)
 		jogadores_scores[difficulty].sort(compareFunction);
 	    changeHonor();
+	    storage(false);
 	    clockClear();
 	}
     }
@@ -778,6 +802,7 @@ function start() {
 		if (jogadores_scores[difficulty].length > 1)
 		    jogadores_scores[difficulty].sort(compareFunction);
 		changeHonor();
+		storage(false);
 		clockClear();
 	    }
 	}
