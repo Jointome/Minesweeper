@@ -476,15 +476,15 @@ function ifhasBomb(x, y, ncol, nrow) {
 
 function storage(get){
     if(typeof(Storage) !== "undefined") {
-	if(localStorage.minesweeperscores){
+	if(localStorage.minescores){
 	    if(get){
-		jogadores_scores[difficulty] = JSON.parse(localStorage.getItem("minescores" + difficulty));
+		jogadores_scores = JSON.parse(localStorage.getItem("minescores"));
 	    }
 	    else
-		localStorage.removeItem("minescores" + difficulty);
+		localStorage.removeItem("minescores");
 	}
 	if(!get){
-	    localStorage.setItem("minescores" + difficulty, JSON.stringify(jogadores_scores[difficulty]));
+	    localStorage.setItem("minescores", JSON.stringify(jogadores_scores));
 	}
 } else {
     console.log("your browser doesn't support web storage");
