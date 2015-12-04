@@ -15,10 +15,8 @@
       </div>
       <div class="inlineblock" id="usr">
 	<form name="myForm" action="Javascript:login()">
-	  Username: <input id="usernameid" type="text" name="fname" pattern="[a-zA-Z0-9]{2,20}"; 
-			   title="Between three letter/number and 20"><br>
-	  Password: <input type="password" name="password" id="pw" pattern="[a-zA-Z0-9]{4,20}";
-			   title="Between six and 20 letters/numbers">
+	  Username: <input id="usernameid" type="text" name="fname" pattern="[a-zA-Z0-9]{2,20}" title="Between three letter/number and 20"><br>
+	  Password: <input type="password" name="password" id="pw" pattern="[a-zA-Z0-9]{4,20}"  title="Between six and 20 letters/numbers">
 	  <input type="submit" class="hidden">
 	</form>
       </div>
@@ -44,7 +42,6 @@
 	in and good luck.<br>We hope you enjoy it.
       </p>
       <br> <br>
-      <p>
 	<div id="offlines" class="hidden">
 	  <button id="leftbuttontop" type="button" onclick="fromHomeMenu(0)"
 		  class="menu_home , diffbutt" title=" Start a game on easy difficulty">Newbee</button>
@@ -62,10 +59,9 @@
 	    Board</button>
 	</div>
 	<div id="butoesonoff" class="">
-	  <button type="button" onclick="showbuttons(0)" class="butoesonsep" id="onlinebutton" title="Open Honor Board">Play ONLINE bastard</button>
-	  <button type="button" onclick="showbuttons(1)" class="butoesonsep" id="offlinebutton" title="Open Honor Board">Play Offline chicken</button>
+	  <button type="button" onclick="showbuttons(0)" class="butoesonsep" id="onlinebutton" title="Open Honor Board">Play ONLINE</button>
+	  <button type="button" onclick="showbuttons(1)" class="butoesonsep" id="offlinebutton" title="Open Honor Board">Play Offline</button>
 	</div>
-      </p>
 
     </div>
 
@@ -91,7 +87,7 @@
 	      <p>Waiting for Opponent</p>
 	      <div id="canvasloader-container" class="wrapper"></div>
 	    </div>
-	    <div id="players" class="hidden"> <br></div>
+	    <div id="players" class="hidden"><br></div>
 	    <br>
 	    <div class="inlineblock" id="canvasblock">
 	      <canvas class="block" id="canvas" width="300" height="300"></canvas>
@@ -103,7 +99,6 @@
 	  </div>
 	</div>
 	<div id="menubott">
-	  <p id="pbott">
 	    <div id="qualquer12" class = "">
 	      <button type="button" onclick="fromHomeMenu(0)" class="menu_game"
 		      id="Easy"
@@ -117,7 +112,6 @@
 	    </div>
 	    <button type="button" onclick="showHonor()" class="menu_game" id="Honordiff"
 		    title="Open Honor Board of actual difficulty">Honor Board</button>
-	  </p>
 	</div>
       </div>
     </div>

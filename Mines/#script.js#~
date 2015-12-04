@@ -410,14 +410,7 @@ function getBackloser() {
 
 //dispays home and hides the game page
 function goHome() {
-    if(!inGame){
-	if (document.getElementById('players').childNodes.length > 1){
-	    document.getElementById('players').removeChild(document.getElementById('players').childNodes[1]);
-	}
-	document.getElementById('turn').classList.remove('green');
-	document.getElementById('turn').classList.remove('red');
-	document.getElementById('turn').classList.remove('blink_me');
-	document.getElementById('players').classList.add('hidden');
+	if(!inGame){
 	    document.getElementById('winnerbutt').classList.add('hidden');
 	    document.getElementById('loserbutt').classList.add('hidden');
 	    document.getElementById('winnerbutton').classList.add('hidden');
