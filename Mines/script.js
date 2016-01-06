@@ -86,7 +86,7 @@ tdimg = [ tdeasy, tdmedium, tdhard ];
 
 window.onload = function(){
     alert("Don't use your personal password");
-}
+};
 
 
 function signOut() {
